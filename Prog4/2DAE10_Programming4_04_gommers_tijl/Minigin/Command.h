@@ -32,64 +32,22 @@ namespace dae
 	};
 
 
-	class Move  : public CommandActor
+	class Move final : public CommandActor
 	{
 	public:
-		Move(GameObject* Objectrefrence)
-			: CommandActor(Objectrefrence)
+		Move(GameObject* Objectrefrence, const glm::vec2& direction)
+			: CommandActor(Objectrefrence),
+			m_Direction{direction}
 		{
 			m_MoveComp = GetGameObjRefrence()->GetComponent<TG::MovementComponent>();
 		};
 		~Move() = default;
-		virtual void Execute()override = 0;
+		virtual void Execute()override;
 	protected:
 		TG::MovementComponent* m_MoveComp = nullptr;
-
+		glm::vec2 m_Direction;
 	};
 
-	class MoveUp final : public Move
-	{
-	public:
-		MoveUp(GameObject* Objectrefrence)
-			: Move(Objectrefrence) {};
-		~MoveUp() = default;
-		virtual void Execute()override;
-	private:
-		glm::vec2 m_Direction{0.f, -1.f};
-	};
-
-	class MoveDown final : public Move
-	{
-	public:
-		MoveDown(GameObject * Objectrefrence)
-		: Move(Objectrefrence) {};
-		~MoveDown() = default;
-		virtual void Execute()override;
-	private:
-		glm::vec2 m_Direction{0.f, 1.f};
-	};
-
-	class MoveRight final : public Move
-	{
-	public:
-		MoveRight(GameObject * Objectrefrence)
-		: Move(Objectrefrence) {};
-		~MoveRight() = default;
-		virtual void Execute()override;
-	private:
-		glm::vec2 m_Direction{1.f, 0.f};
-	};
-
-	class MoveLeft final : public Move
-	{
-	public:
-		MoveLeft(GameObject * Objectrefrence)
-		: Move(Objectrefrence) {};
-		~MoveLeft() = default;
-		virtual void Execute()override;
-	private:
-		glm::vec2 m_Direction{-1.f, 0.f};
-	};
 
 	//enum class TG::LootType;
 	class PickUp final : public CommandActor

@@ -1,5 +1,6 @@
 #include "Command.h"
 #include "GameObject.h"
+#include "HealthComponent.h"
 //#include "LootComponent.h"
 #include <iostream>
 
@@ -16,31 +17,11 @@ dae::GameObject* dae::CommandActor::GetGameObjRefrence() const
 }
 
 
-void dae::MoveUp::Execute()
+void dae::Move::Execute()
 {
-
-	m_MoveComp->UpdateMovement(m_Direction);
-
-}
-
-
-void dae::MoveDown::Execute()
-{
-
 	m_MoveComp->UpdateMovement(m_Direction);
 }
 
-void dae::MoveRight::Execute()
-{
-
-	m_MoveComp->UpdateMovement(m_Direction);
-}
-
-void dae::MoveLeft::Execute()
-{
-
-	m_MoveComp->UpdateMovement(m_Direction);
-}
 
 dae::PickUp::PickUp(GameObject* target, const TG::LootType& type)
 	:CommandActor(target),
@@ -62,5 +43,5 @@ dae::Hit::Hit(GameObject* target, GameObject* hitTarget)
 
 void dae::Hit::Execute()
 {
-
+	m_HitTarget->GetComponent<TG::HealthComponent>()->DecreaseHealth(1);
 }

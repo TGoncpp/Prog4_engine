@@ -47,7 +47,7 @@ void TG::GameOverDisplay::OnSubjectDestroy()
 
 void TG::GameOverDisplay::UpdateText(const std::string& name)
 {
-	m_Message += " : ";
+	m_Message += " ";
 	m_Message += name;
 
 	m_TextCompUPtr->SetText(m_Message);
