@@ -1,38 +1,42 @@
 #pragma once
-#include <forward_list>
-#include <map>
+#include <vector>
 #include "Observer.h"
 
-enum class MessageType
+namespace TG
 {
-	physics,
-	sound,
-	score,
-	hud
-};
+	template <typename... Args>
+	class Subject final
+	{
+	public:
+		virtual ~Subject()
+		{
+			for (auto& observer : m_mObservers)
+			{
+				observer->OnSubjectDestroy();
+			}
+		}
 
-class ISubject
-{
-public:
-	virtual ~ISubject() = default;
+		virtual void AddObserver(IObserver<Args...>* observer)
+		{
+			m_mObservers.push_back(observer);
+		}
 
-	virtual void AddObserver(int message, IObserver* observer);
-	
-	virtual void RemoveObserver(int message, IObserver* observer);
-	
-	virtual void OnNotify(int message);
-	virtual void OnNotifyAll();
+		virtual void RemoveObserver(IObserver<Args...>* observer)
+		{
+			m_mObservers.erase(std::remove(m_mObservers.begin(), m_mObservers.end(), observer), m_mObservers.end());
+		}
 
-private:
-	using Observers = std::forward_list<IObserver*>;
-	std::map<int, Observers> m_mObservers;
+		virtual void OnNotifyAll(Args... args)
+		{
+			for (const auto& it : m_mObservers)
+			{
+				it->Notify(args...);
+			}
+		}
 
-};
+	private:
+		std::vector<IObserver<Args... >*> m_mObservers;
 
-class SomeSubject : public ISubject
-{
-public:
-
-
-};
+	};
+}
 

@@ -84,12 +84,16 @@ namespace dae
 
 		//----------------------------------------
 		//RULE OFF 5 FUNCTIONS
-		GameObject()                                   = default;
+		GameObject(const std::string& name = "")
+			:m_Name{ name } {}
 		virtual ~GameObject()                          = default;
 		GameObject(const GameObject& other)            = delete;
 		GameObject(GameObject&& other)                 = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other)      = delete;
+
+		void SetName(const std::string& newName) { m_Name = newName; };
+		std::string GetName() {return m_Name ; };
 
 	private:
 		Transform m_LocalTransform{};
@@ -102,5 +106,6 @@ namespace dae
 
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
+		std::string m_Name{ "default" };
 	};
 }
