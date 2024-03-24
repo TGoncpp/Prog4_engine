@@ -126,6 +126,12 @@
     <ClInclude Include="HealthDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LootComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -216,6 +222,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HealthDislplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LootComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

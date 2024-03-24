@@ -1,4 +1,5 @@
 #include "HealthComponent.h"
+#include "GameObject.h"
 
 TG::HealthComponent::HealthComponent(dae::GameObject* owner, int startHealth)
 	:BaseComponent(owner),
@@ -12,6 +13,6 @@ void TG::HealthComponent::DecreaseHealth(int decrement)
 	OnHealthChange.OnNotifyAll();
 	if (m_Health <= 0)
 	{
-		OnDead.OnNotifyAll();
+		OnDead.OnNotifyAll(m_OwnerPTR->GetName());
 	}
 }

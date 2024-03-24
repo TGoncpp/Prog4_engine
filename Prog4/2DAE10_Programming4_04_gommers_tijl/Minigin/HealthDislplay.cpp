@@ -7,7 +7,8 @@ TG::HealthDisplay::HealthDisplay(dae::GameObject* owner, dae::GameObject* subjec
 	IObserver<>(),
 	m_SubjectOwnrPtr{subjectOwner}
 {
-	m_SubjectOwnrPtr->GetComponent< TG::HealthComponent>()->OnHealthChange.AddObserver(this);
+	if (m_SubjectOwnrPtr->CheckComponent<HealthComponent>())
+		m_SubjectOwnrPtr->GetComponent< TG::HealthComponent>()->OnHealthChange.AddObserver(this);
 	m_TextCompUPtr =  m_OwnerPTR->GetComponent< TG::TextComponent>();
 	UpdateText();
 }
@@ -29,5 +30,6 @@ void TG::HealthDisplay::UpdateText()
 	newText += " : ";
 	newText += std::to_string(m_SubjectOwnrPtr->GetComponent<HealthComponent>()->GetHealth());
 
-	m_TextCompUPtr->SetText(newText);
+	if (m_TextCompUPtr)
+		m_TextCompUPtr->SetText(newText);
 }

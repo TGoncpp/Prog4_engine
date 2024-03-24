@@ -5,7 +5,7 @@
 namespace TG
 {
 
-	class HealthDisplay : public IObserver<>, public BaseComponent 
+	class HealthDisplay final : public IObserver<>, public BaseComponent 
 	{
 	public:
 		HealthDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner);

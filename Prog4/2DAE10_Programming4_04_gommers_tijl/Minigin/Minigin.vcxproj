@@ -193,10 +193,12 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameOverDisplay.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="imgui_window.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LootComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Observer.h" />
@@ -229,9 +231,11 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameOverDisplay.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthDislplay.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LootComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
@@ -241,6 +245,7 @@
     <ClCompile Include="Rotator.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Texture2D.cpp" />

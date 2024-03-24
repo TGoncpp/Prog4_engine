@@ -18,6 +18,7 @@ TG::TextComponent::TextComponent(dae::GameObject* owner, const std::string& text
 
 void TG::TextComponent::Update(float dt)
 {
+	if (m_text == "")return;
 	dt = 0.0f;
 	if (m_needsUpdate)
 	{
