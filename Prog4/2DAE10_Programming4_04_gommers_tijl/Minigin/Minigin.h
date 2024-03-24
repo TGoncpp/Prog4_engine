@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <functional>
+//#include "steamStuff.h"
+#include "steam_api.h"
+
 
 namespace dae
 {

@@ -23,6 +23,7 @@ namespace TG
 		virtual void Notify(LootType loot) override;
 		virtual void OnSubjectDestroy() override;
 
+
 	private:
 		dae::GameObject* m_SubjectOwnrPtr;
 		TextComponent* m_TextCompUPtr;

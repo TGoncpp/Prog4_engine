@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include <thread>
 #include <chrono>
+
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
@@ -95,6 +96,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	bool doContinue      = true;
 	while (doContinue)
 	{
+		SteamAPI_RunCallbacks();
+
 		const auto currentTime = high_resolution_clock::now();
 		const float deltaTime  = duration<float>(currentTime - lastTime).count();
 		lastTime			   = high_resolution_clock::now();
