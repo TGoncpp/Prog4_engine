@@ -20,11 +20,12 @@ void TG::HealthDisplay::Notify()
 
 void TG::HealthDisplay::OnSubjectDestroy()
 {
-
+	m_SubjectOwnrPtr = nullptr;
 }
 
 void TG::HealthDisplay::UpdateText()
 {
+
 	std::string newText{ "lives " };
 	newText += m_SubjectOwnrPtr->GetName();
 	newText += " : ";

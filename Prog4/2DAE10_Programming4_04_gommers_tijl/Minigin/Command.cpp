@@ -1,5 +1,6 @@
 #include "Command.h"
 #include "GameObject.h"
+//#include "LootComponent.h"
 #include <iostream>
 
 
@@ -39,4 +40,27 @@ void dae::MoveLeft::Execute()
 {
 
 	m_MoveComp->UpdateMovement(m_Direction);
+}
+
+dae::PickUp::PickUp(GameObject* target, const TG::LootType& type)
+	:CommandActor(target),
+	m_LootType{type}
+{
+}
+
+void dae::PickUp::Execute()
+{
+	if (GetGameObjRefrence()->CheckComponent<TG::LootComponent>())
+		GetGameObjRefrence()->GetComponent<TG::LootComponent>()->PickupLoot(m_LootType);
+}
+
+dae::Hit::Hit(GameObject* target, GameObject* hitTarget)
+	:CommandActor{target},
+	m_HitTarget{hitTarget}
+{
+}
+
+void dae::Hit::Execute()
+{
+
 }

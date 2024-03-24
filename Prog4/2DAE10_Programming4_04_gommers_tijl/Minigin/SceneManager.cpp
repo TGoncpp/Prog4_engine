@@ -28,6 +28,7 @@ void dae::SceneManager::Render()
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
+	//const auto& scene = std::make_unique<Scene>(name);
 	m_scenes.push_back(scene);
 	return *scene;
 }

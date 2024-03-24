@@ -16,7 +16,7 @@ namespace TG
 		GameOverDisplay& operator=(const GameOverDisplay&) = delete;
 		GameOverDisplay& operator=(GameOverDisplay&&) = delete;
 
-		virtual void Update(float dt) override { (void)dt; };
+		virtual void Update(float dt) override;
 		virtual void FixedUpdate(float dt) override { (void)dt; };
 		virtual void Render() const override {};
 
@@ -29,6 +29,7 @@ namespace TG
 		void UpdateText(const std::string& name);
 		std::string m_Message{ "GAME OVER" };
 		bool m_IsGameOver{ false };
+		bool m_IsASubjectDirty{ false };
 	};
 
 }

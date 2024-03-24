@@ -9,13 +9,27 @@ TG::GameOverDisplay::GameOverDisplay(dae::GameObject* owner, std::vector<dae::Ga
 	IObserver<const std::string&>(),
 	m_vSubjectOwnrPtrs{ vSubjectOwner }
 {
-	for (auto& subjects : m_vSubjectOwnrPtrs)
+	for (auto& subject : m_vSubjectOwnrPtrs)
 	{
-		if (subjects->CheckComponent<HealthComponent>())
-			subjects->GetComponent<TG::HealthComponent>()->OnDead.AddObserver(this);
+		if (subject->CheckComponent<HealthComponent>())
+			subject->GetComponent<TG::HealthComponent>()->OnDead.AddObserver(this);
 	}
 
 	m_TextCompUPtr = m_OwnerPTR->GetComponent< TG::TextComponent>();
+}
+
+void TG::GameOverDisplay::Update(float dt)
+{
+	(void)dt; 
+	if (m_IsASubjectDirty)
+	{
+		for (auto& subject : m_vSubjectOwnrPtrs)
+		{
+			if (!subject->CheckComponent<HealthComponent>())
+				subject = nullptr;
+		}
+	}
+	m_IsASubjectDirty = false;
 }
 
 void TG::GameOverDisplay::Notify(const std::string& name)
@@ -28,7 +42,7 @@ void TG::GameOverDisplay::Notify(const std::string& name)
 
 void TG::GameOverDisplay::OnSubjectDestroy()
 {
-
+	
 }
 
 void TG::GameOverDisplay::UpdateText(const std::string& name)

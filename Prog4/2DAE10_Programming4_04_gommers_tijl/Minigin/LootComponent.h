@@ -19,7 +19,10 @@ namespace TG
 			:BaseComponent(owner)
 		{
 		}
-		virtual ~LootComponent()override               = default;
+		virtual ~LootComponent()
+		{
+
+		}
 		LootComponent& operator=(const LootComponent&) = delete;
 		LootComponent& operator=(LootComponent&&)      = delete;
 		LootComponent(const LootComponent&)            = delete;

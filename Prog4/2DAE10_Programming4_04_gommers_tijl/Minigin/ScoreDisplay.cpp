@@ -25,6 +25,7 @@ void TG::ScoreDisplay::Notify(LootType loot)
 
 void TG::ScoreDisplay::OnSubjectDestroy()
 {
+	m_SubjectOwnrPtr = nullptr;
 }
 
 void TG::ScoreDisplay::UpdateScore(const LootType& loot)
