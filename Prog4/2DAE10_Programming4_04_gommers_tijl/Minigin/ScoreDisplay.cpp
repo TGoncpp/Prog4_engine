@@ -1,8 +1,7 @@
 #include "ScoreDisplay.h"
 #include "GameObject.h"
 #include "LootComponent.h"
-//#include "steamStuff.h"
-
+#include <sdl_mixer.h>
 
 TG::ScoreDisplay::ScoreDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner)
 	:BaseComponent(owner),
@@ -47,8 +46,7 @@ void TG::ScoreDisplay::UpdateScore(const LootType& loot)
 	}
 	if (m_Score >= 500)
 	{
-		/*if (g_SteamAchievements)
-			g_SteamAchievements->SetAchievement("ACH_WIN_100_GAMES");*/
+		
 	}
 }
 

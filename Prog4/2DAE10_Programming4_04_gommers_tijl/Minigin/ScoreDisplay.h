@@ -1,6 +1,9 @@
 #pragma once
 #include "TextComponent.h"
 #include "Observer.h"
+#include <vector>
+#include <memory>
+
 
 namespace TG
 {
@@ -30,6 +33,8 @@ namespace TG
 		int m_Score{};
 		void UpdateScore(const LootType& loot);
 		std::string UpdateMessage();
+
+
 	};
 
 }
