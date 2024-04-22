@@ -3,18 +3,15 @@
 #include "BaseComponent.h"
 #include "Texture2D.h"
 
-namespace dae
-{
-	class Font;
-	class GameObject;
-}
 
 namespace TG
 {
+	class Font;
+	class GameObject;
 	class TextComponent final: public BaseComponent
 	{
 	public:
-		TextComponent(dae::GameObject* owner, const std::string& text, std::shared_ptr<dae::Font> pFont, const glm::vec3& offset = {});
+		TextComponent(GameObject* owner, const std::string& text, std::shared_ptr<Font> pFont, const glm::vec3& offset = {});
 		virtual ~TextComponent() override                 = default;
 		TextComponent(const TextComponent&)               = delete;
 		TextComponent(TextComponent&&)                    = delete;
@@ -32,7 +29,7 @@ namespace TG
 		bool m_needsUpdate;
 		glm::vec3 m_Offset{};
 		std::string m_text;
-		std::shared_ptr<dae::Font> m_font;
-		std::unique_ptr<dae::Texture2D> m_textTexture;
+		std::shared_ptr<Font> m_font;
+		std::unique_ptr<Texture2D> m_textTexture;
 	};
 }

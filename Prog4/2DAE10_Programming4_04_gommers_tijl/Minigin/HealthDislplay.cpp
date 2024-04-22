@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 
-TG::HealthDisplay::HealthDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner)
+TG::HealthDisplay::HealthDisplay(GameObject* owner, GameObject* subjectOwner)
 	:BaseComponent(owner),
 	IObserver<>(),
 	m_SubjectOwnrPtr{subjectOwner}

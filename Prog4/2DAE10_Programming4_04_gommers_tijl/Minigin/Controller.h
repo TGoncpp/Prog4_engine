@@ -4,7 +4,7 @@
 
 namespace TG
 {
-	class Controller final : public dae::Singleton<Controller>
+	class Controller final : public TG::Singleton<Controller>
 	{
 	public:
 		Controller();

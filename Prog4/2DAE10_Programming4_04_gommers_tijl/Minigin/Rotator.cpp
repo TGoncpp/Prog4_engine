@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 
-TG::RotatorComponent::RotatorComponent(dae::GameObject* ownerObj)
+TG::RotatorComponent::RotatorComponent(TG::GameObject* ownerObj)
 	:BaseComponent{ownerObj}
 {
 	

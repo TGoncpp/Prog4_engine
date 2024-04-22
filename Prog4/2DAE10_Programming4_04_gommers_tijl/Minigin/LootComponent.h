@@ -15,7 +15,7 @@ namespace TG
 	class LootComponent final : public BaseComponent
 	{
 	public:
-		LootComponent(dae::GameObject* owner)
+		LootComponent(TG::GameObject* owner)
 			:BaseComponent(owner)
 		{
 		}

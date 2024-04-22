@@ -16,20 +16,20 @@ enum class EInputType
 
 struct Input
 {
-	std::unique_ptr<dae::CommandActor> commandActor;
+	std::unique_ptr<TG::CommandActor> commandActor;
 	Uint32 inputEvent;
 	EInputType inputType;
 
-	Input(std::unique_ptr<dae::CommandActor>  commandActor, Uint32 inputEvent, EInputType inputType)
+	Input(std::unique_ptr<TG::CommandActor>  commandActor, Uint32 inputEvent, EInputType inputType)
 		:commandActor{ std::move(commandActor) }, inputEvent{ inputEvent }, inputType{ inputType }
 	{
 	}
 };
 
 
-namespace dae
+namespace TG
 {
-	class InputManager final : public dae::Singleton<InputManager>
+	class InputManager final : public TG::Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();

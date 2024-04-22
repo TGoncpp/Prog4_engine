@@ -2,7 +2,7 @@
 
 #include "BaseComponent.h"
 
-namespace dae
+namespace TG
 {
 	class Texture2D;
 }
@@ -17,9 +17,9 @@ namespace TG
 		virtual void Render()const override;
 
 		void SetTexture(const std::string& filename);
-		std::shared_ptr<dae::Texture2D> GetTexture() { return m_TextureSPTR; };
+		std::shared_ptr<Texture2D> GetTexture() { return m_TextureSPTR; };
 
-		RenderComponent(dae::GameObject* owner, const std::string& path);
+		RenderComponent(GameObject* owner, const std::string& path);
 		virtual ~RenderComponent() = default;
 		RenderComponent& operator=(const RenderComponent&) = delete;
 		RenderComponent& operator=(RenderComponent&&)      = delete;
@@ -27,6 +27,6 @@ namespace TG
 		RenderComponent(RenderComponent&&)                 = delete;
 
 	private:
-		std::shared_ptr<dae::Texture2D> m_TextureSPTR{};
+		std::shared_ptr<Texture2D> m_TextureSPTR{};
 	};
 }

@@ -1,7 +1,7 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 
-TG::HealthComponent::HealthComponent(dae::GameObject* owner, int startHealth)
+TG::HealthComponent::HealthComponent(TG::GameObject* owner, int startHealth)
 	:BaseComponent(owner),
 	 m_Health{startHealth}
 {

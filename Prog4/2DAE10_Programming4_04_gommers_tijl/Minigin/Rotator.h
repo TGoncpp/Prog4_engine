@@ -1,17 +1,14 @@
 #pragma once
 #include "BaseComponent.h"
 
-namespace dae
-{
-	class GameObject;
-}
 
 namespace TG
 {
+	class GameObject;
 	class RotatorComponent final : public BaseComponent
 	{
 	public:
-		RotatorComponent(dae::GameObject* ownerObj);
+		RotatorComponent(GameObject* ownerObj);
 		virtual ~RotatorComponent() override = default;
 		RotatorComponent(const RotatorComponent&) = delete;
 		RotatorComponent(RotatorComponent&&) = delete;
@@ -35,6 +32,6 @@ namespace TG
 		float m_RotationSpeed{ 5.f };
 		float m_CurrentAngle{ 0.0f };
 		float m_RotationDistanceFromPoint{ 20.f };
-		dae::GameObject* m_OwnerObjSPTR{ nullptr };
+		GameObject* m_OwnerObjSPTR{ nullptr };
 	};
 }

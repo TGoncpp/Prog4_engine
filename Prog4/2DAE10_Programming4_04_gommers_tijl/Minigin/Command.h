@@ -7,7 +7,7 @@
 #include "GameObject.h"
 
 
-namespace dae
+namespace TG
 {
 	class GameObject;
 

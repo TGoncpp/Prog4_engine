@@ -1,18 +1,15 @@
 #pragma once
 #include "BaseComponent.h"
 
-namespace dae
-{
-	class GameObject;
-}
 
 namespace TG
 {
+	class GameObject;
 	class TextComponent;
 	class FPSComponent final : public BaseComponent
 	{
 	public:
-		FPSComponent(dae::GameObject* ownerObj);
+		FPSComponent(TG::GameObject* ownerObj);
 		virtual ~FPSComponent() override = default;
 		FPSComponent(const FPSComponent&) = delete;
 		FPSComponent(FPSComponent&&) = delete;

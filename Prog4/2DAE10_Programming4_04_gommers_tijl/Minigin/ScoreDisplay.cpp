@@ -3,7 +3,7 @@
 #include "LootComponent.h"
 #include <sdl_mixer.h>
 
-TG::ScoreDisplay::ScoreDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner)
+TG::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner)
 	:BaseComponent(owner),
 	IObserver<LootType>(),
 	m_SubjectOwnrPtr{subjectOwner}

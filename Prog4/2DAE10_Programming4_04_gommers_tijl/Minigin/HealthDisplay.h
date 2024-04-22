@@ -8,7 +8,7 @@ namespace TG
 	class HealthDisplay final : public IObserver<>, public BaseComponent 
 	{
 	public:
-		HealthDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner);
+		HealthDisplay(GameObject* owner, GameObject* subjectOwner);
 		virtual ~HealthDisplay() override              = default;
 		HealthDisplay(const HealthDisplay&)            = delete;
 		HealthDisplay(HealthDisplay&&)                 = delete;
@@ -23,7 +23,7 @@ namespace TG
 		virtual void OnSubjectDestroy() override;
 
 	private:
-		dae::GameObject* m_SubjectOwnrPtr;
+		GameObject* m_SubjectOwnrPtr;
 		TextComponent* m_TextCompUPtr;
 		void UpdateText();
 	};

@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 
-class dae::Transform;
+class TG::Transform;
 
 namespace TG
 {
@@ -9,7 +9,7 @@ namespace TG
 	class MovementComponent final : public BaseComponent
 	{
 	public:
-		MovementComponent(dae::GameObject* ownerObjRefrence, float movementSpeed = 20.f)
+		MovementComponent(TG::GameObject* ownerObjRefrence, float movementSpeed = 20.f)
 			: BaseComponent(ownerObjRefrence),
 			m_MovementSpeed{movementSpeed}
 		{}

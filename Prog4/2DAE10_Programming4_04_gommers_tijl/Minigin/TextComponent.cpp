@@ -6,7 +6,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-TG::TextComponent::TextComponent(dae::GameObject* owner, const std::string& text, std::shared_ptr<dae::Font> pFont, const glm::vec3& offset)
+TG::TextComponent::TextComponent(GameObject* owner, const std::string& text, std::shared_ptr<Font> pFont, const glm::vec3& offset)
 	:BaseComponent(owner),
 	m_font{pFont},
 	m_needsUpdate{true},
@@ -28,13 +28,13 @@ void TG::TextComponent::Update(float dt)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 		}
-		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+		auto texture = SDL_CreateTextureFromSurface(TG::Renderer::GetInstance().GetSDLRenderer(), surf);
 		if (texture == nullptr)
 		{
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_textTexture = std::make_unique<dae::Texture2D>(texture);
+		m_textTexture = std::make_unique<Texture2D>(texture);
 		m_needsUpdate = false;
 	}
 }
@@ -44,7 +44,7 @@ void TG::TextComponent::Render() const
 	if (m_textTexture != nullptr || !m_OwnerPTR)
 	{
 		glm::vec3 pos = m_OwnerPTR->GetWorldPosition() + m_Offset;
-		dae::Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
+		TG::Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
 

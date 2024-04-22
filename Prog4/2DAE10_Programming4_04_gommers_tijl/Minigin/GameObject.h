@@ -10,7 +10,7 @@ namespace TG
 {
 	class RenderComponent;
 }
-namespace dae
+namespace TG
 {
 	class Texture2D;
 

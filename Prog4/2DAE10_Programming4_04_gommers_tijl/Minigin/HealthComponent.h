@@ -7,7 +7,7 @@ namespace TG
 	class HealthComponent final : public BaseComponent
 	{
 	public:
-		HealthComponent(dae::GameObject* owner, int startHealth);
+		HealthComponent(TG::GameObject* owner, int startHealth);
 		virtual ~HealthComponent()override = default;
 		HealthComponent& operator=(const HealthComponent&) = delete;
 		HealthComponent& operator=(HealthComponent&&) = delete;

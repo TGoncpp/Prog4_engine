@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include <string>
 
-TG::FPSComponent::FPSComponent(dae::GameObject* ownerObj)
+TG::FPSComponent::FPSComponent(TG::GameObject* ownerObj)
 	:BaseComponent(ownerObj)
 {
 }

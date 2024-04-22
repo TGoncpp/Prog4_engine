@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Update(float dt)
+void TG::SceneManager::Update(float dt)
 {
 	for(auto& scene : m_scenes)
 	{
@@ -9,7 +9,7 @@ void dae::SceneManager::Update(float dt)
 	}
 }
 
-void dae::SceneManager::FixedUpdate(float dt)
+void TG::SceneManager::FixedUpdate(float dt)
 {
 	for(auto& scene : m_scenes)
 	{
@@ -17,7 +17,7 @@ void dae::SceneManager::FixedUpdate(float dt)
 	}
 }
 
-void dae::SceneManager::Render()
+void TG::SceneManager::Render()
 {
 	for (const auto& scene : m_scenes)
 	{
@@ -25,7 +25,7 @@ void dae::SceneManager::Render()
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+TG::Scene& TG::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	//const auto& scene = std::make_unique<Scene>(name);

@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 
-TG::GameOverDisplay::GameOverDisplay(dae::GameObject* owner, std::vector<dae::GameObject*> vSubjectOwner)
+TG::GameOverDisplay::GameOverDisplay(TG::GameObject* owner, std::vector<TG::GameObject*> vSubjectOwner)
 	:BaseComponent(owner),
 	IObserver<const std::string&>(),
 	m_vSubjectOwnrPtrs{ vSubjectOwner }

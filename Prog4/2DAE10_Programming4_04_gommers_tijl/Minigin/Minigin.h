@@ -2,7 +2,7 @@
 #include <string>
 #include <functional>
 
-namespace dae
+namespace TG
 {
 	class Minigin
 	{

@@ -12,7 +12,7 @@ namespace TG
 	class ScoreDisplay final : public IObserver<LootType>, public BaseComponent
 	{
 	public:
-		ScoreDisplay(dae::GameObject* owner, dae::GameObject* subjectOwner);
+		ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner);
 		virtual ~ScoreDisplay() override               = default;
 		ScoreDisplay(const ScoreDisplay&)              = delete;
 		ScoreDisplay(ScoreDisplay&&)                   = delete;
@@ -28,7 +28,7 @@ namespace TG
 
 
 	private:
-		dae::GameObject* m_SubjectOwnrPtr;
+		TG::GameObject* m_SubjectOwnrPtr;
 		TextComponent* m_TextCompUPtr;
 		int m_Score{};
 		void UpdateScore(const LootType& loot);

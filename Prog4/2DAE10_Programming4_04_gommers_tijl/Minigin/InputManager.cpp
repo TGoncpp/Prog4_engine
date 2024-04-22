@@ -3,7 +3,7 @@
 #include<backends/imgui_impl_sdl2.h>
 const Uint8* keyboardStatePtr =  SDL_GetKeyboardState(nullptr);
 
-bool dae::InputManager::ProcessInput()
+bool TG::InputManager::ProcessInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -83,7 +83,7 @@ bool dae::InputManager::ProcessInput()
 
 
 
-void dae::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, bool controller)
+void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, bool controller)
 {
 	if(controller)
 		m_vBindedControllerCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type }));
@@ -91,7 +91,7 @@ void dae::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActo
 		m_vBindedCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type}));
 }
 
-void dae::InputManager::InputHandling(EInputType type)
+void TG::InputManager::InputHandling(EInputType type)
 {
 	for (const auto& input : m_vBindedCommandActorsPtrs)
 	{

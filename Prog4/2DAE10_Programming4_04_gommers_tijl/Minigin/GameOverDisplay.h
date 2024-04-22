@@ -9,7 +9,7 @@ namespace TG
 	class GameOverDisplay final : public IObserver<const std::string& >, public BaseComponent
 	{
 	public:
-		GameOverDisplay(dae::GameObject* owner, std::vector<dae::GameObject*> vSubjectOwner);
+		GameOverDisplay(TG::GameObject* owner, std::vector<TG::GameObject*> vSubjectOwner);
 		virtual ~GameOverDisplay() override = default;
 		GameOverDisplay(const GameOverDisplay&) = delete;
 		GameOverDisplay(GameOverDisplay&&) = delete;
@@ -25,7 +25,7 @@ namespace TG
 
 	private:
 		TextComponent* m_TextCompUPtr;
-		std::vector<dae::GameObject*> m_vSubjectOwnrPtrs;
+		std::vector<TG::GameObject*> m_vSubjectOwnrPtrs;
 		void UpdateText(const std::string& name);
 		std::string m_Message{ "GAME OVER" };
 		bool m_IsGameOver{ false };

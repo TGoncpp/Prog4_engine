@@ -5,43 +5,43 @@
 #include <iostream>
 
 
-dae::CommandActor::CommandActor(GameObject* gameObject)
+TG::CommandActor::CommandActor(GameObject* gameObject)
 	: Command(),
 		m_GameObjectRefrence{gameObject}
 {
 }
 
-dae::GameObject* dae::CommandActor::GetGameObjRefrence() const
+TG::GameObject* TG::CommandActor::GetGameObjRefrence() const
 {
 	return m_GameObjectRefrence;
 }
 
 
-void dae::Move::Execute()
+void TG::Move::Execute()
 {
 	m_MoveComp->UpdateMovement(m_Direction);
 }
 
 
-dae::PickUp::PickUp(GameObject* target, const TG::LootType& type)
+TG::PickUp::PickUp(GameObject* target, const TG::LootType& type)
 	:CommandActor(target),
 	m_LootType{type}
 {
 }
 
-void dae::PickUp::Execute()
+void TG::PickUp::Execute()
 {
 	if (GetGameObjRefrence()->CheckComponent<TG::LootComponent>())
 		GetGameObjRefrence()->GetComponent<TG::LootComponent>()->PickupLoot(m_LootType);
 }
 
-dae::Hit::Hit(GameObject* target, GameObject* hitTarget)
+TG::Hit::Hit(GameObject* target, GameObject* hitTarget)
 	:CommandActor{target},
 	m_HitTarget{hitTarget}
 {
 }
 
-void dae::Hit::Execute()
+void TG::Hit::Execute()
 {
 	m_HitTarget->GetComponent<TG::HealthComponent>()->DecreaseHealth(1);
 }

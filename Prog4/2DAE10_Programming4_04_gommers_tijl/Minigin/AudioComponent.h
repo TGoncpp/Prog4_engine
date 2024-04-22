@@ -13,7 +13,7 @@ namespace TG
 
 		//void PlaySound(const SoundId& id, int volume);
 
-		AudioComponent(dae::GameObject* owner) : BaseComponent( owner ) {};
+		AudioComponent(TG::GameObject* owner) : BaseComponent( owner ) {};
 		virtual ~AudioComponent() = default;
 		AudioComponent& operator=(const AudioComponent&) = delete;
 		AudioComponent& operator=(AudioComponent&&) = delete;
