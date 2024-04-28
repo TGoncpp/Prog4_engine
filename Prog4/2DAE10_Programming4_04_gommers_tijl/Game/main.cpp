@@ -23,8 +23,8 @@
 #include "HealthComponent.h"
 #include "LootComponent.h"
 #include <Xinput.h>
+#include "ServiceLocator.h"
 
-//#include <steam_api.h>
 #include <iostream>
 
 
@@ -34,18 +34,21 @@ void load()
 	auto& input = TG::InputManager::GetInstance();
 	auto font = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
 	auto largeFont = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
-
+	TG::Locator::initialize();
+	TG::Locator::provide(std::make_unique< TG::GameAudio>());
+	TG::Locator::getAudio().AddMusic("Qbert Hit.wav", "Hit");
+	TG::Locator::getAudio().playSound("Hit");
 
 	//Create Background object
 	auto go = std::make_unique<TG::GameObject>();
-	go->AddComponent<TG::RenderComponent>(go.get(), "background.tga");
+	go->AddComponent<TG::RenderComponent>(go.get(), "Textures/background.tga");
 	scene.Add(std::move(go));
 	int sceneInd{ 0 };
 
 	//Create character object
 	int CharcterHealth{ 3 };
 	go = std::make_unique<TG::GameObject>("Tom");
-	go.get()->AddComponent<TG::RenderComponent>(go.get(), "Qbert-P1.tga");
+	go.get()->AddComponent<TG::RenderComponent>(go.get(), "Textures/Qbert-P1.tga");
 	go.get()->AddComponent<TG::MovementComponent>(go.get(), 50.f);
 	go.get()->AddComponent<TG::HealthComponent>(go.get(), CharcterHealth);
 	go.get()->AddComponent<TG::LootComponent>(go.get());
@@ -72,7 +75,7 @@ void load()
 
 	//Create character2 object
 	auto go2 = std::make_unique<TG::GameObject>("Alex");
-	go2.get()->AddComponent<TG::RenderComponent>(go2.get(), "Qbert-P2.tga");
+	go2.get()->AddComponent<TG::RenderComponent>(go2.get(), "Textures/Qbert-P2.tga");
 	go2.get()->AddComponent<TG::MovementComponent>(go2.get(), 100.f);
 	go2.get()->AddComponent<TG::HealthComponent>(go2.get(), CharcterHealth);
 	go2.get()->AddComponent<TG::LootComponent>(go2.get());
