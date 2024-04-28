@@ -34,10 +34,12 @@ void load()
 	auto& input = TG::InputManager::GetInstance();
 	auto font = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
 	auto largeFont = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
-	TG::Locator::initialize();
+	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
-	TG::Locator::getAudio().AddMusic("Qbert Hit.wav", "Hit");
-	TG::Locator::getAudio().playSound("Hit");
+	//Else 
+	//TG::Locator::provide(std::make_unique< TG::LoggedAudio>());
+	
+	//TG::Locator::getAudio().playSound("Level");
 
 	//Create Background object
 	auto go = std::make_unique<TG::GameObject>();
