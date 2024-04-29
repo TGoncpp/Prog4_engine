@@ -36,6 +36,7 @@ TG::GameAudio::GameAudio()
 
 void TG::GameAudio::playSound(const std::string& music )
 {
+	//std::lock_guard
 	m_qPlaylist.push(music);
 }
 
@@ -73,7 +74,7 @@ void TG::GameAudio::AudioPlaylist()
 {
 	while(m_IsPlaying)
 	{
-
+		//protect this queue as wel
 		if (m_qPlaylist.size() > 0)
 		{
 			std::lock_guard lk(audioMutex);

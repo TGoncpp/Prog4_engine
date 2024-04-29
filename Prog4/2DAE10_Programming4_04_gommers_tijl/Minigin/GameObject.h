@@ -9,9 +9,6 @@
 namespace TG
 {
 	class RenderComponent;
-}
-namespace TG
-{
 	class Texture2D;
 
 	class GameObject final

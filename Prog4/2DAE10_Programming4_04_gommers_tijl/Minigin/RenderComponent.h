@@ -12,8 +12,8 @@ namespace TG
 	class RenderComponent : public BaseComponent
 	{
 	public:
-		virtual void Update(float dt) { dt = 0.f; };
-		virtual void FixedUpdate(float dt) { dt = 0.f; };
+		virtual void Update(float ) {  };
+		virtual void FixedUpdate(float ) {  };
 		virtual void Render()const override;
 
 		void SetTexture(const std::string& filename);
@@ -26,7 +26,11 @@ namespace TG
 		RenderComponent(const RenderComponent&)            = delete;
 		RenderComponent(RenderComponent&&)                 = delete;
 
+		void SetSprite(int colum, int row);
+
 	private:
 		std::shared_ptr<Texture2D> m_TextureSPTR{};
+		int m_Colum{ 1 };
+		int m_Row{ 1 };
 	};
 }

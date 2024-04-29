@@ -27,6 +27,7 @@
 
 #include <iostream>
 
+	const int WINDOW_WIDTH{ 640 }, WINDOW_HEIGHT{ 480 };
 
 void load()
 {
@@ -128,6 +129,12 @@ void load()
 	scene.Add(std::move(IS));
 	sceneInd = 9;
 
+	auto test = std::make_unique<TG::GameObject>();
+	test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
+	test.get()->GetComponent<TG::RenderComponent>()->SetSprite(6,3);
+	test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
+	scene.Add(std::move(test));
+
 	//----------------------------------------------------
 	//INPUT BINDING
 	//---------------------------------------------------
@@ -176,7 +183,7 @@ void load()
 int main(int, char* [])
 {
 
-	TG::Minigin engine("../Data/");
+	TG::Minigin engine("../Data/", WINDOW_WIDTH, WINDOW_HEIGHT);
 	engine.Run(load);
 
 	return 0;

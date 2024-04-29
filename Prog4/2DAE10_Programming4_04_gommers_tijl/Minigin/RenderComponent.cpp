@@ -18,10 +18,16 @@ void TG::RenderComponent::Render() const
 	if (!m_TextureSPTR || !m_OwnerPTR)return;
 
 	glm::vec3 pos = m_OwnerPTR->GetWorldPosition();
-	Renderer::GetInstance().RenderTexture(*m_TextureSPTR, pos.x, pos.y);
+	Renderer::GetInstance().RenderTexture(*m_TextureSPTR, pos.x, pos.y, m_Colum, m_Row);
 }
 
 void TG::RenderComponent::SetTexture(const std::string& filename)
 {
 	m_TextureSPTR = ResourceManager::GetInstance().LoadTexture(filename);
+}
+
+void TG::RenderComponent::SetSprite(int colum, int row)
+{
+	m_Row = row;
+	m_Colum = colum;
 }
