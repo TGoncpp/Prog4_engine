@@ -132,7 +132,7 @@ void load()
 
 	auto test = std::make_unique<TG::GameObject>();
 	test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
-	test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3);
+	test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3, true);
 	test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
 	scene.Add(std::move(test));
 

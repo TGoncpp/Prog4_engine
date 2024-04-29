@@ -7,24 +7,27 @@ namespace TG
 	class SpriteComponent : public BaseComponent
 	{
 	public:
-		virtual void Update(float)override {  };
+		virtual void Update(float elapsedTime)override;
 		virtual void FixedUpdate(float)override {  };
 		virtual void Render()const override {};
 
 
-		SpriteComponent(GameObject* owner, int colum, int row);
+		SpriteComponent(GameObject* owner, int colum, int row, bool autoUpdate );
 		virtual ~SpriteComponent() = default;
 		SpriteComponent& operator=(const SpriteComponent&) = delete;
 		SpriteComponent& operator=(SpriteComponent&&) = delete;
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent(SpriteComponent&&) = delete;
 
-		void SetSprite(int colum, int row);
+		void SetAnimationSpeed(float speed);
 
 	private:
 		RenderComponent* m_RenderCompPTR{ nullptr };
-		int m_Colum{ 1 };
-		int m_Row{ 1 };
-		int m_CurrentFrame{ -1 };
+		const int m_Colum{ 1 };
+		const int m_Row{ 1 };
+		int m_CurrentFrame{ 0 };
+		float m_AnimationSpeed{ 1.f };
+		float m_RecorderdTime{ 0.f };
+		bool m_AutoUpdate{ true };
 	};
 }

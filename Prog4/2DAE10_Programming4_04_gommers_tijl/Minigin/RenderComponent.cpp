@@ -32,3 +32,8 @@ void TG::RenderComponent::SetSprite(int colum, int row)
 	m_Colum = colum;
 	m_CurrentFrame = 0;
 }
+
+void TG::RenderComponent::UpdateCurrentFrame( int frame)
+{
+	m_CurrentFrame = frame;
+}

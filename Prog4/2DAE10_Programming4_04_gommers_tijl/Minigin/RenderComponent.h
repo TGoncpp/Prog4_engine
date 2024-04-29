@@ -22,6 +22,7 @@ namespace TG
 		RenderComponent(RenderComponent&&)                 = delete;
 
 		void SetSprite(int colum, int row);
+		void UpdateCurrentFrame(int frame);
 
 	private:
 		std::shared_ptr<Texture2D> m_TextureSPTR{};
