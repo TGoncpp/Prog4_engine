@@ -24,6 +24,7 @@
 #include "LootComponent.h"
 #include <Xinput.h>
 #include "ServiceLocator.h"
+#include "SpriteComponent.h"
 
 #include <iostream>
 
@@ -131,7 +132,7 @@ void load()
 
 	auto test = std::make_unique<TG::GameObject>();
 	test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
-	test.get()->GetComponent<TG::RenderComponent>()->SetSprite(6,3);
+	test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3);
 	test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
 	scene.Add(std::move(test));
 

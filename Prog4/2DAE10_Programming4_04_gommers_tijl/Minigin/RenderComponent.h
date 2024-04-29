@@ -1,14 +1,9 @@
 #pragma once
-
 #include "BaseComponent.h"
 
 namespace TG
 {
 	class Texture2D;
-}
-
-namespace TG
-{
 	class RenderComponent : public BaseComponent
 	{
 	public:
@@ -32,5 +27,6 @@ namespace TG
 		std::shared_ptr<Texture2D> m_TextureSPTR{};
 		int m_Colum{ 1 };
 		int m_Row{ 1 };
+		int m_CurrentFrame{ -1 };
 	};
 }

@@ -19,7 +19,7 @@ namespace TG
 		void Render(float) const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y, int colum = 1, int row = 1) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, int colum = 1, int row = 1, int currentFrame = -1 ) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
 		SDL_Renderer* GetSDLRenderer() const;

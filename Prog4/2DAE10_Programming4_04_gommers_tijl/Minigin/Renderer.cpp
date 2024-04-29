@@ -72,25 +72,29 @@ void TG::Renderer::Destroy()
 
 }
 
-void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, int colum, int row) const
+void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, int colum, int row, int currentFrame) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 		   
-	SDL_Rect src{};
-	src.x = 0;
-	src.y = 0;
-	src.w = dst.w / colum;
-	src.h = dst.h / row;
+	if (currentFrame > -1)
+	{
+		SDL_Rect src{};
+		src.w = dst.w / colum;
+		src.h = dst.h / row;
+		src.x = src.w * currentFrame;
+		src.y = src.h * 0;
 
-	dst.w /= colum;
-	dst.h /= row;
+		//rescale to original size off png
+		dst.w /= colum;
+		dst.h /= row;
+		SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+		return;
+	}
 	
-
-	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(),nullptr, &dst);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
 void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
