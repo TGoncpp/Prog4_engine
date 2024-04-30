@@ -27,6 +27,17 @@ std::unique_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::strin
 	return std::make_unique<Texture2D>(texture);
 }
 
+std::shared_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::string& file, bool ) const
+{
+	const auto fullPath = m_dataPath + file;
+	auto texture        = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
+	}
+	return std::make_shared<Texture2D>(texture);
+}
+
 std::shared_ptr<TG::Font> TG::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
 	return std::make_shared<Font>(m_dataPath + file, size);

@@ -12,9 +12,11 @@ namespace TG
 		virtual void Render()const override;
 
 		void SetTexture(const std::string& filename);
+		void SetTexture(std::shared_ptr<TG::Texture2D> texuteSPTR);
 		std::shared_ptr<Texture2D> GetTexture() { return m_TextureSPTR; };
 
 		RenderComponent(GameObject* owner, const std::string& path);
+		RenderComponent(GameObject* owner, std::shared_ptr<TG::Texture2D> texuteSPTR);
 		virtual ~RenderComponent() = default;
 		RenderComponent& operator=(const RenderComponent&) = delete;
 		RenderComponent& operator=(RenderComponent&&)      = delete;

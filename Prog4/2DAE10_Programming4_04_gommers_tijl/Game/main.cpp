@@ -25,7 +25,7 @@
 #include <Xinput.h>
 #include "ServiceLocator.h"
 //#include "SpriteComponent.h"
-#include "Cube.h"
+#include "Grid.h"
 
 #include <iostream>
 
@@ -37,6 +37,7 @@ void load()
 	auto& input = TG::InputManager::GetInstance();
 	auto font = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
 	auto largeFont = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
+	auto cubeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true);
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -58,10 +59,10 @@ void load()
 	go.get()->AddComponent<TG::HealthComponent>(go.get(), CharcterHealth);
 	go.get()->AddComponent<TG::LootComponent>(go.get());
 	go->SetLocalPosition(216, 180);
-
+	
 	scene.Add(std::move(go));
 	sceneInd = 1;
-
+	
 	//Create player 1 healt image object
 	auto to = std::make_unique<TG::GameObject>();
 	to->AddComponent<TG::TextComponent>(to.get(), "", font);
@@ -69,7 +70,7 @@ void load()
 	to->SetLocalPosition(5, 20);
 	scene.Add(std::move(to));
 	sceneInd = 2;
-
+	
 	//Create player 1 score image object
 	to = std::make_unique<TG::GameObject>();
 	to->AddComponent<TG::TextComponent>(to.get(), "", font);
@@ -77,18 +78,18 @@ void load()
 	to->SetLocalPosition(5, 40);
 	scene.Add(std::move(to));
 	sceneInd = 3;
-
+	
 	//Create character2 object
 	auto go2 = std::make_unique<TG::GameObject>("Alex");
 	go2.get()->AddComponent<TG::RenderComponent>(go2.get(), "Textures/Qbert-P2.tga");
 	go2.get()->AddComponent<TG::MovementComponent>(go2.get(), 100.f);
 	go2.get()->AddComponent<TG::HealthComponent>(go2.get(), CharcterHealth);
 	go2.get()->AddComponent<TG::LootComponent>(go2.get());
-
+	
 	go2->SetLocalPosition(216, 200);
 	scene.Add(std::move(go2));
 	sceneInd = 4;
-
+	
 	//Create player 2 healt image object
 	auto to2 = std::make_unique<TG::GameObject>();
 	to2->AddComponent<TG::TextComponent>(to2.get(), "", font);
@@ -96,8 +97,8 @@ void load()
 	to2->SetLocalPosition(5, 60);
 	scene.Add(std::move(to2));
 	sceneInd = 5;
-
-
+	
+	
 	//Create player 2 Score image object
 	to2 = std::make_unique<TG::GameObject>();
 	to2->AddComponent<TG::TextComponent>(to2.get(), "", font);
@@ -105,8 +106,8 @@ void load()
 	to2->SetLocalPosition(5, 80);
 	scene.Add(std::move(to2));
 	sceneInd = 6;
-
-
+	
+	
 	//Create FPS object
 	auto fps = std::make_unique<TG::GameObject>();
 	fps.get()->AddComponent<TG::TextComponent>(fps.get(), "0000.000FPS", font);
@@ -114,7 +115,7 @@ void load()
 	fps->SetLocalPosition(200, 5);
 	scene.Add(std::move(fps));
 	sceneInd = 7;
-
+	
 	//Gameover screen
 	auto GO = std::make_unique<TG::GameObject>();
 	GO.get()->AddComponent<TG::TextComponent>(GO.get(), "", largeFont);
@@ -122,7 +123,7 @@ void load()
 	GO->SetLocalPosition(5, 200);
 	scene.Add(std::move(GO));
 	sceneInd = 8;
-
+	
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
 	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use D-Pad to move Alex around, A to inflict damage, XYB to collect different loot", font);
@@ -131,14 +132,10 @@ void load()
 	scene.Add(std::move(IS));
 	sceneInd = 9;
 
-	auto Cube = std::make_unique<Game::Cube>(glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f }, Game::CubeState::empty, "Cube");
-	scene.Add(std::move(Cube));
+	auto grid = std::make_unique<Game::Grid>(glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f },6 , cubeTexture);
+	scene.Add(std::move(grid));
 
-	//auto test = std::make_unique<TG::GameObject>();
-	//test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
-	//test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3, true);
-	//test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
-	//scene.Add(std::move(test));
+	
 
 	//----------------------------------------------------
 	//INPUT BINDING

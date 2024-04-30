@@ -13,6 +13,12 @@ TG::RenderComponent::RenderComponent(TG::GameObject* owner, const std::string& p
 	SetTexture(path);
 }
 
+TG::RenderComponent::RenderComponent(TG::GameObject* owner, std::shared_ptr<TG::Texture2D> texuteSPTR)
+	: BaseComponent(owner)
+{
+	SetTexture(texuteSPTR);
+}
+
 void TG::RenderComponent::Render() const
 {
 	if (!m_TextureSPTR || !m_OwnerPTR)return;
@@ -24,6 +30,11 @@ void TG::RenderComponent::Render() const
 void TG::RenderComponent::SetTexture(const std::string& filename)
 {
 	m_TextureSPTR = ResourceManager::GetInstance().LoadTexture(filename);
+}
+
+void TG::RenderComponent::SetTexture(std::shared_ptr<TG::Texture2D> texuteSPTR)
+{
+	m_TextureSPTR = texuteSPTR;
 }
 
 void TG::RenderComponent::SetSprite(int colum, int row)

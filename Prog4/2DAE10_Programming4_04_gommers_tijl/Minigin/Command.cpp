@@ -11,12 +11,6 @@ TG::CommandActor::CommandActor(GameObject* gameObject)
 {
 }
 
-TG::GameObject* TG::CommandActor::GetGameObjRefrence() const
-{
-	return m_GameObjectRefrence;
-}
-
-
 void TG::Move::Execute()
 {
 	m_MoveComp->UpdateMovement(m_Direction);
@@ -31,8 +25,8 @@ TG::PickUp::PickUp(GameObject* target, const TG::LootType& type)
 
 void TG::PickUp::Execute()
 {
-	if (GetGameObjRefrence()->CheckComponent<TG::LootComponent>())
-		GetGameObjRefrence()->GetComponent<TG::LootComponent>()->PickupLoot(m_LootType);
+	if (m_GameObjectRefrence->CheckComponent<TG::LootComponent>())
+		m_GameObjectRefrence->GetComponent<TG::LootComponent>()->PickupLoot(m_LootType);
 }
 
 TG::Hit::Hit(GameObject* target, GameObject* hitTarget)

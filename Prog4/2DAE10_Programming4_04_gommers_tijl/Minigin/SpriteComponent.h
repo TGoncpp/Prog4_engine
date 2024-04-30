@@ -21,6 +21,7 @@ namespace TG
 
 		void SetTimePerFrame(float speed);
 		void UpdateFrame();
+		void UpdateFrame(int currentFrame);
 
 	private:
 		RenderComponent* m_RenderCompPTR{ nullptr };

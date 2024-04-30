@@ -39,3 +39,8 @@ void TG::SpriteComponent::UpdateFrame()
 	m_RenderCompPTR->UpdateCurrentFrame(m_CurrentFrame);
 }
 
+void TG::SpriteComponent::UpdateFrame(int currentFrame)
+{
+	m_RenderCompPTR->UpdateCurrentFrame(currentFrame);
+}
+

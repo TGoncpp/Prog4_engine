@@ -1,6 +1,5 @@
 #pragma once
 #include "windows.h"
-//#include "Xinput.h"
 #include "glm/vec2.hpp"
 #include "MovementComponent.h"
 #include "LootComponent.h"
@@ -25,10 +24,8 @@ namespace TG
 		virtual ~CommandActor()override = default;
 
 	protected:
-		GameObject* GetGameObjRefrence()const;
-
-	private:
 		GameObject* m_GameObjectRefrence = nullptr;
+
 	};
 
 
@@ -39,13 +36,13 @@ namespace TG
 			: CommandActor(Objectrefrence),
 			m_Direction{direction}
 		{
-			m_MoveComp = GetGameObjRefrence()->GetComponent<TG::MovementComponent>();
+			m_MoveComp = m_GameObjectRefrence->GetComponent<TG::MovementComponent>();
 		};
 		~Move() = default;
 		virtual void Execute()override;
 	protected:
 		TG::MovementComponent* m_MoveComp = nullptr;
-		glm::vec2 m_Direction;
+		glm::vec2 m_Direction{ glm::vec2{0.f, 0.f} };
 	};
 
 
