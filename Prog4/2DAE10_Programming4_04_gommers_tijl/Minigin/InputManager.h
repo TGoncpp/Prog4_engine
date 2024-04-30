@@ -17,11 +17,13 @@ enum class EInputType
 struct Input
 {
 	std::unique_ptr<TG::CommandActor> commandActor;
-	Uint32 inputEvent;
+	Uint32     inputEvent;
 	EInputType inputType;
 
 	Input(std::unique_ptr<TG::CommandActor>  commandActor, Uint32 inputEvent, EInputType inputType)
-		:commandActor{ std::move(commandActor) }, inputEvent{ inputEvent }, inputType{ inputType }
+		:commandActor{ std::move(commandActor) },
+		inputEvent{ inputEvent },
+		inputType { inputType }
 	{
 	}
 };
@@ -41,6 +43,7 @@ namespace TG
 		std::vector < std::unique_ptr< Input >> m_vBindedCommandActorsPtrs;
 		std::vector < std::unique_ptr< Input >> m_vBindedControllerCommandActorsPtrs;
 		std::vector<Input*> m_vCommandPtrQueue;
+		bool m_IsButtonPressed{ false };
 	};
 
 }

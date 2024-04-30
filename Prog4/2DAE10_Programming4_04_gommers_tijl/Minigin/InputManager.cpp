@@ -10,31 +10,34 @@ bool TG::InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) 
+		if (e.type == SDL_KEYDOWN && !m_IsButtonPressed) 
 		{
-			InputHandling(EInputType::pressed);
-			
+			InputHandling(EInputType::pressed );
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) 
 		{
 			InputHandling(EInputType::completed);
-			
 		}
-		
-		ImGui_ImplSDL2_ProcessEvent(&e);
+		if (e.type == SDL_KEYUP)
+		{
+			m_IsButtonPressed = false;
+		}
+
+		//ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	InputHandling(EInputType::hold);
 
+	//After registering all inputs in queue -> execute them 
 	if (m_vCommandPtrQueue.size()> 0)
 	{
 		for (auto input : m_vCommandPtrQueue)
 		{
 			input->commandActor->Execute();
 		}
-		
 	}
 
+	//CONTROLLER INPUT HANDELING
 	auto& controller = TG::Controller::GetInstance();
 	controller.InputHandling();
 
@@ -71,8 +74,6 @@ bool TG::InputManager::ProcessInput()
 			}
 			break;
 		}
-
-		
 	}
 	m_vCommandPtrQueue.clear();
 	return true;
@@ -82,7 +83,7 @@ bool TG::InputManager::ProcessInput()
 
 
 
-
+//Binds all input in array to check during game if that binded input is used
 void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, bool controller)
 {
 	if(controller)
@@ -91,8 +92,12 @@ void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActor
 		m_vBindedCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type}));
 }
 
+//for keyboard input only
 void TG::InputManager::InputHandling(EInputType type)
 {
+	if (type == EInputType::pressed)
+		m_IsButtonPressed = true;
+
 	for (const auto& input : m_vBindedCommandActorsPtrs)
 	{
 		if  (input.get()->inputType == type && keyboardStatePtr[input.get()->inputEvent] )
