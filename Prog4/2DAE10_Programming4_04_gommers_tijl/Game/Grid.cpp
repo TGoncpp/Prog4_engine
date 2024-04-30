@@ -1,17 +1,24 @@
 #include "Grid.h"
+#include "Texture2D.h"
+
 
 Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR)
 {
+	glm::vec2 cubeOffset{ textureSPTR.get()->GetSize()};	
+	cubeOffset.x /= 12.f;//colums and half because moves only half a block away
+	cubeOffset.y /= 4.f;//rows and 75% off ofset on each other
+	glm::vec2 startCube{ position - cubeOffset };
+
 	m_vGrid.resize(size);
-	const glm::vec2 cubeOffset{};
 	for (int outer{}; outer < size; ++outer)
 	{
-		std::vector<std::unique_ptr< Cube>> vLines(size);
-		glm::vec2 topCubeLocation{ position  };
-		(void)position;
-		for (int cube{}; cube < vLines.size(); ++cube)
+		std::vector<std::unique_ptr< Cube>> vLines(size- outer);
+		startCube.x -= cubeOffset.x;
+		startCube.y += cubeOffset.y;
+		glm::vec2 topCubeLocation{ startCube  };
+		for (int cube{}; cube < vLines.size() ; ++cube)
 		{
-			topCubeLocation += glm::vec2{ 20.f, 20.f };
+			topCubeLocation += cubeOffset;
 			vLines[cube]= std::make_unique< Cube>(topCubeLocation, CubeState::startFase, textureSPTR);
 		}
 		m_vGrid[outer] = std::move(vLines);
