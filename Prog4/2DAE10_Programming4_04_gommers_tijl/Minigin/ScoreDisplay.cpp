@@ -10,11 +10,13 @@ TG::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwn
 {
 	if (m_SubjectOwnrPtr->CheckComponent<LootComponent>())
 		m_SubjectOwnrPtr->GetComponent<LootComponent>()->OnScoreChange.AddObserver(this);
+
 	m_TextCompUPtr = m_OwnerPTR->GetComponent<TextComponent>();
 	if (m_TextCompUPtr)
 		m_TextCompUPtr->SetText(UpdateMessage());
 }
 
+//ObserverFunction
 void TG::ScoreDisplay::Notify(LootType loot)
 {
 	UpdateScore(loot);
@@ -23,6 +25,7 @@ void TG::ScoreDisplay::Notify(LootType loot)
 		m_TextCompUPtr->SetText(UpdateMessage());
 }
 
+//ObserverFunction
 void TG::ScoreDisplay::OnSubjectDestroy()
 {
 	m_SubjectOwnrPtr = nullptr;

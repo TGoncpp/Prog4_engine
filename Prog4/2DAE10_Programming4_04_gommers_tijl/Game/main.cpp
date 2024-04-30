@@ -24,7 +24,8 @@
 #include "LootComponent.h"
 #include <Xinput.h>
 #include "ServiceLocator.h"
-#include "SpriteComponent.h"
+//#include "SpriteComponent.h"
+#include "Cube.h"
 
 #include <iostream>
 
@@ -130,11 +131,14 @@ void load()
 	scene.Add(std::move(IS));
 	sceneInd = 9;
 
-	auto test = std::make_unique<TG::GameObject>();
-	test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
-	test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3, true);
-	test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
-	scene.Add(std::move(test));
+	auto Cube = std::make_unique<Game::Cube>(glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f }, Game::CubeState::empty, "Cube");
+	scene.Add(std::move(Cube));
+
+	//auto test = std::make_unique<TG::GameObject>();
+	//test.get()->AddComponent<TG::RenderComponent>(test.get(), "Textures/Qbert Cubes.png");
+	//test.get()->AddComponent<TG::SpriteComponent>(test.get(), 6, 3, true);
+	//test->SetLocalPosition(WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f);
+	//scene.Add(std::move(test));
 
 	//----------------------------------------------------
 	//INPUT BINDING

@@ -19,7 +19,8 @@ namespace TG
 		SpriteComponent(const SpriteComponent&) = delete;
 		SpriteComponent(SpriteComponent&&) = delete;
 
-		void SetAnimationSpeed(float speed);
+		void SetTimePerFrame(float speed);
+		void UpdateFrame();
 
 	private:
 		RenderComponent* m_RenderCompPTR{ nullptr };

@@ -11,7 +11,7 @@ namespace TG
 	class RenderComponent;
 	class Texture2D;
 
-	class GameObject final
+	class GameObject
 	{
 	public:
 		//----------------------------------------

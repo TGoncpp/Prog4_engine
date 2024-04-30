@@ -19,8 +19,8 @@ namespace TG
 		ScoreDisplay& operator=(const ScoreDisplay&)   = delete;
 		ScoreDisplay& operator=(ScoreDisplay&&)        = delete;
 
-		virtual void Update(float dt) override { (void)dt; };
-		virtual void FixedUpdate(float dt) override { (void)dt; };
+		virtual void Update(float ) override {  };
+		virtual void FixedUpdate(float ) override {  };
 		virtual void Render() const override {};
 
 		virtual void Notify(LootType loot) override;

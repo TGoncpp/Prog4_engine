@@ -31,8 +31,8 @@ namespace TG
 
 		Subject<LootType> OnScoreChange;
 
-		virtual void Update(float dt) { (void)dt; };
-		virtual void FixedUpdate(float dt) { (void)dt; };
+		virtual void Update(float ) {  };
+		virtual void FixedUpdate(float ) {  };
 		virtual void Render()const {};
 
 		void PickupLoot(const LootType& loot);
