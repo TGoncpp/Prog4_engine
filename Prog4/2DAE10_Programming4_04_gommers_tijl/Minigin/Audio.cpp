@@ -4,6 +4,7 @@
 
 TG::GameAudio::~GameAudio()
 {
+	m_IsPlaying = false;
 	for (auto& chunks : m_mAudio)
 	{
 		Mix_FreeChunk(chunks.second);
