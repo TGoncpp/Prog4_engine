@@ -51,14 +51,16 @@ void load()
 	scene.Add(std::move(go));
 	int sceneInd{ 0 };
 
-	auto grid = std::make_unique<Game::Grid>(glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 3.f },6 , cubeTexture);
+	const int gridSize{ 6 };
+	auto grid = std::make_unique<Game::Grid>(glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 3.f },gridSize , cubeTexture);
+	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 	scene.Add(std::move(grid));
 
 	//Create character object
 	int CharcterHealth{ 3 };
 	go = std::make_unique<TG::GameObject>("Tom");
 	go.get()->AddComponent<TG::RenderComponent>(go.get(), "Textures/Qbert-P1.tga");
-	go.get()->AddComponent<TG::MovementComponent>(go.get(), 50.f);
+	go.get()->AddComponent<TG::MovementComponent>(go.get(), glm::vec2{ 1.f, 5.f }, cubeSize, gridSize);
 	go.get()->AddComponent<TG::HealthComponent>(go.get(), CharcterHealth);
 	go.get()->AddComponent<TG::LootComponent>(go.get());
 	go->SetLocalPosition(216, 180);
@@ -85,7 +87,7 @@ void load()
 	//Create character2 object
 	auto go2 = std::make_unique<TG::GameObject>("Alex");
 	go2.get()->AddComponent<TG::RenderComponent>(go2.get(), "Textures/Qbert-P2.tga");
-	go2.get()->AddComponent<TG::MovementComponent>(go2.get(), 100.f);
+	go2.get()->AddComponent<TG::MovementComponent>(go2.get(), glm::vec2{0.f, 0.f}, cubeSize, gridSize);
 	go2.get()->AddComponent<TG::HealthComponent>(go2.get(), CharcterHealth);
 	go2.get()->AddComponent<TG::LootComponent>(go2.get());
 	
@@ -111,14 +113,6 @@ void load()
 	sceneInd = 6;
 	
 	
-	//Create FPS object
-	auto fps = std::make_unique<TG::GameObject>();
-	fps.get()->AddComponent<TG::TextComponent>(fps.get(), "0000.000FPS", font);
-	fps.get()->AddComponent<TG::FPSComponent>(fps.get());
-	fps->SetLocalPosition(200, 5);
-	scene.Add(std::move(fps));
-	sceneInd = 7;
-	
 	//Gameover screen
 	auto GO = std::make_unique<TG::GameObject>();
 	GO.get()->AddComponent<TG::TextComponent>(GO.get(), "", largeFont);
@@ -141,9 +135,9 @@ void load()
 	//INPUT BINDING
 	//---------------------------------------------------
 	//inputMapping Character 1
-	auto moveUp = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, -1.f });
+	auto moveUp = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, 1.f });
 	input.InputBinding(std::move(moveUp), SDL_SCANCODE_UP, EInputType::hold);
-	auto moveDown = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, 1.f });
+	auto moveDown = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, -1.f });
 	input.InputBinding(std::move(moveDown), SDL_SCANCODE_DOWN, EInputType::hold);
 	auto moveRight = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 1.f, 0.f });
 	input.InputBinding(std::move(moveRight), SDL_SCANCODE_RIGHT, EInputType::hold);

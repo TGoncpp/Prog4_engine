@@ -14,8 +14,10 @@ namespace Game
 		Grid& operator= (Grid&&)      = delete;
 
 		virtual void Render()const override;
+		glm::vec2 GetCubeSize()const;
 
 	private:
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;
+		glm::vec2 m_CubeSize{};
 	};
 }

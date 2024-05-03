@@ -9,10 +9,7 @@ namespace TG
 	class MovementComponent final : public BaseComponent
 	{
 	public:
-		MovementComponent(TG::GameObject* ownerObjRefrence, float movementSpeed = 20.f)
-			: BaseComponent(ownerObjRefrence),
-			m_MovementSpeed{movementSpeed}
-		{}
+		MovementComponent(TG::GameObject* ownerObjRefrence, const glm::vec2& startIndx, const glm::vec2& cubeMeassures, int gridSize);
 		
 		virtual~ MovementComponent() = default;
 
@@ -20,15 +17,19 @@ namespace TG
 
 		float GetMovementSpeed()const { return m_MovementSpeed; };
 
-		void UpdateMovement(glm::vec2 direction);
+		void SetTargetLocation(const glm::vec2& offset);
 
 		virtual void Render()const  override{};
-		virtual void Update(float dt)  override{ (void)dt; };
+		virtual void Update(float )  override{  };
 		virtual void FixedUpdate(float dt) override;
 
 	private:
-		float m_MovementSpeed{ 20.f };
-		glm::vec2 m_Direction{};
+		glm::vec2 m_JumpOffset{};
+		glm::vec2 m_NormalisedDirection{};
+		glm::vec2 m_TargetPosition{};
+		glm::vec2 m_LocationIndex{};
+		float m_MovementSpeed{ 50.f };
+		int m_GridSize{};
 		bool m_IsMoving{ false };
 	};
 

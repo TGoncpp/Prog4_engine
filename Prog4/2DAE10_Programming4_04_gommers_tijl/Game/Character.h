@@ -14,16 +14,18 @@ namespace Game
 	class Character : public TG::GameObject
 	{
 		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR);
-		Character() = default;
-		~Character() = default;
+		Character()                            = default;
+		~Character()                           = default;
 		Character& operator=(const Character&) = delete;
-		Character& operator=(Character&&) = delete;
-		Character(const Character&) = delete;
-		Character(Character&&) = delete;
+		Character& operator=(Character&&)      = delete;
+		Character(const Character&)            = delete;
+		Character(Character&&)                 = delete;
 
-		void UpdateState();
+
 
 	private:
 		CharacterState m_State{ CharacterState::leftdown };
+
+		void UpdateState(const glm::vec2& direction);
 	};
 }
