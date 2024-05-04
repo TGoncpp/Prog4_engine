@@ -53,7 +53,6 @@ void load()
 	//Create Background object
 	auto go = std::make_unique<TG::GameObject>();
 	go->AddComponent<TG::RenderComponent>(go.get(), "Textures/background.tga");
-	scene.Add(std::move(go));
 
 	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 5.f } };
 
@@ -76,10 +75,11 @@ void load()
 	IS->SetLocalPosition(5, 400);
 
 	//Add to scene
+	scene.Add(std::move(go));
 	scene.Add(std::move(grid));
 	scene.Add(std::move(character));
-	scene.Add(std::move(IS));
 	scene.Add(std::move(npc));
+	scene.Add(std::move(IS));
 		
 	
 
@@ -95,6 +95,20 @@ void load()
 	input.InputBinding(std::move(moveRight), SDL_SCANCODE_RIGHT, EInputType::hold);
 	auto moveLeft = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::hold);
+
+	//inputMapping Snake
+	auto moveUpSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 0.f, 1.f });
+	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::hold);
+	auto moveDownSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 0.f, -1.f });
+	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::hold);
+	auto moveRightSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 1.f, 0.f });
+	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::hold);
+	auto moveLeftSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ -1.f, 0.f });
+	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::hold);
+
+
+
+
 	//ActionInput
 	auto PickUpDirt = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(2), TG::LootType::dirt);
 	input.InputBinding(std::move(PickUpDirt), SDL_SCANCODE_Q, EInputType::pressed, false);

@@ -105,6 +105,7 @@ void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type)
 		}
 		
 	}
+	if (type != ECharacterType::red)return;
 
 	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState();
 	if (CheckLevelState())
