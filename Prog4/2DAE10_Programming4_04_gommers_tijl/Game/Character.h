@@ -8,7 +8,7 @@ namespace Game
 	class Character : public TG::GameObject
 	{
 	public:
-		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, int gridSizent);
+		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, int gridSizent, std::pair<int, int> spriteSheet);
 		Character()                            = default;
 		~Character()                           = default;
 		Character& operator=(const Character&) = delete;
@@ -19,6 +19,7 @@ namespace Game
 		virtual void SetState(const glm::vec2& direction) override;
 		virtual void UpdateGrid() override;
 		TG::Subject<std::pair<int, int>> OnCubeInteraction;
+		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 
 	private:
 		std::pair<int, int> m_GridPostion;

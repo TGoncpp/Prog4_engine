@@ -78,18 +78,20 @@ void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const 
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-		   
+	float scale = texture.GetScale();
+	
+	
 	if (currentFrame > -1)
 	{
 		SDL_Rect src{};
-		src.w = dst.w / colum;
-		src.h = dst.h / row;
-		src.x = src.w * currentFrame;
-		src.y = src.h * 0;
+		src.w = static_cast<int>( dst.w * scale / (colum * scale));
+		src.h = static_cast<int>( dst.h  *scale/ (row   * scale));
+		src.x = static_cast<int>( src.w * currentFrame);
+		src.y = static_cast<int>( src.h * 0);
 
 		//rescale to original size off png
-		dst.w /= colum;
-		dst.h /= row;
+		dst.w = static_cast<int>((dst.w * scale) / colum);
+		dst.h = static_cast<int>((dst.h * scale) / row);
 		SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
 		return;
 	}

@@ -38,10 +38,10 @@ void TG::MovementComponent::FixedUpdate(float dt)
 	glm::vec2 newPosition{ oldPosition + dt * m_MovementSpeed * m_NormalisedDirection };
 	m_OwnerPTR->SetLocalPosition(newPosition);
 
-	if (Transform::IsEqualVector(newPosition, m_TargetPosition))
+	if (Transform::IsEqualVector(newPosition, m_TargetPosition, 1.f))
 	{
 		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
-		m_OwnerPTR->UpdateGrid();
+		m_OwnerPTR->UpdateGrid(); 
 		m_IsMoving      = false;
 	}
 

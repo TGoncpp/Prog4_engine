@@ -26,7 +26,7 @@
 #include "ServiceLocator.h"
 //#include "SpriteComponent.h"
 #include "Grid.h"
-#include "Character.h"
+#include "NPC.h"
 
 #include <iostream>
 
@@ -34,12 +34,15 @@
 
 void load()
 {
+	const float worldScale{ 1.7f };
+	const int gridSize{ 7 };
 	auto& scene = TG::SceneManager::GetInstance().CreateScene("Demo");
 	auto& input = TG::InputManager::GetInstance();
 	auto font = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
 	auto largeFont = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
-	auto cubeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true);
-	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true);
+	auto cubeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
+	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale);
+	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale);
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -52,15 +55,16 @@ void load()
 	go->AddComponent<TG::RenderComponent>(go.get(), "Textures/background.tga");
 	scene.Add(std::move(go));
 
-	const int gridSize{ 6 };
-	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 3.f } };
+	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 5.f } };
 
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
-	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize, gridSize);
+	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize, gridSize, std::pair<int, int>(1,4));
 	grid->SetSubject(character.get());
 
+	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, std::pair<int, int>(1, 10));
+	//npc.get()->SetPositionOnGridByIndex(0, 0, cubeSize);
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -72,6 +76,7 @@ void load()
 	scene.Add(std::move(grid));
 	scene.Add(std::move(character));
 	scene.Add(std::move(IS));
+	scene.Add(std::move(npc));
 		
 	
 

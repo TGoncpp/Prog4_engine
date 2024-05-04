@@ -16,7 +16,7 @@ void TG::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::unique_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::string& file) const
+std::unique_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::string& file, float scale) const
 {
 	const auto fullPath = m_dataPath + file;
 	auto texture        = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -24,10 +24,10 @@ std::unique_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::strin
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_unique<Texture2D>(texture);
+	return std::make_unique<Texture2D>(texture, scale);
 }
 
-std::shared_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::string& file, bool ) const
+std::shared_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::string& file, bool , float scale) const
 {
 	const auto fullPath = m_dataPath + file;
 	auto texture        = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -35,7 +35,7 @@ std::shared_ptr<TG::Texture2D> TG::ResourceManager::LoadTexture(const std::strin
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+	return std::make_shared<Texture2D>(texture, scale);
 }
 
 std::shared_ptr<TG::Font> TG::ResourceManager::LoadFont(const std::string& file, unsigned int size) const

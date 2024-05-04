@@ -8,6 +8,7 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 	m_CubeSize.x /= 12.f;//colums and half because moves only half a block away
 	m_CubeSize.y /= 4.f;//rows and 75% off ofset on each other
 	glm::vec2 startCube{ position - m_CubeSize };
+	startCube.y -= m_CubeSize.y * 0.5f;
 
 	m_vGrid.resize(size);
 	for (int outer{}; outer < size; ++outer)
