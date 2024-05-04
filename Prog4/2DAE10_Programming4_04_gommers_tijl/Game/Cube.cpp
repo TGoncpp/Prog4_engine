@@ -1,8 +1,9 @@
 #include "Cube.h"
 #include "SpriteComponent.h"
 #include <iostream>
+#include "character.h"
 
-Game::Cube::Cube(const glm::vec2& position, const CubeState& state, std::shared_ptr<TG::Texture2D> textureSPTR)
+Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std::shared_ptr<TG::Texture2D> textureSPTR)
 	:TG::GameObject()
 	, m_State{state}
 {
@@ -13,15 +14,15 @@ Game::Cube::Cube(const glm::vec2& position, const CubeState& state, std::shared_
 	SetLocalPosition(position);	
 }
 
-void Game::Cube::UpdateState()
+void Game::Cube::UpdateProgressState()
 {
 	switch (m_State)
 	{
-	case CubeState::startFase:
-		m_State = CubeState::intermediateFase;
+	case ECubeProgressState::startFase:
+		m_State = ECubeProgressState::intermediateFase;
 		break;
-	case CubeState::intermediateFase:
-		m_State = CubeState::endFase;
+	case ECubeProgressState::intermediateFase:
+		m_State = ECubeProgressState::endFase;
 		break;
 	default:
 		return;
@@ -39,7 +40,26 @@ void Game::Cube::UpdateState()
 
 bool Game::Cube::IsFinalState() const
 {
-	return m_State == CubeState::endFase;
+	return m_State == ECubeProgressState::endFase;
+}
+
+bool Game::Cube::IsCollisionOnCube() const
+{
+	return m_vTypesOnCube.size() > 1;
+}
+
+void Game::Cube::AddVisiterOnCube(const ECharacterType& type)
+{
+	m_vTypesOnCube.push_back(type);
+}
+
+Game::ECharacterType Game::Cube::GetDominantTypeOnCube() const
+{
+	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::purple) != m_vTypesOnCube.cend())
+	{
+		return ECharacterType::purple;
+	}
+	return ECharacterType::red;
 }
 
 void Game::Cube::SetAnimationAuto()const

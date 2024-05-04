@@ -2,23 +2,26 @@
 #include "GameObject.h"
 #include "BaseComponent.h"
 #include "Scene.h"
+#include <vector>
 
 
 namespace Game
 {
+	enum class ECharacterType;
 
-	enum class CubeState
+	enum class ECubeProgressState
 	{
 		empty = -1,
 		startFase = 1,
 		intermediateFase = 2,
 		endFase = 3
 	};
+
 	
 	class Cube final : public TG::GameObject
 	{
 	public:
-		Cube(const glm::vec2& position, const CubeState& state, std::shared_ptr<TG::Texture2D> texuteSPTR);
+		Cube(const glm::vec2& position, const ECubeProgressState& state, std::shared_ptr<TG::Texture2D> texuteSPTR);
 		Cube()                                    = default;
 		~Cube()                                   = default;
 		Cube& operator=(const Cube&)              = delete;
@@ -26,12 +29,15 @@ namespace Game
 		Cube(const Cube&)                         = delete;
 		Cube(Cube&&)                              = delete;
 	
-		void UpdateState();
+		void UpdateProgressState();
 		bool IsFinalState()const;
+		bool IsCollisionOnCube()const;
+		void AddVisiterOnCube(const ECharacterType& type);
+		ECharacterType GetDominantTypeOnCube()const;
 		void SetAnimationAuto()const;
 
 	private:
-		CubeState m_State{CubeState::empty};
-
+		ECubeProgressState m_State{ECubeProgressState::empty};
+		std::vector<ECharacterType> m_vTypesOnCube;
 	};
 }

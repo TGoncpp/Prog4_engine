@@ -6,4 +6,5 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 {
 	if (CheckComponent<TG::SpriteComponent>())
 		GetComponent<TG::SpriteComponent>()->UpdateFrame(3);
+	m_Type = ECharacterType::purple;
 }

@@ -9,7 +9,7 @@ Game::CharacterStateComponent::CharacterStateComponent(TG::GameObject* ownerObjR
 	
 }
 
-void Game::CharacterStateComponent::UpdateState(const glm::vec2& direction)
+void Game::CharacterStateComponent::UpdateProgressState(const glm::vec2& direction)
 {
 	if (direction.x == 1)
 	{

@@ -64,7 +64,10 @@ void load()
 	grid->SetSubject(character.get());
 
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, std::pair<int, int>(1, 10));
-	//npc.get()->SetPositionOnGridByIndex(0, 0, cubeSize);
+	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
+	grid->SetSubject(npc.get());
+	npc->UpdateGrid();
+
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();

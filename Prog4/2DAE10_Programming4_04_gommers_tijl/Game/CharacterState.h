@@ -26,7 +26,7 @@ namespace Game
 		virtual void FixedUpdate(float) override {};
 
 
-		void UpdateState(const glm::vec2& direction);
+		void UpdateProgressState(const glm::vec2& direction);
 
 	private:
 		CharacterState m_State{ CharacterState::leftDown };
