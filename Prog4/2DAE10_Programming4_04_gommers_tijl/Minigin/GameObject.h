@@ -20,6 +20,10 @@ namespace TG
 		virtual void FixedUpdate(float dt);
 		virtual void Render() const;
 
+		virtual void SetState(const glm::vec2& ) {};
+		virtual void UpdateGrid() {};
+
+
 		//----------------------------------------
 		//TRANSFORM FUNCTIONS
 		void SetLocalPosition(float x, float y);

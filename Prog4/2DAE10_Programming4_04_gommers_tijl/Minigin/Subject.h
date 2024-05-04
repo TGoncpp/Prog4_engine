@@ -12,7 +12,8 @@ namespace TG
 		{
 			for (auto& observer : m_mObservers)
 			{
-				observer->OnSubjectDestroy();
+				if (observer)
+					observer->OnSubjectDestroy();
 			}
 		}
 

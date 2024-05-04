@@ -1,19 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include "subject.h"
 
 namespace Game
 {
-	enum class CharacterState
-	{
-		leftdown,
-		leftUp,
-		rightDown,
-		rightUp
-	};
-
+	
 	class Character : public TG::GameObject
 	{
-		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR);
+	public:
+		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, int gridSizent);
 		Character()                            = default;
 		~Character()                           = default;
 		Character& operator=(const Character&) = delete;
@@ -21,11 +16,11 @@ namespace Game
 		Character(const Character&)            = delete;
 		Character(Character&&)                 = delete;
 
-
+		virtual void SetState(const glm::vec2& direction) override;
+		virtual void UpdateGrid() override;
+		TG::Subject<std::pair<int, int>> OnCubeInteraction;
 
 	private:
-		CharacterState m_State{ CharacterState::leftdown };
-
-		void UpdateState(const glm::vec2& direction);
+		std::pair<int, int> m_GridPostion;
 	};
 }

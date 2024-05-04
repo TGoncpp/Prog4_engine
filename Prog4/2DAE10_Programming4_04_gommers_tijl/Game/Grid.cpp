@@ -25,6 +25,11 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 	}
 }
 
+Game::Grid::~Grid()
+{
+	m_SubjectOwnrPtr->OnCubeInteraction.RemoveObserver(this);
+}
+
 void Game::Grid::Render() const
 {
 	for (const auto& lines : m_vGrid)
@@ -39,4 +44,24 @@ void Game::Grid::Render() const
 glm::vec2 Game::Grid::GetCubeSize() const
 {
 	return m_CubeSize;
+}
+
+void Game::Grid::SetSubject(Character* subjectToObserve)
+{
+	m_SubjectOwnrPtr = subjectToObserve;
+	m_SubjectOwnrPtr->OnCubeInteraction.AddObserver(this);
+}
+
+void Game::Grid::Notify(std::pair<int, int> newPosition)
+{
+	if (newPosition.first < 0 || newPosition.second < 0) return;
+	if (newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size()) return;
+
+	m_vGrid[newPosition.first][newPosition.second]->UpdateState();
+
+}
+
+void Game::Grid::OnSubjectDestroy()
+{
+	m_SubjectOwnrPtr = nullptr;
 }

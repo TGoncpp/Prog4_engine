@@ -10,7 +10,6 @@ TG::MovementComponent::MovementComponent(TG::GameObject* ownerObjRefrence, const
 	
 {
 	m_NormalisedDirection = glm::normalize(cubeMeassures);
-		
 }
 
 void TG::MovementComponent::SetTargetLocation(const glm::vec2& direction)
@@ -26,6 +25,9 @@ void TG::MovementComponent::SetTargetLocation(const glm::vec2& direction)
 	Transform::SetDirection(m_NormalisedDirection, offsetDirection);
 	Transform::SetDirection(m_JumpOffset, offsetDirection);
 	m_TargetPosition = currentPosition + m_JumpOffset;
+
+	if (m_OwnerPTR)
+		m_OwnerPTR->SetState(direction);
 }
 
 void TG::MovementComponent::FixedUpdate(float dt)
@@ -39,8 +41,8 @@ void TG::MovementComponent::FixedUpdate(float dt)
 	if (Transform::IsEqualVector(newPosition, m_TargetPosition))
 	{
 		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
+		m_OwnerPTR->UpdateGrid();
 		m_IsMoving      = false;
-
 	}
 
 }

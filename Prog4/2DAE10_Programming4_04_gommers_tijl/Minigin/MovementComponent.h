@@ -28,7 +28,7 @@ namespace TG
 		glm::vec2 m_NormalisedDirection{};
 		glm::vec2 m_TargetPosition{};
 		glm::vec2 m_LocationIndex{};
-		float m_MovementSpeed{ 50.f };
+		float m_MovementSpeed{ 40.f };
 		int m_GridSize{};
 		bool m_IsMoving{ false };
 	};
