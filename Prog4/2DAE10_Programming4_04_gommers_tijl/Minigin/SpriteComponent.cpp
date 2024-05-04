@@ -22,8 +22,8 @@ void TG::SpriteComponent::Update(float elapsedTime)
 	m_RecorderdTime += elapsedTime;
 	if (m_RecorderdTime >= m_AnimationSpeed )
 	{
+		m_RecorderdTime -= m_AnimationSpeed;
 		UpdateFrame();
-		
 	}
 }
 
@@ -35,12 +35,16 @@ void TG::SpriteComponent::SetTimePerFrame(float speed)
 void TG::SpriteComponent::UpdateFrame()
 {
 	++m_CurrentFrame %= m_Colum;
-	m_RecorderdTime -= m_AnimationSpeed;
 	m_RenderCompPTR->UpdateCurrentFrame(m_CurrentFrame);
 }
 
 void TG::SpriteComponent::UpdateFrame(int currentFrame)
 {
 	m_RenderCompPTR->UpdateCurrentFrame(currentFrame);
+}
+
+void TG::SpriteComponent::SetAutomaiticMode(bool isAutomatic)
+{
+	m_AutoUpdate = isAutomatic;
 }
 

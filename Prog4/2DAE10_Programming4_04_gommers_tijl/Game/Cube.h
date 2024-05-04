@@ -27,6 +27,8 @@ namespace Game
 		Cube(Cube&&)                              = delete;
 	
 		void UpdateState();
+		bool IsFinalState()const;
+		void SetAnimationAuto()const;
 
 	private:
 		CubeState m_State{CubeState::empty};

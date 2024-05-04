@@ -22,8 +22,8 @@ void Game::Character::SetState(const glm::vec2& direction)
 	if (CheckComponent<Game::CharacterStateComponent>())
 		GetComponent<Game::CharacterStateComponent>()->UpdateState(direction);
 
-	m_GridPostion.first += static_cast<int>(direction.x);
-	m_GridPostion.second += static_cast<int>(direction.y);
+	m_GridPostion.first -= static_cast<int>(direction.y);
+	m_GridPostion.second += static_cast<int>(direction.x);
 }
 
 void Game::Character::UpdateGrid()

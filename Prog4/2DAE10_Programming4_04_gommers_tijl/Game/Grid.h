@@ -17,6 +17,7 @@ namespace Game
 
 		//Components
 		virtual void Render()const override;
+		virtual void Update(float time) override;
 
 		//IObserver
 		virtual void Notify(std::pair<int, int> newPosition)override;
@@ -29,6 +30,10 @@ namespace Game
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;
 		glm::vec2 m_CubeSize{};
 		Game::Character* m_SubjectOwnrPtr;
+		bool m_IsLevelFinished{ false };
+
+		bool CheckLevelState();
+		void EndLevelShow();
 
 	};
 }
