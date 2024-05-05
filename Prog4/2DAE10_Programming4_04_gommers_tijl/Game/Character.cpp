@@ -52,17 +52,15 @@ void Game::Character::CollisionCheck(const ECharacterType& dominantType, std::pa
 {
 	if (GridPostion != m_GridPostion)return;
 
-	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) < 0)
+	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::red)
 	{
 		--m_Health;
-		if (m_Type ==ECharacterType::green)
-			std::cout << "green lose life\n";
-		if (m_Type ==ECharacterType::red)
-			std::cout << "red lose life\n";
+		std::cout << "red lose life\n";
 	}
-	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == 0 && m_Type == ECharacterType::red)
+	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::green)
 	{
 		++m_Score;
 		std::cout << "score = "<< m_Score << "\n";
+		std::cout << "green lose life\n";
 	}
 }
