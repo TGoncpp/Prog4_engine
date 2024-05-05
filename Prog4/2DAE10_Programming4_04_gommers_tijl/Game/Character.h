@@ -23,8 +23,8 @@ namespace Game
 		Character(Character&&)                 = delete;
 
 		virtual void SetState(const glm::vec2& direction) override;
-		virtual void UpdateGrid() override;
-		TG::Subject<std::pair<int, int>, ECharacterType> OnCubeInteraction;
+		virtual void UpdateGrid(bool isMoving) override;
+		TG::Subject<std::pair<int, int>, ECharacterType, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void LoseLife(const ECharacterType& dominantType);
 

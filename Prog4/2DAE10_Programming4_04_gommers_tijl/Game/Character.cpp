@@ -28,9 +28,9 @@ void Game::Character::SetState(const glm::vec2& direction)
 	m_GridPostion.second += static_cast<int>(direction.x);
 }
 
-void Game::Character::UpdateGrid()
+void Game::Character::UpdateGrid(bool isMoving)
 {
-	OnCubeInteraction.OnNotifyAll(m_GridPostion, m_Type);
+	OnCubeInteraction.OnNotifyAll(m_GridPostion, m_Type, isMoving);
 }
 
 void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset)

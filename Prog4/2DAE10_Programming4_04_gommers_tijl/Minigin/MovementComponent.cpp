@@ -27,7 +27,10 @@ void TG::MovementComponent::SetTargetLocation(const glm::vec2& direction)
 	m_TargetPosition = currentPosition + m_JumpOffset;
 
 	if (m_OwnerPTR)
+	{
+		m_OwnerPTR->UpdateGrid(m_IsMoving);
 		m_OwnerPTR->SetState(direction);
+	}
 }
 
 void TG::MovementComponent::FixedUpdate(float dt)
@@ -38,11 +41,11 @@ void TG::MovementComponent::FixedUpdate(float dt)
 	glm::vec2 newPosition{ oldPosition + dt * m_MovementSpeed * m_NormalisedDirection };
 	m_OwnerPTR->SetLocalPosition(newPosition);
 
-	if (Transform::IsEqualVector(newPosition, m_TargetPosition, 1.f))
+	if (Transform::IsEqualVector(newPosition, m_TargetPosition, 1.f) && m_OwnerPTR)
 	{
-		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
-		m_OwnerPTR->UpdateGrid(); 
 		m_IsMoving      = false;
+		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
+		m_OwnerPTR->UpdateGrid(m_IsMoving); 
 	}
 
 }

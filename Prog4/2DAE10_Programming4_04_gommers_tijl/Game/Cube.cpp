@@ -53,6 +53,11 @@ void Game::Cube::AddVisiterOnCube(const ECharacterType& type)
 	m_vTypesOnCube.push_back(type);
 }
 
+void Game::Cube::RemoveVisiterOnCube(const ECharacterType& type)
+{
+	m_vTypesOnCube.erase(std::remove(m_vTypesOnCube.begin(), m_vTypesOnCube.end(), type), m_vTypesOnCube.end());
+}
+
 Game::ECharacterType Game::Cube::GetDominantTypeOnCube() const
 {
 	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::purple) != m_vTypesOnCube.cend())

@@ -21,7 +21,7 @@ namespace TG
 		virtual void Render() const;
 
 		virtual void SetState(const glm::vec2& ) {};
-		virtual void UpdateGrid() {};
+		virtual void UpdateGrid(bool) {};
 
 
 		//----------------------------------------

@@ -91,11 +91,20 @@ void Game::Grid::OnSubjectDestroy()
 	}
 }
 
-void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type)
+void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)
 {
 	if (newPosition.first < 0 || newPosition.second < 0) return;
 	if (newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size()) return;
 
+	//if valid index check-> check bool
+	if (isMoving)
+	{
+		m_vGrid[newPosition.first][newPosition.second]->RemoveVisiterOnCube(type);
+		return;
+	}
+	
+	
+	//if valid index check-> check for collision
 	m_vGrid[newPosition.first][newPosition.second]->AddVisiterOnCube(type);
 	if (m_vGrid[newPosition.first][newPosition.second]->IsCollisionOnCube())
 	{
@@ -105,6 +114,8 @@ void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type)
 		}
 		
 	}
+
+	//if red or green->update cube
 	if (type != ECharacterType::red)return;
 
 	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState();

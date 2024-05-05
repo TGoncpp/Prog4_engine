@@ -33,6 +33,7 @@ namespace Game
 		bool IsFinalState()const;
 		bool IsCollisionOnCube()const;
 		void AddVisiterOnCube(const ECharacterType& type);
+		void RemoveVisiterOnCube(const ECharacterType& type);
 		ECharacterType GetDominantTypeOnCube()const;
 		void SetAnimationAuto()const;
 
