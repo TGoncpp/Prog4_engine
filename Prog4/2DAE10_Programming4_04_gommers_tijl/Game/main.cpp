@@ -43,6 +43,7 @@ void load()
 	auto cubeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale);
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale);
+	auto samTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale);
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -62,9 +63,14 @@ void load()
 	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize, gridSize, std::pair<int, int>(1,4));
 	grid->SetSubject(character.get());
 
-	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, std::pair<int, int>(1, 10));
+	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, std::pair<int, int>(1, 10), Game::ECharacterType::purple);
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetSubject(npc.get());
+	
+	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, gridSize, std::pair<int, int>(2, 2), Game::ECharacterType::green);
+	npcGreen.get()->SetPositionOnGridByIndex(3, 1, cubeSize);
+	grid->SetSubject(npcGreen.get());
+	npcGreen->UpdateGrid(false);
 
 
 	//InfoScreen
@@ -78,6 +84,7 @@ void load()
 	scene.Add(std::move(grid));
 	scene.Add(std::move(character));
 	scene.Add(std::move(npc));
+	scene.Add(std::move(npcGreen));
 	scene.Add(std::move(IS));
 		
 	

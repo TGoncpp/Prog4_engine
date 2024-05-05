@@ -48,15 +48,21 @@ void Game::Character::SetCharacterType(const ECharacterType& newType)
 	m_Type = newType;
 }
 
-void Game::Character::LoseLife(const ECharacterType& dominantType)
+void Game::Character::CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion)
 {
+	if (GridPostion != m_GridPostion)return;
+
 	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) < 0)
 	{
 		--m_Health;
-		std::cout << "lose life\n";
+		if (m_Type ==ECharacterType::green)
+			std::cout << "green lose life\n";
+		if (m_Type ==ECharacterType::red)
+			std::cout << "red lose life\n";
 	}
 	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == 0 && m_Type == ECharacterType::red)
 	{
 		++m_Score;
+		std::cout << "score = "<< m_Score << "\n";
 	}
 }

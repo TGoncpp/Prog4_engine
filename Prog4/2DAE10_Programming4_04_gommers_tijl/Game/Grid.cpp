@@ -110,13 +110,13 @@ void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type, bo
 	{
 		for (auto& subjects : m_vSubjectOwnrPtr)
 		{
-			subjects->LoseLife(m_vGrid[newPosition.first][newPosition.second]->GetDominantTypeOnCube());
+			subjects->CollisionCheck(m_vGrid[newPosition.first][newPosition.second]->GetDominantTypeOnCube(), newPosition);
 		}
 		
 	}
 
 	//if red or green->update cube
-	if (type != ECharacterType::red)return;
+	if (type == ECharacterType::purple)return;
 
 	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState();
 	if (CheckLevelState())
