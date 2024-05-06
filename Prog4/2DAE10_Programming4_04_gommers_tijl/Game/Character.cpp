@@ -40,6 +40,7 @@ void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const gl
 	glm::vec2 jumpOffsetLeft{ -jumpOffset.x, jumpOffset.y };
 	glm::vec2 newPos; 
 	newPos = oldPos + static_cast<float>(ToBelow) * jumpOffset + static_cast<float>(toLeft) * jumpOffsetLeft;
+
 	SetLocalPosition(newPos);
 }
 

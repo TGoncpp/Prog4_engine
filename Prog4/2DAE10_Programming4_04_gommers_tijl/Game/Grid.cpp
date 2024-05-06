@@ -20,7 +20,7 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 		for (int cube{}; cube < vLines.size() ; ++cube)
 		{
 			topCubeLocation += m_CubeSize;
-			vLines[cube]= std::make_unique< Cube>(topCubeLocation, ECubeProgressState::startFase, textureSPTR);
+			vLines[cube] = std::make_unique< Cube>(topCubeLocation, ECubeProgressState::startFase, textureSPTR, std::make_pair<int, int>(3, 6));
 		}
 		m_vGrid[outer] = std::move(vLines);
 	}

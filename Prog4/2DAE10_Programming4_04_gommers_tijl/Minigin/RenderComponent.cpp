@@ -39,8 +39,8 @@ void TG::RenderComponent::SetTexture(std::shared_ptr<TG::Texture2D> texuteSPTR)
 
 void TG::RenderComponent::SetSprite(int colum, int row)
 {
-	m_Row = row;
-	m_Colum = colum;
+	m_Row          = row;
+	m_Colum        = colum;
 	m_CurrentFrame = 0;
 }
 

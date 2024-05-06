@@ -3,8 +3,8 @@
 #include "GameObject.h"
 
 
-Game::CharacterStateComponent::CharacterStateComponent(TG::GameObject* ownerObjRefrence)
-	:BaseComponent(ownerObjRefrence)
+Game::CharacterStateComponent::CharacterStateComponent(TG::GameObject* ownerObjReference)
+	:BaseComponent(ownerObjReference)
 {
 	
 }

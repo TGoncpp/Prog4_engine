@@ -86,8 +86,8 @@ void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const 
 		SDL_Rect src{};
 		src.w = static_cast<int>( dst.w * scale / (colum * scale));
 		src.h = static_cast<int>( dst.h  *scale/ (row   * scale));
-		src.x = static_cast<int>( src.w * currentFrame);
-		src.y = static_cast<int>( src.h * 0);
+		src.x = static_cast<int>(src.w * (currentFrame % colum));
+		src.y = static_cast<int>(src.h * (currentFrame / colum));
 
 		//rescale to original size off png
 		dst.w = static_cast<int>((dst.w * scale) / colum);

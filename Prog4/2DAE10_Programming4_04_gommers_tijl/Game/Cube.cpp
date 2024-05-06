@@ -3,12 +3,13 @@
 #include <iostream>
 #include "character.h"
 
-Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std::shared_ptr<TG::Texture2D> textureSPTR)
+Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std::shared_ptr<TG::Texture2D> textureSPTR, std::pair<int, int>rowColum)
 	:TG::GameObject()
 	, m_State{state}
+	, m_RowColumSprite{ rowColum }
 {
 	AddComponent<TG::RenderComponent>(this, textureSPTR);
-	AddComponent<TG::SpriteComponent>(this, 6, 3, true);
+	AddComponent<TG::SpriteComponent>(this, rowColum.second, rowColum.first, true);
 	if (CheckComponent<TG::SpriteComponent>())
 		GetComponent<TG::SpriteComponent>()->SetTimePerFrame(0.2f);
 	SetLocalPosition(position);	
@@ -30,7 +31,7 @@ void Game::Cube::UpdateProgressState()
 
 	if (CheckComponent<TG::SpriteComponent>())
 	{
-		GetComponent<TG::SpriteComponent>()->UpdateFrame(static_cast<int>(m_State));
+		GetComponent<TG::SpriteComponent>()->UpdateFrame(static_cast<int>(m_State) * m_RowColumSprite.second);
 	}
 	else
 	{
