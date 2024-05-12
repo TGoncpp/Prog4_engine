@@ -1,9 +1,12 @@
 #pragma once
 #include "GameObject.h"
+#include "State.h"
 #include "subject.h"
+#include <map>
 
 namespace Game
 {
+	class IState;
 	enum class ECharacterType
 	{
 		green  = 0, 
@@ -22,16 +25,25 @@ namespace Game
 		Character(const Character&)            = delete;
 		Character(Character&&)                 = delete;
 
-		virtual void SetState(const glm::vec2& direction) override;
+		virtual void UpdateGridPosition(const glm::vec2& direction) override;
 		virtual void UpdateGrid(bool isMoving) override;
+		virtual void HandleInput(const glm::vec2& direction)override;
+		virtual void NewState(const std::string& newState);
+		virtual void Update(float time)override;
+		virtual void SetDirection(const glm::vec2& newDirection);
+
+
 		TG::Subject<std::pair<int, int>, ECharacterType, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
 
 	protected:
+		glm::vec2 m_Direction{};
 		ECharacterType m_Type{ ECharacterType::red };
 
 	private:
+		std::map <std::string ,std::unique_ptr<State>> m_PossibleStates;
+		State* m_CharacterState{ nullptr };
 		std::pair<int, int> m_GridPostion;
 		int m_Health{ 3 };
 		int m_Score{ 0 };

@@ -94,23 +94,23 @@ void load()
 	//---------------------------------------------------
 	//inputMapping Character 1
 	auto moveUp = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, 1.f });
-	input.InputBinding(std::move(moveUp), SDL_SCANCODE_UP, EInputType::hold);
+	input.InputBinding(std::move(moveUp), SDL_SCANCODE_UP, EInputType::pressed);
 	auto moveDown = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, -1.f });
-	input.InputBinding(std::move(moveDown), SDL_SCANCODE_DOWN, EInputType::hold);
+	input.InputBinding(std::move(moveDown), SDL_SCANCODE_DOWN, EInputType::pressed);
 	auto moveRight = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 1.f, 0.f });
-	input.InputBinding(std::move(moveRight), SDL_SCANCODE_RIGHT, EInputType::hold);
+	input.InputBinding(std::move(moveRight), SDL_SCANCODE_RIGHT, EInputType::pressed);
 	auto moveLeft = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ -1.f, 0.f });
-	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::hold);
+	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::pressed);
 
 	//inputMapping Snake
 	auto moveUpSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 0.f, 1.f });
-	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::hold);
+	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::pressed);
 	auto moveDownSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 0.f, -1.f });
-	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::hold);
+	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::pressed);
 	auto moveRightSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ 1.f, 0.f });
-	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::hold);
+	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
 	auto moveLeftSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ -1.f, 0.f });
-	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::hold);
+	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
 
 
 

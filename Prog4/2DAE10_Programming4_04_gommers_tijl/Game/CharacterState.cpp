@@ -6,7 +6,6 @@
 Game::CharacterStateComponent::CharacterStateComponent(TG::GameObject* ownerObjReference)
 	:BaseComponent(ownerObjReference)
 {
-	
 }
 
 void Game::CharacterStateComponent::UpdateProgressState(const glm::vec2& direction)

@@ -23,6 +23,8 @@ namespace TG
 		virtual void Update(float )  override{  };
 		virtual void FixedUpdate(float dt) override;
 
+		bool StoppedMoving()const;
+
 	private:
 		glm::vec2 m_JumpOffset{};
 		glm::vec2 m_NormalisedDirection{};
@@ -31,6 +33,8 @@ namespace TG
 		float m_MovementSpeed{ 90.f };
 		int m_GridSize{};
 		bool m_IsMoving{ false };
+
+		bool IsTargetReached(const glm::vec2& newPosition)const;
 	};
 
 }
