@@ -5,7 +5,8 @@
 
 namespace Game
 {
-	class Grid final : public TG::GameObject, public IObserver<std::pair<int, int>, ECharacterType, bool > 
+	//class Grid final : public TG::GameObject, public IObserver<std::pair<int, int>, ECharacterType, bool > 
+	class Grid final : public TG::GameObject, public IObserver<Character*, bool> 
 	{
 	public:
 		Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR);
@@ -20,7 +21,8 @@ namespace Game
 		virtual void Update(float time) override;
 
 		//IObserver
-		virtual void Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)override;
+		//virtual void Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)override;
+		virtual void Notify(Character* object, bool isMoving)override;
 		virtual void OnSubjectDestroy();
 
 		glm::vec2 GetCubeSize()const;

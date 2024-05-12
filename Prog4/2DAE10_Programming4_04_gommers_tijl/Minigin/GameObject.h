@@ -20,7 +20,7 @@ namespace TG
 		virtual void FixedUpdate(float dt);
 		virtual void Render() const;
 
-		virtual void UpdateGridPosition(const glm::vec2& ) {};
+		virtual bool UpdateGridPosition(const glm::vec2&) { return false; };
 		virtual void UpdateGrid(bool) {};
 		virtual void HandleInput(const glm::vec2&) {};
 		virtual void NewState(const std::string& ) {};

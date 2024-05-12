@@ -91,10 +91,19 @@ void Game::Grid::OnSubjectDestroy()
 	}
 }
 
-void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)
+//void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)
+void Game::Grid::Notify(Character* object, bool isMoving)
 {
-	if (newPosition.first < 0 || newPosition.second < 0) return;
-	if (newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size()) return;
+	std::pair<int, int> newPosition = object->GetGridPosition();
+	ECharacterType type = object->GetCharacterType();
+
+	//jumped off the platform
+	if (newPosition.first < 0 || newPosition.second < 0 ||
+		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
+	{
+		object->NewState("falling");
+		return;
+	}
 
 	//if valid index check-> check bool
 	if (isMoving)

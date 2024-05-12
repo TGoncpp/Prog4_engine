@@ -25,7 +25,7 @@ namespace Game
 		Character(const Character&)            = delete;
 		Character(Character&&)                 = delete;
 
-		virtual void UpdateGridPosition(const glm::vec2& direction) override;
+		virtual bool UpdateGridPosition(const glm::vec2& direction) override;
 		virtual void UpdateGrid(bool isMoving) override;
 		virtual void HandleInput(const glm::vec2& direction)override;
 		virtual void NewState(const std::string& newState);
@@ -33,9 +33,13 @@ namespace Game
 		virtual void SetDirection(const glm::vec2& newDirection);
 
 
-		TG::Subject<std::pair<int, int>, ECharacterType, bool> OnCubeInteraction;
+		//TG::Subject<std::pair<int, int>, ECharacterType, bool> OnCubeInteraction;
+		TG::Subject<Character*, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
+
+		std::pair<int, int> GetGridPosition()const;
+		ECharacterType GetCharacterType()const {return m_Type;};
 
 	protected:
 		glm::vec2 m_Direction{};

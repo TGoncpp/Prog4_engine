@@ -19,6 +19,7 @@ Game::Character::Character(const glm::vec2& position, std::shared_ptr<TG::Textur
 
 	m_PossibleStates.insert(std::make_pair("idle", std::make_unique<Idle>(this)));
 	m_PossibleStates.insert(std::make_pair("walking", std::make_unique<WalkingQbertState>(this)));
+	m_PossibleStates.insert(std::make_pair("falling", std::make_unique<Falling>(this)));
 	m_CharacterState = m_PossibleStates["idle"].get();
 
 }
@@ -48,15 +49,16 @@ void Game::Character::NewState(const std::string& newState)
 	}
 }
 
-void Game::Character::UpdateGridPosition(const glm::vec2& direction)
+bool Game::Character::UpdateGridPosition(const glm::vec2& direction)
 {
 	m_GridPostion.first -= static_cast<int>(direction.y);
 	m_GridPostion.second += static_cast<int>(direction.x);
+	return m_GridPostion.first + m_GridPostion.second > 7;
 }
 
 void Game::Character::UpdateGrid(bool isMoving)
 {
-	OnCubeInteraction.OnNotifyAll(m_GridPostion, m_Type, isMoving);
+	OnCubeInteraction.OnNotifyAll(this, isMoving);
 }
 
 void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset)
@@ -97,3 +99,13 @@ void Game::Character::SetDirection(const glm::vec2& newDirection)
 {
 	m_Direction = newDirection;
 }
+
+std::pair<int, int> Game::Character::GetGridPosition()const
+{
+	return m_GridPostion;
+}
+
+//ECharacterType Game::Character::GetCharacterType()const
+//{
+//	return m_Type;
+//}

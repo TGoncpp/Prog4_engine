@@ -5,6 +5,7 @@
 //class TG::GameObject;
 namespace Game
 {
+	
 	//-----------------------------------------
 	//INTERFACE
 	//---------------------------------------
@@ -21,6 +22,7 @@ namespace Game
 	protected:
 
 		TG::GameObject* m_OwnerObject{};
+		bool m_DeadFlag{ false };
 	};
 
 	//-----------------------------------------
@@ -67,9 +69,31 @@ namespace Game
 	public:
 		WalkingQbertState(TG::GameObject* owner)
 			:WalkingState(owner) {}
-		void virtual InputHandeling(const glm::vec2& )override ;
-		void virtual OnEnter(const glm::vec2&)override;
+		void virtual InputHandeling(const glm::vec2&)override ;
+		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override;
-		void virtual OnExit()override;
+		void virtual OnExit()override ;
+	};
+	
+	class Dead : public State
+	{
+	public:
+		Dead(TG::GameObject* owner)
+			:State(owner) {}
+		void virtual InputHandeling(const glm::vec2&)override {};
+		void virtual OnEnter(const glm::vec2&)override {};
+		void virtual Update(float)override {};
+		void virtual OnExit()override {};
+	};
+
+	class Falling : public State
+	{
+	public:
+		Falling(TG::GameObject* owner)
+			:State(owner) {}
+		void virtual InputHandeling(const glm::vec2& )override {};
+		void virtual OnEnter(const glm::vec2&)override {};
+		void virtual Update(float)override {};
+		void virtual OnExit()override {};
 	};
 }
