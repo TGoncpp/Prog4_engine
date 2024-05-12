@@ -25,21 +25,26 @@ namespace Game
 		Character(const Character&)            = delete;
 		Character(Character&&)                 = delete;
 
-		virtual bool UpdateGridPosition(const glm::vec2& direction) override;
 		virtual void UpdateGrid(bool isMoving) override;
 		virtual void HandleInput(const glm::vec2& direction)override;
-		virtual void NewState(const std::string& newState);
 		virtual void Update(float time)override;
-		virtual void SetDirection(const glm::vec2& newDirection);
 
+		void NewState(const std::string& newState);
+		void SetDirection(const glm::vec2& newDirection);
+		bool UpdateGridPosition(const glm::vec2& direction);
 
 		//TG::Subject<std::pair<int, int>, ECharacterType, bool> OnCubeInteraction;
 		TG::Subject<Character*, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
+		void FallOfGrid();
+		void ResetLife();
 
-		std::pair<int, int> GetGridPosition()const;
-		ECharacterType GetCharacterType()const {return m_Type;};
+		//Getters
+		std::pair<int, int> GetGridPosition()const { return m_GridPostion; }
+		ECharacterType GetCharacterType()const     { return m_Type;}
+		bool IsDead()const                         { return m_IsDead; }
+		bool IsFalling()const                      { return m_IsFalling; }
 
 	protected:
 		glm::vec2 m_Direction{};
@@ -51,6 +56,9 @@ namespace Game
 		std::pair<int, int> m_GridPostion;
 		int m_Health{ 3 };
 		int m_Score{ 0 };
+		bool m_IsDead{ false };
+		bool m_IsFalling{ false };
+
 
 		void SetCharacterType(const ECharacterType& newType);
 	};

@@ -7,19 +7,23 @@
 
 #include<iostream>
 
-Game::Character::Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSize, std::pair<int, int> spriteSheet)
+Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSize, std::pair<int, int> spriteSheet)
 {
 	const int spriteRows{ spriteSheet.first }, spriteColum{ spriteSheet.second };
-	glm::vec2 cubePos{ position.x - (textureSPTR->GetSize().x / (spriteColum * 2.f)), position.y - (textureSPTR->GetSize().y/ spriteRows) + jumpOffset.y /**1.4f*/ };
-	SetLocalPosition(cubePos);
+	glm::vec2 posOnCube{ gridPosition.x - (textureSPTR->GetSize().x / (spriteColum * 2.f)), gridPosition.y - (textureSPTR->GetSize().y/ spriteRows) + jumpOffset.y /**1.4f*/ };
+	SetLocalPosition(posOnCube);
+
+	//Add components
 	AddComponent<TG::MovementComponent>(this, glm::vec2{0.f, 0.f}, jumpOffset, gridSize);
 	AddComponent<TG::RenderComponent>(this, textureSPTR);
 	AddComponent<TG::SpriteComponent>(this, spriteSheet.second, spriteSheet.first, false);
-	//AddComponent<Game::CharacterStateComponent>(this);
 
+	//Add States
 	m_PossibleStates.insert(std::make_pair("idle", std::make_unique<Idle>(this)));
 	m_PossibleStates.insert(std::make_pair("walking", std::make_unique<WalkingQbertState>(this)));
-	m_PossibleStates.insert(std::make_pair("falling", std::make_unique<Falling>(this)));
+	m_PossibleStates.insert(std::make_pair("falling", std::make_unique<Falling>(this, 2.f)));
+	m_PossibleStates.insert(std::make_pair("dead", std::make_unique<Dead>(this, 1.f)));
+	m_PossibleStates.insert(std::make_pair("respawn", std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
 	m_CharacterState = m_PossibleStates["idle"].get();
 
 }
@@ -84,12 +88,14 @@ void Game::Character::CollisionCheck(const ECharacterType& dominantType, std::pa
 	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::red)
 	{
 		--m_Health;
+		m_IsDead = true;
 		std::cout << "red lose life\n";
 	}
 	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::green)
 	{
 		++m_Score;
 		std::cout << "score = "<< m_Score << "\n";
+		m_IsDead = true;
 		std::cout << "green lose life\n";
 	}
 
@@ -100,12 +106,15 @@ void Game::Character::SetDirection(const glm::vec2& newDirection)
 	m_Direction = newDirection;
 }
 
-std::pair<int, int> Game::Character::GetGridPosition()const
+void Game::Character::FallOfGrid()
 {
-	return m_GridPostion;
+	m_IsFalling = true;
 }
 
-//ECharacterType Game::Character::GetCharacterType()const
-//{
-//	return m_Type;
-//}
+void Game::Character::ResetLife()
+{
+	m_IsDead      = false;
+	m_IsFalling   = false;
+	m_GridPostion = std::make_pair(0, 0);
+	UpdateGrid(false);
+}

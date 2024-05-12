@@ -13,7 +13,6 @@ TG::CommandActor::CommandActor(GameObject* gameObject)
 
 void TG::Move::Execute()
 {
-	//m_MoveComp->SetTargetLocation(m_Direction);
 	m_GameObjectRefrence->HandleInput(m_Direction);
 }
 

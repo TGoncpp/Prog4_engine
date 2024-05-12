@@ -1,6 +1,8 @@
 #include "State.h"
+#include "character.h"
 #include "SpriteComponent.h"
 #include "MovementComponent.h"
+#include "Transform.h"
 #include <iostream>
 
 //-------------------------------------------
@@ -10,6 +12,14 @@ void Game::Idle::InputHandeling(const glm::vec2& direction)
 {
 	m_OwnerObject->SetDirection( direction);
 	m_OwnerObject->NewState("walking");
+}
+
+void Game::Idle::Update(float)
+{
+	if (m_OwnerObject->IsDead())
+	{
+		m_OwnerObject->NewState("dead");
+	}
 }
 
 
@@ -57,10 +67,22 @@ void Game::WalkingQbertState::Update(float time)
 	}
 	auto comp = m_OwnerObject->GetComponent<TG::MovementComponent>();
 	comp->FixedUpdate(time);
-	if (comp->StoppedMoving())
+	if (comp->StoppedMoving() )
 	{
+		if (m_OwnerObject->IsDead())
+		{
+			m_OwnerObject->NewState("dead");
+			return;
+		}
+		if (m_OwnerObject->IsFalling())
+		{
+			m_OwnerObject->NewState("falling");
+			return;
+		}
+
 		m_OwnerObject->NewState("idle");
 	}
+	
 
 }
 
@@ -68,7 +90,76 @@ void Game::WalkingQbertState::OnExit()
 {
 }
 
+
 void Game::WalkingState::Update(float)
 {
 
+}
+
+//-------------------------------------------
+//FALLING
+//---------------------------------------------
+void Game::Falling::OnEnter(const glm::vec2&)
+{
+	m_CurrentFallTime = m_FallTime;
+	m_FallPosition = m_OwnerObject->GetLocalPosition();
+	m_CurrentFallPosition = m_FallPosition;
+}
+
+void Game::Falling::Update(float time)
+{
+	const float fallSpeed{200.f};
+	m_CurrentFallPosition.y += time * fallSpeed;
+	m_OwnerObject->SetLocalPosition(m_CurrentFallPosition);
+	m_CurrentFallTime -= time;
+	if (m_CurrentFallTime <= 0.f)
+	{
+		m_OwnerObject->NewState("dead");
+	}
+}
+
+
+//-------------------------------------------
+//DEAD
+//---------------------------------------------
+void Game::Dead::OnEnter(const glm::vec2&)
+{
+	m_CurrentDieTime = m_TimeToDie;
+	
+}
+
+void Game::Dead::Update(float time)
+{
+	m_CurrentDieTime -= time;
+	if (m_CurrentDieTime <= 0.f)
+	{
+		m_OwnerObject->NewState("respawn");
+	}
+}
+
+//-------------------------------------------
+//RESPAWN
+//---------------------------------------------
+void Game::ReSpawn::OnEnter(const glm::vec2&)
+{
+	m_CurrentPos = m_StartPos - glm::vec2{ 0.f, m_SpawnHeight };
+	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+}
+
+void Game::ReSpawn::Update(float time)
+{
+	const float fallSpeed{ 80.f };
+	m_CurrentPos.y += fallSpeed * time;
+	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+
+	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
+	{
+		m_OwnerObject->SetLocalPosition(m_StartPos);
+		m_OwnerObject->NewState("idle");
+	}
+}
+
+void Game::ReSpawn::OnExit()
+{
+	m_OwnerObject->ResetLife();
 }

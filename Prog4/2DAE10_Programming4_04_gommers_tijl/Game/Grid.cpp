@@ -91,7 +91,6 @@ void Game::Grid::OnSubjectDestroy()
 	}
 }
 
-//void Game::Grid::Notify(std::pair<int, int> newPosition, ECharacterType type, bool isMoving)
 void Game::Grid::Notify(Character* object, bool isMoving)
 {
 	std::pair<int, int> newPosition = object->GetGridPosition();
@@ -101,11 +100,11 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	if (newPosition.first < 0 || newPosition.second < 0 ||
 		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
 	{
-		object->NewState("falling");
+		object->FallOfGrid();
 		return;
 	}
 
-	//if valid index check-> check bool
+	//remove character from the cube if moving
 	if (isMoving)
 	{
 		m_vGrid[newPosition.first][newPosition.second]->RemoveVisiterOnCube(type);
@@ -121,7 +120,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 		{
 			subjects->CollisionCheck(m_vGrid[newPosition.first][newPosition.second]->GetDominantTypeOnCube(), newPosition);
 		}
-		
+		if (object->IsDead())
+			return;
 	}
 
 	//if red or green->update cube

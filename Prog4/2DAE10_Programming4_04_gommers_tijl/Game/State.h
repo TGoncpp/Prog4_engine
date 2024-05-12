@@ -1,18 +1,16 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "GameObject.h"
 
-//class TG::GameObject;
 namespace Game
 {
-	
+	class Character;
 	//-----------------------------------------
 	//INTERFACE
 	//---------------------------------------
 	class IState
 	{
 	public:
-		IState(TG::GameObject* owner)
+		IState(Character* owner)
 			:m_OwnerObject{owner}{}
 		
 		void virtual InputHandeling(const glm::vec2& ) = 0;
@@ -21,8 +19,7 @@ namespace Game
 		void virtual OnExit() = 0;
 	protected:
 
-		TG::GameObject* m_OwnerObject{};
-		bool m_DeadFlag{ false };
+		Character* m_OwnerObject{};
 	};
 
 	//-----------------------------------------
@@ -31,7 +28,7 @@ namespace Game
 	class State : public IState
 	{
 	public:
-		State(TG::GameObject* owner)
+		State(Character* owner)
 			:IState{owner}{}
 		
 		void virtual InputHandeling(const glm::vec2&) {};
@@ -44,7 +41,7 @@ namespace Game
 	class WalkingState : public State
 	{
 	public:
-		WalkingState(TG::GameObject* owner)
+		WalkingState(Character* owner)
 			:State(owner) {}
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override{};
@@ -56,18 +53,18 @@ namespace Game
 	class Idle : public State
 	{
 	public:
-		Idle(TG::GameObject* owner)
+		Idle(Character* owner)
 			:State(owner) {}
 		void virtual InputHandeling(const glm::vec2& direction)override ;
 		void virtual OnEnter(const glm::vec2&)override{};
-		void virtual Update(float)override{};
+		void virtual Update(float)override;
 		void virtual OnExit()override{};
 	};
 
 	class WalkingQbertState : public WalkingState
 	{
 	public:
-		WalkingQbertState(TG::GameObject* owner)
+		WalkingQbertState(Character* owner)
 			:WalkingState(owner) {}
 		void virtual InputHandeling(const glm::vec2&)override ;
 		void virtual OnEnter(const glm::vec2&)override ;
@@ -78,22 +75,48 @@ namespace Game
 	class Dead : public State
 	{
 	public:
-		Dead(TG::GameObject* owner)
-			:State(owner) {}
+		Dead(Character* owner, float timeToDie)
+			:State(owner), m_TimeToDie{ timeToDie } {}
 		void virtual InputHandeling(const glm::vec2&)override {};
-		void virtual OnEnter(const glm::vec2&)override {};
-		void virtual Update(float)override {};
+		void virtual OnEnter(const glm::vec2&)override ;
+		void virtual Update(float)override ;
 		void virtual OnExit()override {};
+	private:
+		const float m_TimeToDie{};
+		float m_CurrentDieTime{};
 	};
 
 	class Falling : public State
 	{
 	public:
-		Falling(TG::GameObject* owner)
-			:State(owner) {}
+		Falling(Character* owner, float fallTime)
+			:State(owner), m_FallTime{ fallTime } {}
 		void virtual InputHandeling(const glm::vec2& )override {};
-		void virtual OnEnter(const glm::vec2&)override {};
-		void virtual Update(float)override {};
+		void virtual OnEnter(const glm::vec2&)override ;
+		void virtual Update(float)override ;
 		void virtual OnExit()override {};
+	private:
+		glm::vec2 m_FallPosition;
+		glm::vec2 m_CurrentFallPosition;
+		const float m_FallTime{};
+		float m_CurrentFallTime{};
+	};
+
+	class ReSpawn : public State
+	{
+	public:
+		ReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight)
+			:State(owner), 
+			m_StartPos{ startPosition },
+			m_SpawnHeight{ respawnHeight } {}
+		void virtual InputHandeling(const glm::vec2& )override {};
+		void virtual OnEnter(const glm::vec2&)override ;
+		void virtual Update(float)override ;
+		void virtual OnExit()override ;
+	private:
+		const glm::vec2 m_StartPos;
+		glm::vec2 m_CurrentPos;
+		const float m_SpawnHeight{};
+
 	};
 }
