@@ -27,9 +27,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">

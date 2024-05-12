@@ -2,7 +2,7 @@
 #include "MovementComponent.h"
 #include "SpriteComponent.h"
 #include "RenderComponent.h"
-#include "CharacterState.h"
+//#include "CharacterState.h"
 #include "Texture2D.h"
 
 #include<iostream>

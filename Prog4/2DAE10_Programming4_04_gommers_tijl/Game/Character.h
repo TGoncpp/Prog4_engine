@@ -49,11 +49,11 @@ namespace Game
 	protected:
 		glm::vec2 m_Direction{};
 		ECharacterType m_Type{ ECharacterType::red };
+		std::map <std::string ,std::unique_ptr<State>> m_PossibleStates;
 
 	private:
-		std::map <std::string ,std::unique_ptr<State>> m_PossibleStates;
-		State* m_CharacterState{ nullptr };
 		std::pair<int, int> m_GridPostion;
+		State* m_CharacterState{ nullptr };
 		int m_Health{ 3 };
 		int m_Score{ 0 };
 		bool m_IsDead{ false };

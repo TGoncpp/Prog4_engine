@@ -65,7 +65,11 @@ Game::ECharacterType Game::Cube::GetDominantTypeOnCube() const
 	{
 		return ECharacterType::purple;
 	}
-	return ECharacterType::red;
+	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::red) != m_vTypesOnCube.cend())
+	{
+		return ECharacterType::red;
+	}
+	return ECharacterType::green;
 }
 
 void Game::Cube::SetAnimationAuto()const

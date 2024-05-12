@@ -66,6 +66,7 @@ void load()
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, std::pair<int, int>(1, 10), Game::ECharacterType::purple);
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetSubject(npc.get());
+	npc->UpdateGrid(false);
 	
 	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, gridSize, std::pair<int, int>(2, 2), Game::ECharacterType::green);
 	npcGreen.get()->SetPositionOnGridByIndex(3, 1, cubeSize);
@@ -75,9 +76,9 @@ void load()
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
-	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use D-Pad to move Alex around, A to inflict damage, XYB to collect different loot", font);
-	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use Arrows to move Tom around, SPACE to inflict damage, QWE to collect different loot", font, glm::vec3{ 0.f, 20.f, 0.f });
-	IS->SetLocalPosition(5, 400);
+	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use WASD to move Snake around to inflict damage to red on contact", font);
+	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use Arrows to move red around, get points by killing the green character", font, glm::vec3{ 0.f, 20.f, 0.f });
+	IS->SetLocalPosition(5, 440);
 
 	//Add to scene
 	scene.Add(std::move(go));

@@ -3,6 +3,7 @@
 #include "SpriteComponent.h"
 #include "MovementComponent.h"
 #include "Transform.h"
+#include "serviceLocator.h"
 #include <iostream>
 
 //-------------------------------------------
@@ -56,6 +57,8 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 	if (m_OwnerObject->CheckComponent<TG::MovementComponent>())
 		m_OwnerObject->GetComponent<TG::MovementComponent>()->SetTargetLocation(direction);
 	m_OwnerObject->UpdateGridPosition(direction);
+
+	TG::Locator::getAudio().playSound("Jump");
 }
 
 void Game::WalkingQbertState::Update(float time)
@@ -104,6 +107,9 @@ void Game::Falling::OnEnter(const glm::vec2&)
 	m_CurrentFallTime = m_FallTime;
 	m_FallPosition = m_OwnerObject->GetLocalPosition();
 	m_CurrentFallPosition = m_FallPosition;
+
+	TG::Locator::getAudio().playSound("Fall");
+
 }
 
 void Game::Falling::Update(float time)
@@ -126,6 +132,7 @@ void Game::Dead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
 	
+	TG::Locator::getAudio().playSound("Swearing");
 }
 
 void Game::Dead::Update(float time)
@@ -137,6 +144,14 @@ void Game::Dead::Update(float time)
 	}
 }
 
+
+void Game::GreenDead::OnEnter(const glm::vec2&)
+{
+	m_CurrentDieTime = m_TimeToDie;
+
+	TG::Locator::getAudio().playSound("Hit");
+}
+
 //-------------------------------------------
 //RESPAWN
 //---------------------------------------------
@@ -144,6 +159,8 @@ void Game::ReSpawn::OnEnter(const glm::vec2&)
 {
 	m_CurrentPos = m_StartPos - glm::vec2{ 0.f, m_SpawnHeight };
 	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+
+	TG::Locator::getAudio().playSound("Fall");
 }
 
 void Game::ReSpawn::Update(float time)

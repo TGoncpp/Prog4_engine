@@ -38,6 +38,8 @@ namespace Game
 
 	};
 
+	//WALKING
+	//---------------------------------------
 	class WalkingState : public State
 	{
 	public:
@@ -48,17 +50,6 @@ namespace Game
 		void virtual Update(float)override;
 		void virtual OnExit()override{};
 
-	};
-	
-	class Idle : public State
-	{
-	public:
-		Idle(Character* owner)
-			:State(owner) {}
-		void virtual InputHandeling(const glm::vec2& direction)override ;
-		void virtual OnEnter(const glm::vec2&)override{};
-		void virtual Update(float)override;
-		void virtual OnExit()override{};
 	};
 
 	class WalkingQbertState : public WalkingState
@@ -72,6 +63,21 @@ namespace Game
 		void virtual OnExit()override ;
 	};
 	
+	//IDLE
+	//---------------------------------------
+	class Idle : public State
+	{
+	public:
+		Idle(Character* owner)
+			:State(owner) {}
+		void virtual InputHandeling(const glm::vec2& direction)override ;
+		void virtual OnEnter(const glm::vec2&)override{};
+		void virtual Update(float)override;
+		void virtual OnExit()override{};
+	};
+	
+	//DEAD
+	//---------------------------------------
 	class Dead : public State
 	{
 	public:
@@ -81,11 +87,22 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
 		void virtual OnExit()override {};
-	private:
+	protected:
 		const float m_TimeToDie{};
 		float m_CurrentDieTime{};
 	};
 
+	class GreenDead : public Dead
+	{
+	public:
+		GreenDead(Character* owner, float timeToDie)
+			:Dead(owner, timeToDie) {}
+		void virtual OnEnter(const glm::vec2&)override ;
+	
+	};
+
+	//FALLING
+	//---------------------------------------
 	class Falling : public State
 	{
 	public:
@@ -102,6 +119,8 @@ namespace Game
 		float m_CurrentFallTime{};
 	};
 
+	//RESPAWN
+	//---------------------------------------
 	class ReSpawn : public State
 	{
 	public:
