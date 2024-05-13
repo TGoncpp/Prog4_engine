@@ -23,8 +23,9 @@ SDL_Texture* TG::Texture2D::GetSDLTexture() const
 	return m_texture;
 }
 
-TG::Texture2D::Texture2D(SDL_Texture* texture, float scale)
+TG::Texture2D::Texture2D(SDL_Texture* texture, float scale, std::pair<int, int> spriteRowColum)
+	:m_texture{ texture },
+	m_SpriteRowColum{spriteRowColum},
+	m_Scale{ scale }
 {
-	m_texture = texture;
-	m_Scale = scale;
 }

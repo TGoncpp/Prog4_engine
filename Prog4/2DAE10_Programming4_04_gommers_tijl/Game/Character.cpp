@@ -7,16 +7,16 @@
 
 #include<iostream>
 
-Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSize, std::pair<int, int> spriteSheet)
+Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSize)
 {
-	const int spriteRows{ spriteSheet.first }, spriteColum{ spriteSheet.second };
-	glm::vec2 posOnCube{ gridPosition.x - (textureSPTR->GetSize().x / (spriteColum * 2.f)), gridPosition.y - (textureSPTR->GetSize().y/ spriteRows) + jumpOffset.y /**1.4f*/ };
+	const std::pair<int, int> spriteRowsColums{ textureSPTR->GetSpriteRowColum()};
+	glm::vec2 posOnCube{ gridPosition.x - (textureSPTR->GetSize().x / (spriteRowsColums.second * 2.f)), gridPosition.y - (textureSPTR->GetSize().y/ spriteRowsColums.first) + jumpOffset.y /**1.4f*/ };
 	SetLocalPosition(posOnCube);
 
 	//Add components
 	AddComponent<TG::MovementComponent>(this, glm::vec2{0.f, 0.f}, jumpOffset, gridSize);
 	AddComponent<TG::RenderComponent>(this, textureSPTR);
-	AddComponent<TG::SpriteComponent>(this, spriteSheet.second, spriteSheet.first, false);
+	AddComponent<TG::SpriteComponent>(this, spriteRowsColums.second, spriteRowsColums.first, false);
 
 	//Add States
 	m_PossibleStates.insert(std::make_pair("idle", std::make_unique<Idle>(this)));

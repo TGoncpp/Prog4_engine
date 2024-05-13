@@ -7,7 +7,7 @@ namespace Game
 	class NPC : public Character
 	{
 	public:
-		NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, int gridSizent, std::pair<int, int> spriteSheet, const ECharacterType& type);
+		NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, int gridSizent, const ECharacterType& type);
 		NPC() = default;
 		~NPC() = default;
 		NPC& operator=(const NPC&) = delete;
