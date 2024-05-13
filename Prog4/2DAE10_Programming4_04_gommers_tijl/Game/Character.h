@@ -12,6 +12,7 @@ namespace Game
 		green  = 0, 
 		red    = 1, 
 		purple = 2
+
 	};
 	
 	class Character : public TG::GameObject

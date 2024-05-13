@@ -127,7 +127,7 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	//if red or green->update cube
 	if (type == ECharacterType::purple)return;
 
-	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState();
+	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState(type);
 	if (CheckLevelState())
 	{
 		m_IsLevelFinished = true;

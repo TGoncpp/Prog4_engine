@@ -15,19 +15,26 @@ Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std
 	SetLocalPosition(position);	
 }
 
-void Game::Cube::UpdateProgressState()
+void Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
 {
-	switch (m_State)
+	switch (visiterType)
 	{
-	case ECubeProgressState::startFase:
-		m_State = ECubeProgressState::intermediateFase;
+	case ECharacterType::green:
+		if (m_State != ECubeProgressState::startFase)
+		{
+			m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
+		}
 		break;
-	case ECubeProgressState::intermediateFase:
-		m_State = ECubeProgressState::endFase;
+	case ECharacterType::red:
+		if (m_State != ECubeProgressState::endFase)
+		{
+			m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
+		}
 		break;
 	default:
-		return;
+		break;
 	}
+
 
 	if (CheckComponent<TG::SpriteComponent>())
 	{
