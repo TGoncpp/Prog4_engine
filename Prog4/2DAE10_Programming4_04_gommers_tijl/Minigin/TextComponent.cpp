@@ -1,10 +1,10 @@
 #include "TextComponent.h"
 #include <stdexcept>
 #include <SDL_ttf.h>
-#include "TextObject.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "GameObject.h"
 
 TG::TextComponent::TextComponent(GameObject* owner, const std::string& text, std::shared_ptr<Font> pFont, const glm::vec3& offset)
 	:BaseComponent(owner),

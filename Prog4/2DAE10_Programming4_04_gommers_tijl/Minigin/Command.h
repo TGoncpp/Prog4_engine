@@ -45,31 +45,4 @@ namespace TG
 		glm::vec2 m_Direction{ glm::vec2{0.f, 0.f} };
 	};
 
-
-	//enum class TG::LootType;
-	class PickUp final : public CommandActor
-	{
-	public:
-		PickUp(GameObject* target, const TG::LootType& type);
-		virtual ~PickUp() = default;
-		virtual void Execute() override;
-	private:
-		TG::LootType m_LootType;
-
-	};
-
-	class Hit final : public CommandActor
-	{
-	public:
-		Hit(GameObject* target, GameObject* hitTarget);
-		virtual ~Hit() = default;
-		virtual void Execute() override;
-
-	private:
-		GameObject* m_HitTarget;
-	};
-
-
-	
-
 }

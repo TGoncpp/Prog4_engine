@@ -26,11 +26,7 @@ void TG::MovementComponent::SetTargetLocation(const glm::vec2& direction)
 	Transform::SetDirection(m_JumpOffset, offsetDirection);
 	m_TargetPosition = currentPosition + m_JumpOffset;
 
-	if (m_OwnerPTR)
-	{
-		//Remove position from on the grid
-		m_OwnerPTR->UpdateGrid(m_IsMoving);
-	}
+	
 }
 
 void TG::MovementComponent::FixedUpdate(float dt)
@@ -46,8 +42,6 @@ void TG::MovementComponent::FixedUpdate(float dt)
 	{
 		m_IsMoving      = false;
 		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
-		//Update the new position on the grid
-		m_OwnerPTR->UpdateGrid(m_IsMoving); 
 	}
 
 }

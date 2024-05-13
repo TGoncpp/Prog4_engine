@@ -2,13 +2,13 @@
 #include "TextComponent.h"
 #include "Observer.h"
 
-namespace TG
+namespace Game
 {
 
-	class HealthDisplay final : public IObserver<>, public BaseComponent 
+	class HealthDisplay final : public TG::IObserver<>, public TG::BaseComponent
 	{
 	public:
-		HealthDisplay(GameObject* owner, GameObject* subjectOwner);
+		HealthDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner);
 		virtual ~HealthDisplay() override              = default;
 		HealthDisplay(const HealthDisplay&)            = delete;
 		HealthDisplay(HealthDisplay&&)                 = delete;
@@ -23,8 +23,8 @@ namespace TG
 		virtual void OnSubjectDestroy() override;
 
 	private:
-		GameObject* m_SubjectOwnrPtr;
-		TextComponent* m_TextCompUPtr;
+		TG::GameObject* m_SubjectOwnrPtr;
+		TG::TextComponent* m_TextCompUPtr;
 		void UpdateText();
 	};
 

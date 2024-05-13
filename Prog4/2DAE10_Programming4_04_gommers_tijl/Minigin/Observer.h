@@ -1,14 +1,16 @@
 #pragma once
 
-
-template<typename...Args>
-class IObserver
+namespace TG
 {
-public:
-	virtual ~IObserver() = default;
+	template<typename...Args>
+	class IObserver
+	{
+	public:
+		virtual ~IObserver() = default;
 
-	virtual void Notify(Args... args) = 0;
-	virtual void OnSubjectDestroy() = 0;
+		virtual void Notify(Args... args) = 0;
+		virtual void OnSubjectDestroy() = 0;
 
-};
+	};
 
+}

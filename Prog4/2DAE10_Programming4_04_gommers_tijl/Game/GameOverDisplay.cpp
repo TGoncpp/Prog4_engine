@@ -1,24 +1,23 @@
 #include "GameOverDisplay.h"
-
 #include "HealthDisplay.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
 
-TG::GameOverDisplay::GameOverDisplay(TG::GameObject* owner, std::vector<TG::GameObject*> vSubjectOwner)
-	:BaseComponent(owner),
-	IObserver<const std::string&>(),
+Game::GameOverDisplay::GameOverDisplay(TG::GameObject* owner, std::vector<TG::GameObject*> vSubjectOwner)
+	:TG::BaseComponent(owner),
+	TG::IObserver<const std::string&>(),
 	m_vSubjectOwnrPtrs{ vSubjectOwner }
 {
 	for (auto& subject : m_vSubjectOwnrPtrs)
 	{
 		if (subject->CheckComponent<HealthComponent>())
-			subject->GetComponent<TG::HealthComponent>()->OnDead.AddObserver(this);
+			subject->GetComponent<HealthComponent>()->OnDead.AddObserver(this);
 	}
 
 	m_TextCompUPtr = m_OwnerPTR->GetComponent< TG::TextComponent>();
 }
 
-void TG::GameOverDisplay::Update(float dt)
+void Game::GameOverDisplay::Update(float dt)
 {
 	(void)dt; 
 	if (m_IsASubjectDirty)
@@ -32,7 +31,7 @@ void TG::GameOverDisplay::Update(float dt)
 	m_IsASubjectDirty = false;
 }
 
-void TG::GameOverDisplay::Notify(const std::string& name)
+void Game::GameOverDisplay::Notify(const std::string& name)
 {
 	if (m_IsGameOver)return;
 
@@ -40,12 +39,12 @@ void TG::GameOverDisplay::Notify(const std::string& name)
 	m_IsGameOver = true;
 }
 
-void TG::GameOverDisplay::OnSubjectDestroy()
+void Game::GameOverDisplay::OnSubjectDestroy()
 {
 	
 }
 
-void TG::GameOverDisplay::UpdateText(const std::string& name)
+void Game::GameOverDisplay::UpdateText(const std::string& name)
 {
 	m_Message += " ";
 	m_Message += name;

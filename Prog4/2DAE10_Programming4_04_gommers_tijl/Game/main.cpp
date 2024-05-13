@@ -11,20 +11,17 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
-#include "TextObject.h"
 #include "Scene.h"
 
 #include "RenderComponent.h"
 #include "healthDisplay.h"
 #include "GameOverDisplay.h"
 #include "ScoreDisplay.h"
-#include "FPSComponent.h"
 #include "MovementComponent.h"
 #include "HealthComponent.h"
 #include "LootComponent.h"
 #include <Xinput.h>
 #include "ServiceLocator.h"
-//#include "SpriteComponent.h"
 #include "Grid.h"
 #include "NPC.h"
 
@@ -116,16 +113,7 @@ void load()
 
 
 
-	//ActionInput
-	auto PickUpDirt = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(2), TG::LootType::dirt);
-	input.InputBinding(std::move(PickUpDirt), SDL_SCANCODE_Q, EInputType::pressed, false);
-	auto PickUpSilver = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(2), TG::LootType::silver);
-	input.InputBinding(std::move(PickUpSilver), SDL_SCANCODE_W, EInputType::pressed, false);
-	auto PickUpGold = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(2), TG::LootType::gold);
-	input.InputBinding(std::move(PickUpGold), SDL_SCANCODE_E, EInputType::pressed, false);
-	//auto hit = std::make_unique<TG::Hit>(scene.GetObjectByIndex(2), scene.GetObjectByIndex(5));
-	//input.InputBinding(std::move(hit), SDL_SCANCODE_SPACE, EInputType::pressed, false);
-
+	
 	////Character 2
 	////inputMapping
 	//auto moveUp2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ 0.f, -1.f });

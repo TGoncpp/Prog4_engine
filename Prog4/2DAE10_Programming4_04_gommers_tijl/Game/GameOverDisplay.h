@@ -3,10 +3,10 @@
 #include "Observer.h"
 #include <vector>
 
-namespace TG
+namespace Game
 {
 
-	class GameOverDisplay final : public IObserver<const std::string& >, public BaseComponent
+	class GameOverDisplay final : public  TG::IObserver<const std::string& >, public  TG::BaseComponent
 	{
 	public:
 		GameOverDisplay(TG::GameObject* owner, std::vector<TG::GameObject*> vSubjectOwner);
@@ -24,7 +24,7 @@ namespace TG
 		virtual void OnSubjectDestroy() override;
 
 	private:
-		TextComponent* m_TextCompUPtr;
+		TG::TextComponent* m_TextCompUPtr;
 		std::vector<TG::GameObject*> m_vSubjectOwnrPtrs;
 		void UpdateText(const std::string& name);
 		std::string m_Message{ "GAME OVER" };

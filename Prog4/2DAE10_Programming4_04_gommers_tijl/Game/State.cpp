@@ -12,7 +12,8 @@
 void Game::Idle::InputHandeling(const glm::vec2& direction)
 {
 	m_OwnerObject->SetDirection( direction);
-	m_OwnerObject->NewState("walking");
+	m_OwnerObject->NewState("walking"); 
+
 }
 
 void Game::Idle::Update(float)
@@ -56,6 +57,7 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 		m_OwnerObject->GetComponent<TG::SpriteComponent>()->UpdateFrame(frame);
 	if (m_OwnerObject->CheckComponent<TG::MovementComponent>())
 		m_OwnerObject->GetComponent<TG::MovementComponent>()->SetTargetLocation(direction);
+	m_OwnerObject->UpdateGrid(true);
 	m_OwnerObject->UpdateGridPosition(direction);
 
 	TG::Locator::getAudio().playSound("Jump");
@@ -72,6 +74,7 @@ void Game::WalkingQbertState::Update(float time)
 	comp->FixedUpdate(time);
 	if (comp->StoppedMoving() )
 	{
+		m_OwnerObject->UpdateGrid(false);
 		if (m_OwnerObject->IsDead())
 		{
 			m_OwnerObject->NewState("dead");

@@ -20,8 +20,6 @@ namespace TG
 		virtual void FixedUpdate(float dt);
 		virtual void Render() const;
 
-		//used by movementComponent
-		virtual void UpdateGrid(bool) {};
 		//used by Command
 		virtual void HandleInput(const glm::vec2&) {};
 		

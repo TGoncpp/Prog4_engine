@@ -2,9 +2,9 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 
-namespace TG
+namespace Game
 {
-	class HealthComponent final : public BaseComponent
+	class HealthComponent final : public TG::BaseComponent
 	{
 	public:
 		HealthComponent(TG::GameObject* owner, int startHealth);
@@ -17,8 +17,8 @@ namespace TG
 
 		int GetHealth()const { return m_Health; };
 		void DecreaseHealth(int decrement);
-		Subject<> OnHealthChange;
-		Subject<const std::string&> OnDead;
+		TG::Subject<> OnHealthChange;
+		TG::Subject<const std::string&> OnDead;
 
 		virtual void Update(float dt) { (void)dt; };
 		virtual void FixedUpdate(float dt) { (void)dt; };

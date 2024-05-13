@@ -94,7 +94,7 @@ void Game::Grid::OnSubjectDestroy()
 void Game::Grid::Notify(Character* object, bool isMoving)
 {
 	std::pair<int, int> newPosition = object->GetGridPosition();
-	ECharacterType type = object->GetCharacterType();
+	ECharacterType type             = object->GetCharacterType();
 
 	//jumped off the platform
 	if (newPosition.first < 0 || newPosition.second < 0 ||

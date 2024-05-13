@@ -2,28 +2,28 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 
-TG::HealthDisplay::HealthDisplay(GameObject* owner, GameObject* subjectOwner)
+Game::HealthDisplay::HealthDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner)
 	:BaseComponent(owner),
 	IObserver<>(),
 	m_SubjectOwnrPtr{subjectOwner}
 {
 	if (m_SubjectOwnrPtr->CheckComponent<HealthComponent>())
-		m_SubjectOwnrPtr->GetComponent< TG::HealthComponent>()->OnHealthChange.AddObserver(this);
+		m_SubjectOwnrPtr->GetComponent< HealthComponent>()->OnHealthChange.AddObserver(this);
 	m_TextCompUPtr =  m_OwnerPTR->GetComponent< TG::TextComponent>();
 	UpdateText();
 }
 
-void TG::HealthDisplay::Notify()
+void Game::HealthDisplay::Notify()
 {
 	UpdateText();
 }
 
-void TG::HealthDisplay::OnSubjectDestroy()
+void Game::HealthDisplay::OnSubjectDestroy()
 {
 	m_SubjectOwnrPtr = nullptr;
 }
 
-void TG::HealthDisplay::UpdateText()
+void Game::HealthDisplay::UpdateText()
 {
 
 	std::string newText{ "lives " };
