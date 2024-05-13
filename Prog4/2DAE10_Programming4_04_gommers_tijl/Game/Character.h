@@ -29,7 +29,7 @@ namespace Game
 		virtual void Update(float time)override;
 
 		void UpdateGrid(bool isMoving);
-		void NewState(const std::string& newState);
+		void NewState(const EState& newState);
 		void SetDirection(const glm::vec2& newDirection);
 		bool UpdateGridPosition(const glm::vec2& direction);
 
@@ -48,7 +48,7 @@ namespace Game
 	protected:
 		glm::vec2 m_Direction{};
 		ECharacterType m_Type{ ECharacterType::red };
-		std::map <std::string ,std::unique_ptr<State>> m_PossibleStates;
+		std::map <EState ,std::unique_ptr<State>> m_PossibleStates;
 
 	private:
 		std::pair<int, int> m_GridPostion;

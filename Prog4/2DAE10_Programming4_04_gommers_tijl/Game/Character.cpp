@@ -2,7 +2,6 @@
 #include "MovementComponent.h"
 #include "SpriteComponent.h"
 #include "RenderComponent.h"
-//#include "CharacterState.h"
 #include "Texture2D.h"
 
 #include<iostream>
@@ -19,12 +18,12 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	AddComponent<TG::SpriteComponent>(this, spriteRowsColums.second, spriteRowsColums.first, false);
 
 	//Add States
-	m_PossibleStates.insert(std::make_pair("idle", std::make_unique<Idle>(this)));
-	m_PossibleStates.insert(std::make_pair("walking", std::make_unique<WalkingQbertState>(this)));
-	m_PossibleStates.insert(std::make_pair("falling", std::make_unique<Falling>(this, 2.f)));
-	m_PossibleStates.insert(std::make_pair("dead", std::make_unique<Dead>(this, 1.f)));
-	m_PossibleStates.insert(std::make_pair("respawn", std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
-	m_CharacterState = m_PossibleStates["idle"].get();
+	m_PossibleStates.insert(std::make_pair(EState::idle, std::make_unique<Idle>(this)));
+	m_PossibleStates.insert(std::make_pair(EState::walking, std::make_unique<WalkingQbertState>(this)));
+	m_PossibleStates.insert(std::make_pair(EState::falling, std::make_unique<Falling>(this, 2.f)));
+	m_PossibleStates.insert(std::make_pair(EState::dead, std::make_unique<Dead>(this, 1.f)));
+	m_PossibleStates.insert(std::make_pair(EState::respawn, std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
+	m_CharacterState = m_PossibleStates[EState::idle].get();
 
 }
 
@@ -38,7 +37,7 @@ void Game::Character::Update(float time)
 	m_CharacterState->Update(time);
 }
 
-void Game::Character::NewState(const std::string& newState)
+void Game::Character::NewState(const EState& newState)
 {
 	m_CharacterState->OnExit();
 

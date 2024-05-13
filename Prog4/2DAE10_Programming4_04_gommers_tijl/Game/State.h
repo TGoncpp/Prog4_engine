@@ -7,6 +7,15 @@ namespace Game
 	//-----------------------------------------
 	//INTERFACE
 	//---------------------------------------
+	enum class EState
+	{
+		idle,
+		walking,
+		falling,
+		dead,
+		respawn
+	};
+
 	class IState
 	{
 	public:

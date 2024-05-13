@@ -24,7 +24,6 @@ namespace TG
 		virtual void HandleInput(const glm::vec2&) {};
 		
 
-
 		//----------------------------------------
 		//TRANSFORM FUNCTIONS
 		void SetLocalPosition(float x, float y);

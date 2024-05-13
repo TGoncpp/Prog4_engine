@@ -12,7 +12,7 @@
 void Game::Idle::InputHandeling(const glm::vec2& direction)
 {
 	m_OwnerObject->SetDirection( direction);
-	m_OwnerObject->NewState("walking"); 
+	m_OwnerObject->NewState(EState::walking); 
 
 }
 
@@ -20,7 +20,7 @@ void Game::Idle::Update(float)
 {
 	if (m_OwnerObject->IsDead())
 	{
-		m_OwnerObject->NewState("dead");
+		m_OwnerObject->NewState(EState::dead);
 	}
 }
 
@@ -77,16 +77,16 @@ void Game::WalkingQbertState::Update(float time)
 		m_OwnerObject->UpdateGrid(false);
 		if (m_OwnerObject->IsDead())
 		{
-			m_OwnerObject->NewState("dead");
+			m_OwnerObject->NewState(EState::dead);
 			return;
 		}
 		if (m_OwnerObject->IsFalling())
 		{
-			m_OwnerObject->NewState("falling");
+			m_OwnerObject->NewState(EState::falling);
 			return;
 		}
 
-		m_OwnerObject->NewState("idle");
+		m_OwnerObject->NewState(EState::idle);
 	}
 	
 
@@ -123,7 +123,7 @@ void Game::Falling::Update(float time)
 	m_CurrentFallTime -= time;
 	if (m_CurrentFallTime <= 0.f)
 	{
-		m_OwnerObject->NewState("dead");
+		m_OwnerObject->NewState(EState::dead);
 	}
 }
 
@@ -143,7 +143,7 @@ void Game::Dead::Update(float time)
 	m_CurrentDieTime -= time;
 	if (m_CurrentDieTime <= 0.f)
 	{
-		m_OwnerObject->NewState("respawn");
+		m_OwnerObject->NewState(EState::respawn);
 	}
 }
 
@@ -175,7 +175,7 @@ void Game::ReSpawn::Update(float time)
 	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
 	{
 		m_OwnerObject->SetLocalPosition(m_StartPos);
-		m_OwnerObject->NewState("idle");
+		m_OwnerObject->NewState(EState::idle);
 	}
 }
 

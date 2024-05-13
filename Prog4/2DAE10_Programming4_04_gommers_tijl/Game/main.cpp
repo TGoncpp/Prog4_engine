@@ -53,7 +53,6 @@ void load()
 	go->AddComponent<TG::RenderComponent>(go.get(), "Textures/background.tga");
 
 	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 5.f } };
-
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
@@ -110,9 +109,6 @@ void load()
 	auto moveLeftSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(3), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
 
-
-
-
 	
 	////Character 2
 	////inputMapping
@@ -124,17 +120,7 @@ void load()
 	//input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, true);
 	//auto moveLeft2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ -1.f, 0.f });
 	//input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, true);
-	////ActionInput
-	//PickUpDirt = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(5), TG::LootType::dirt);
-	//input.InputBinding(std::move(PickUpDirt), XINPUT_GAMEPAD_X, EInputType::pressed, true);
-	//PickUpSilver = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(5), TG::LootType::silver);
-	//input.InputBinding(std::move(PickUpSilver), XINPUT_GAMEPAD_Y, EInputType::pressed, true);
-	//PickUpGold = std::make_unique<TG::PickUp>(scene.GetObjectByIndex(5), TG::LootType::gold);
-	//input.InputBinding(std::move(PickUpGold), XINPUT_GAMEPAD_B, EInputType::pressed, true);
-	//hit = std::make_unique<TG::Hit>(scene.GetObjectByIndex(5), scene.GetObjectByIndex(2));
-	//input.InputBinding(std::move(hit), XINPUT_GAMEPAD_A, EInputType::pressed, true);
-
-
+	
 }
 
 int main(int, char* [])

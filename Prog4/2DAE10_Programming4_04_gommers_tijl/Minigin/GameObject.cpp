@@ -3,7 +3,6 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include <algorithm>
-//#include "BaseComponent.h"
 #include "RenderComponent.h"
 
 void TG::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
