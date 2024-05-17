@@ -71,7 +71,11 @@ void load()
 	grid->SetSubject(npcGreen.get());
 	npcGreen->UpdateGrid(false);
 
-	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition);
+	disc->SetStartLocation(7, false, cubeSize);
+
+	auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition);
+	disc2->SetStartLocation(5, true, cubeSize);
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -87,6 +91,7 @@ void load()
 	scene.Add(std::move(npcGreen));
 	scene.Add(std::move(IS));
 	scene.Add(std::move(disc));
+	scene.Add(std::move(disc2));
 		
 	
 

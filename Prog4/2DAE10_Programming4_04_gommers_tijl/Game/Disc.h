@@ -6,7 +6,7 @@ namespace Game
 	class Disc : public TG::GameObject
 	{
 	public:
-		Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gridTop, const glm::vec2& offset);
+		Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gridTop);
 		~Disc()                      = default;
 		Disc(Disc&&)                 = delete;
 		Disc(const Disc&)            = delete;

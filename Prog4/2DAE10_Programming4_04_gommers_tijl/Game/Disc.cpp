@@ -3,12 +3,11 @@
 #include "SpriteComponent.h"
 #include "Texture2D.h"
 
-Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gridTop, const glm::vec2& offset)
+Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gridTop)
 {
 	const std::pair<int, int> spriteRowsColums{ textureSPTR->GetSpriteRowColum() };
 	int texWidth{ textureSPTR->GetSize().x / (spriteRowsColums.second) };
 	m_EndPos = glm::vec2{ gridTop.x - texWidth/2.f, gridTop.y + textureSPTR->GetSize().y / 2.f } - glm::vec2{ 0.f, m_HeightAbove };
-	SetStartLocation(7, false, offset);
 	
 	//Add components
 	AddComponent<Game::MovementComponent>(this);
@@ -18,7 +17,6 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 	auto spriteComp = GetComponent<TG::SpriteComponent>();
 	spriteComp->SetTimePerFrame (0.05f);
 	auto MoveComp = GetComponent<MovementComponent>();
-	MoveComp->SetTargetLocation(m_EndPos);
 	MoveComp->SetMovementSpeed(40.f);
 
 
@@ -34,6 +32,11 @@ void Game::Disc::SetStartLocation(int depth, bool isLeft, const glm::vec2& offse
 	{
 		m_StartPos = TG::Transform::CalculateGridPosition( 0, depth, offset, m_EndPos);
 	}
-
 	SetLocalPosition(m_StartPos);
+
+	if (CheckComponent<MovementComponent>())
+	{
+		auto MoveComp = GetComponent<MovementComponent>();
+		MoveComp->SetTargetLocation(m_EndPos);
+	}
 }
