@@ -28,6 +28,7 @@ namespace Game
 
 		virtual void HandleInput(const glm::vec2& direction)override;
 		virtual void Update(float time)override;
+		virtual void FixedUpdate(float)override {};
 
 		void UpdateGrid(bool isMoving);
 		void NewState(const EState& newState);

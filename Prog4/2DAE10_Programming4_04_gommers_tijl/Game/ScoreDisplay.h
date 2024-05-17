@@ -5,11 +5,11 @@
 #include <memory>
 
 
-namespace TG
+namespace Game
 {
 	enum class LootType;
 
-	class ScoreDisplay final : public IObserver<LootType>, public BaseComponent
+	class ScoreDisplay final : public TG::IObserver<LootType>, public TG::BaseComponent
 	{
 	public:
 		ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner);
@@ -29,7 +29,7 @@ namespace TG
 
 	private:
 		TG::GameObject* m_SubjectOwnrPtr;
-		TextComponent* m_TextCompUPtr;
+		TG::TextComponent* m_TextCompUPtr;
 		int m_Score{};
 		void UpdateScore(const LootType& loot);
 		std::string UpdateMessage();

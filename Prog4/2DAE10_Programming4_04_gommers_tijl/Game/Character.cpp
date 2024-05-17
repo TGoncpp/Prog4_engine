@@ -13,7 +13,7 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	SetLocalPosition(posOnCube);
 
 	//Add components
-	AddComponent<TG::MovementComponent>(this, glm::vec2{0.f, 0.f}, jumpOffset, gridSize);
+	AddComponent<Game::MovementComponent>(this, glm::vec2{0.f, 0.f}, jumpOffset, gridSize);
 	AddComponent<TG::RenderComponent>(this, textureSPTR);
 	AddComponent<TG::SpriteComponent>(this, spriteRowsColums.second, spriteRowsColums.first, false);
 

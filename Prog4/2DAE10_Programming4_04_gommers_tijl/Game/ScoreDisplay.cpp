@@ -3,7 +3,7 @@
 #include "LootComponent.h"
 #include <sdl_mixer.h>
 
-TG::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner)
+Game::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner)
 	:BaseComponent(owner),
 	IObserver<LootType>(),
 	m_SubjectOwnrPtr{subjectOwner}
@@ -11,13 +11,13 @@ TG::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwn
 	if (m_SubjectOwnrPtr->CheckComponent<LootComponent>())
 		m_SubjectOwnrPtr->GetComponent<LootComponent>()->OnScoreChange.AddObserver(this);
 
-	m_TextCompUPtr = m_OwnerPTR->GetComponent<TextComponent>();
+	m_TextCompUPtr = m_OwnerPTR->GetComponent<TG::TextComponent>();
 	if (m_TextCompUPtr)
 		m_TextCompUPtr->SetText(UpdateMessage());
 }
 
 //ObserverFunction
-void TG::ScoreDisplay::Notify(LootType loot)
+void Game::ScoreDisplay::Notify(LootType loot)
 {
 	UpdateScore(loot);
 
@@ -26,12 +26,12 @@ void TG::ScoreDisplay::Notify(LootType loot)
 }
 
 //ObserverFunction
-void TG::ScoreDisplay::OnSubjectDestroy()
+void Game::ScoreDisplay::OnSubjectDestroy()
 {
 	m_SubjectOwnrPtr = nullptr;
 }
 
-void TG::ScoreDisplay::UpdateScore(const LootType& loot)
+void Game::ScoreDisplay::UpdateScore(const LootType& loot)
 {
 	switch (loot)
 	{
@@ -53,7 +53,7 @@ void TG::ScoreDisplay::UpdateScore(const LootType& loot)
 	}
 }
 
-std::string TG::ScoreDisplay::UpdateMessage()
+std::string Game::ScoreDisplay::UpdateMessage()
 {
 	std::string newScoreMessage;
 	newScoreMessage += m_SubjectOwnrPtr->GetName();

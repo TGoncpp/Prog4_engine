@@ -3,10 +3,10 @@
 
 class TG::Transform;
 
-namespace TG
+namespace Game
 {
 
-	class MovementComponent final : public BaseComponent
+	class MovementComponent final : public TG::BaseComponent
 	{
 	public:
 		MovementComponent(TG::GameObject* ownerObjRefrence, const glm::vec2& startIndx, const glm::vec2& cubeMeassures, int gridSize);

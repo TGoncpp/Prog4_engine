@@ -1,6 +1,5 @@
 #include "State.h"
 #include "character.h"
-#include "SpriteComponent.h"
 #include "MovementComponent.h"
 #include "Transform.h"
 #include "serviceLocator.h"
@@ -28,6 +27,28 @@ void Game::Idle::Update(float)
 //-------------------------------------------
 //wALKING
 //---------------------------------------------
+
+Game::WalkingState::WalkingState(Character* owner)
+	:State(owner)
+{
+	if (m_OwnerObject->CheckComponent<MovementComponent>())
+	{
+		m_MoveComp = m_OwnerObject->GetComponent<MovementComponent>();
+	}
+	else
+	{
+		throw("no valid movementComponent");
+	}
+
+	if (m_OwnerObject->CheckComponent<TG::SpriteComponent>())
+	{
+		m_SpriteComp = m_OwnerObject->GetComponent<TG::SpriteComponent>();
+	}
+	else
+	{
+		throw("no valid spriteComponent");
+	}
+}
 void Game::WalkingQbertState::InputHandeling(const glm::vec2& )
 {
 	//No input allowed
@@ -53,10 +74,8 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 		frame = 3;
 	}
 
-	if (m_OwnerObject->CheckComponent<TG::SpriteComponent>())
-		m_OwnerObject->GetComponent<TG::SpriteComponent>()->UpdateFrame(frame);
-	if (m_OwnerObject->CheckComponent<TG::MovementComponent>())
-		m_OwnerObject->GetComponent<TG::MovementComponent>()->SetTargetLocation(direction);
+	m_SpriteComp->UpdateFrame(frame);
+	m_MoveComp->SetTargetLocation(direction);
 	m_OwnerObject->UpdateGrid(true);
 	m_OwnerObject->UpdateGridPosition(direction);
 
@@ -65,12 +84,8 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 
 void Game::WalkingQbertState::Update(float time)
 {
-	if (!m_OwnerObject->CheckComponent<TG::MovementComponent>())
-	{
-		std::cout << "no vallid movementComponent\n";
-		return;
-	}
-	auto comp = m_OwnerObject->GetComponent<TG::MovementComponent>();
+	
+	auto comp = m_OwnerObject->GetComponent<MovementComponent>();
 	comp->FixedUpdate(time);
 	if (comp->StoppedMoving() )
 	{
@@ -88,8 +103,6 @@ void Game::WalkingQbertState::Update(float time)
 
 		m_OwnerObject->NewState(EState::idle);
 	}
-	
-
 }
 
 void Game::WalkingQbertState::OnExit()

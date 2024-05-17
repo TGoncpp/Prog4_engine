@@ -3,7 +3,7 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 
-namespace TG
+namespace Game
 {
 	enum class LootType
 	{
@@ -12,11 +12,11 @@ namespace TG
 		dirt
 	};
 
-	class LootComponent final : public BaseComponent
+	class LootComponent final : public TG::BaseComponent
 	{
 	public:
 		LootComponent(TG::GameObject* owner)
-			:BaseComponent(owner)
+			:TG::BaseComponent(owner)
 		{
 		}
 		virtual ~LootComponent()
@@ -29,7 +29,7 @@ namespace TG
 		LootComponent(LootComponent&&)                 = delete;
 
 
-		Subject<LootType> OnScoreChange;
+		TG::Subject<LootType> OnScoreChange;
 
 		virtual void Update(float ) {  };
 		virtual void FixedUpdate(float ) {  };

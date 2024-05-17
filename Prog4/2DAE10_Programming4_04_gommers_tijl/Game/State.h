@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <spriteComponent.h>
 
 namespace Game
 {
@@ -49,16 +50,18 @@ namespace Game
 
 	//WALKING
 	//---------------------------------------
+	class MovementComponent;
 	class WalkingState : public State
 	{
 	public:
-		WalkingState(Character* owner)
-			:State(owner) {}
+		WalkingState(Character* owner);
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual Update(float)override;
 		void virtual OnExit()override{};
-
+	protected:
+		MovementComponent* m_MoveComp{};
+		TG::SpriteComponent* m_SpriteComp{};
 	};
 
 	class WalkingQbertState : public WalkingState
@@ -70,6 +73,7 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override;
 		void virtual OnExit()override ;
+
 	};
 	
 	//IDLE

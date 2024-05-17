@@ -45,18 +45,18 @@ void Game::Grid::Render() const
 	}
 }
 
-void Game::Grid::Update(float time)
-{
-	if (!m_IsLevelFinished)return;
-
-	for (const auto& lines : m_vGrid)
-	{
-		for (const auto& cube : lines)
-		{
-			cube->Update(time);
-		}
-	}
-}
+//void Game::Grid::Update(float time)
+//{
+//	if (!m_IsLevelFinished)return;
+//
+//	for (const auto& lines : m_vGrid)
+//	{
+//		for (const auto& cube : lines)
+//		{
+//			cube->Update(time);
+//		}
+//	}
+//}
 
 glm::vec2 Game::Grid::GetCubeSize() const
 {

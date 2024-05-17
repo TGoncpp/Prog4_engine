@@ -205,8 +205,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthDislplay.cpp" />
+    <ClCompile Include="LootComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +219,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthDisplay.h" />
+    <ClInclude Include="LootComponent.h" />
+    <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
