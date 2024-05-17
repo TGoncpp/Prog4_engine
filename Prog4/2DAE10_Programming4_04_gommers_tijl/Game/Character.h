@@ -18,7 +18,7 @@ namespace Game
 	class Character : public TG::GameObject, public TG::IObserver<const EState&>
 	{
 	public:
-		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSizent);
+		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset);
 		Character()                            = default;
 		~Character()                           = default;
 		Character& operator=(const Character&) = delete;

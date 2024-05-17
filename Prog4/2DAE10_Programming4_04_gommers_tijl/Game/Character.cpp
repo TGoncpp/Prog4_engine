@@ -6,14 +6,14 @@
 
 #include<iostream>
 
-Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSize)
+Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset)
 {
 	const std::pair<int, int> spriteRowsColums{ textureSPTR->GetSpriteRowColum()};
 	glm::vec2 posOnCube{ gridPosition.x - (textureSPTR->GetSize().x / (spriteRowsColums.second * 2.f)), gridPosition.y - (textureSPTR->GetSize().y/ spriteRowsColums.first) + jumpOffset.y /**1.4f*/ };
 	SetLocalPosition(posOnCube);
 
 	//Add components
-	AddComponent<Game::MovementComponent>(this, glm::vec2{0.f, 0.f}, jumpOffset, gridSize);
+	AddComponent<Game::MovementComponent>(this, jumpOffset);
 	AddComponent<TG::RenderComponent>(this, textureSPTR);
 	AddComponent<TG::SpriteComponent>(this, spriteRowsColums.second, spriteRowsColums.first, false);
 
@@ -61,7 +61,7 @@ void Game::Character::Update(float time)
 
 void Game::Character::UpdateGridPosition(const glm::vec2& direction)
 {
-	m_GridPostion.first -= static_cast<int>(direction.y);
+	m_GridPostion.first  -= static_cast<int>(direction.y);
 	m_GridPostion.second += static_cast<int>(direction.x);
 }
 
@@ -74,9 +74,7 @@ void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const gl
 {
 	m_GridPostion = std::make_pair(toLeft, ToBelow);
 	glm::vec2 oldPos{ GetLocalPosition() };
-	glm::vec2 jumpOffsetLeft{ -jumpOffset.x, jumpOffset.y };
-	glm::vec2 newPos; 
-	newPos = oldPos + static_cast<float>(ToBelow) * jumpOffset + static_cast<float>(toLeft) * jumpOffsetLeft;
+	glm::vec2 newPos{ TG::Transform::CalculateGridPosition(toLeft, ToBelow, jumpOffset, oldPos) };
 
 	SetLocalPosition(newPos);
 }

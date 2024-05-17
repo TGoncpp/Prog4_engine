@@ -87,7 +87,7 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 	}
 
 	m_SpriteComp->UpdateFrame(frame);
-	m_MoveComp->SetTargetLocation(direction);
+	m_MoveComp->SetTargetLocationIndex(direction);
 	m_OwnerObject->UpdateGrid(true);
 	m_OwnerObject->UpdateGridPosition(direction);
 

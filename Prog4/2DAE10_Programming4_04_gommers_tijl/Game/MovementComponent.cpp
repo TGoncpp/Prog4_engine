@@ -2,17 +2,15 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-Game::MovementComponent::MovementComponent(TG::GameObject* ownerObjRefrence, const glm::vec2& startIndx, const glm::vec2& cubeMeassures, int gridSize)
+Game::MovementComponent::MovementComponent(TG::GameObject* ownerObjRefrence, const glm::vec2& cubeMeassures)
 	:BaseComponent(ownerObjRefrence),
-	m_JumpOffset{ cubeMeassures },
-	m_LocationIndex{ startIndx },
-	m_GridSize{gridSize}
+	m_JumpOffset{ cubeMeassures }
 	
 {
 	m_NormalisedDirection = glm::normalize(cubeMeassures);
 }
 
-void Game::MovementComponent::SetTargetLocation(const glm::vec2& direction)
+void Game::MovementComponent::SetTargetLocationIndex(const glm::vec2& direction)
 {
 	if (m_IsMoving)return;
 	m_IsMoving = true;
@@ -26,7 +24,23 @@ void Game::MovementComponent::SetTargetLocation(const glm::vec2& direction)
 	TG::Transform::SetDirection(m_JumpOffset, offsetDirection);
 	m_TargetPosition = currentPosition + m_JumpOffset;
 
-	
+}
+
+void Game::MovementComponent::SetTargetLocation(const glm::vec2& target)
+{
+	if (m_IsMoving)return;
+	m_IsMoving = true;
+
+	glm::vec2 currentPosition{ m_OwnerPTR->GetLocalPosition() };
+
+	m_JumpOffset = target - currentPosition;
+	m_NormalisedDirection = glm::normalize(m_JumpOffset);
+	m_TargetPosition = target;
+}
+
+void Game::MovementComponent::SetMoveOffset(const glm::vec2& offset)
+{
+	m_JumpOffset = offset;
 }
 
 void Game::MovementComponent::FixedUpdate(float dt)

@@ -24,6 +24,7 @@
 #include "ServiceLocator.h"
 #include "Grid.h"
 #include "NPC.h"
+#include "Disc.h"
 
 #include <iostream>
 
@@ -41,6 +42,7 @@ void load()
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
 	auto samTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale, std::pair<int, int>(2, 2));
+	auto DiscTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Disk Spritesheet.png", true, worldScale, std::pair<int, int>(1, 30));
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -56,19 +58,20 @@ void load()
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
-	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize, gridSize);
+	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize);
 	grid->SetSubject(character.get());
 
-	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, gridSize, Game::ECharacterType::purple);
+	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetSubject(npc.get());
 	npc->UpdateGrid(false);
 	
-	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, gridSize, Game::ECharacterType::green);
+	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green);
 	npcGreen.get()->SetPositionOnGridByIndex(3, 1, cubeSize);
 	grid->SetSubject(npcGreen.get());
 	npcGreen->UpdateGrid(false);
 
+	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -83,6 +86,7 @@ void load()
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
 	scene.Add(std::move(IS));
+	scene.Add(std::move(disc));
 		
 	
 

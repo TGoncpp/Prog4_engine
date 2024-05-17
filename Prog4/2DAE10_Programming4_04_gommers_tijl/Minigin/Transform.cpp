@@ -20,3 +20,10 @@ void TG::Transform::SetDirection(glm::vec2& normalisedDirection, const glm::vec2
 	if (normalisedDirection.y * newDirection.y < 0)
 		normalisedDirection.y *= -1;
 }
+
+glm::vec2 TG::Transform::CalculateGridPosition(int left, int down, const glm::vec2& jumpSize, const glm::vec2& startPos)
+{
+	glm::vec2 jumpOffsetLeft{ -jumpSize.x, jumpSize.y };
+	return  startPos + static_cast<float>(down) * jumpSize + static_cast<float>(left) * jumpOffsetLeft;
+	
+}
