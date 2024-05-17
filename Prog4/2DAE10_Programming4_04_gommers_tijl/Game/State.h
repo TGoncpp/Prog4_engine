@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <spriteComponent.h>
+#include <subject.h>
 
 namespace Game
 {
@@ -27,6 +28,7 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&) = 0;
 		void virtual Update(float) = 0;
 		void virtual OnExit() = 0;
+		TG::Subject<const EState&> OnStateSwitch{};
 	protected:
 
 		Character* m_OwnerObject{};
@@ -34,12 +36,11 @@ namespace Game
 
 	//-----------------------------------------
 	//STATES
-	//---------------------------------------
+	//-----------------------------------------
 	class State : public IState
 	{
 	public:
-		State(Character* owner)
-			:IState{owner}{}
+		State(Character* owner);
 		
 		void virtual InputHandeling(const glm::vec2&) {};
 		void virtual OnEnter(const glm::vec2&){};

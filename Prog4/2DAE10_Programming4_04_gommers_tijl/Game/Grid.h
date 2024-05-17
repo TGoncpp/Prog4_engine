@@ -17,7 +17,7 @@ namespace Game
 
 		//Components
 		virtual void Render()const override;
-		//virtual void Update(float time) override;
+		virtual void Update(float time) override;
 
 		//IObserver
 		virtual void Notify(Character* object, bool isMoving)override;

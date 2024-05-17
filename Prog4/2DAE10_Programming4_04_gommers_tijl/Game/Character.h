@@ -15,7 +15,7 @@ namespace Game
 
 	};
 	
-	class Character : public TG::GameObject
+	class Character : public TG::GameObject, public TG::IObserver<const EState&>
 	{
 	public:
 		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset, int gridSizent);
@@ -26,14 +26,15 @@ namespace Game
 		Character(const Character&)            = delete;
 		Character(Character&&)                 = delete;
 
+		//GameObject
 		virtual void HandleInput(const glm::vec2& direction)override;
 		virtual void Update(float time)override;
 		virtual void FixedUpdate(float)override {};
 
 		void UpdateGrid(bool isMoving);
-		void NewState(const EState& newState);
+		//void NewState(const EState& newState);
 		void SetDirection(const glm::vec2& newDirection);
-		bool UpdateGridPosition(const glm::vec2& direction);
+		void UpdateGridPosition(const glm::vec2& direction);
 
 		TG::Subject<Character*, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
@@ -48,18 +49,22 @@ namespace Game
 		bool IsFalling()const                      { return m_IsFalling; }
 
 	protected:
+
 		glm::vec2 m_Direction{};
 		ECharacterType m_Type{ ECharacterType::red };
 		std::map <EState ,std::unique_ptr<State>> m_PossibleStates;
+		State* m_CharacterState{ nullptr };
 
 	private:
 		std::pair<int, int> m_GridPostion;
-		State* m_CharacterState{ nullptr };
 		int m_Health{ 3 };
 		int m_Score{ 0 };
 		bool m_IsDead{ false };
 		bool m_IsFalling{ false };
 
+		//IObserver
+		virtual void Notify(const EState&)override;
+		virtual void OnSubjectDestroy()override;
 
 		void SetCharacterType(const ECharacterType& newType);
 	};

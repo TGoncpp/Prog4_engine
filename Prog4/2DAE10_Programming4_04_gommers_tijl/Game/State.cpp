@@ -5,13 +5,22 @@
 #include "serviceLocator.h"
 #include <iostream>
 
+
+Game::State::State(Character* owner)
+	:IState{ owner } 
+{
+}
+
+
 //-------------------------------------------
 //IDLE
 //---------------------------------------------
 void Game::Idle::InputHandeling(const glm::vec2& direction)
 {
 	m_OwnerObject->SetDirection( direction);
-	m_OwnerObject->NewState(EState::walking); 
+	OnStateSwitch.OnNotifyAll(EState::walking);
+	OnExit();
+	//m_OwnerObject->NewState(EState::walking); 
 
 }
 
@@ -19,7 +28,9 @@ void Game::Idle::Update(float)
 {
 	if (m_OwnerObject->IsDead())
 	{
-		m_OwnerObject->NewState(EState::dead);
+		//m_OwnerObject->NewState(EState::dead);
+		OnStateSwitch.OnNotifyAll(EState::dead);
+		OnExit();
 	}
 }
 
@@ -49,6 +60,7 @@ Game::WalkingState::WalkingState(Character* owner)
 		throw("no valid spriteComponent");
 	}
 }
+
 void Game::WalkingQbertState::InputHandeling(const glm::vec2& )
 {
 	//No input allowed
@@ -85,23 +97,28 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 void Game::WalkingQbertState::Update(float time)
 {
 	
-	auto comp = m_OwnerObject->GetComponent<MovementComponent>();
-	comp->FixedUpdate(time);
-	if (comp->StoppedMoving() )
+	m_MoveComp->FixedUpdate(time);
+	if (m_MoveComp->StoppedMoving() )
 	{
 		m_OwnerObject->UpdateGrid(false);
 		if (m_OwnerObject->IsDead())
 		{
-			m_OwnerObject->NewState(EState::dead);
+			//m_OwnerObject->NewState(EState::dead);
+			OnStateSwitch.OnNotifyAll(EState::dead);
+			OnExit();
 			return;
 		}
 		if (m_OwnerObject->IsFalling())
 		{
-			m_OwnerObject->NewState(EState::falling);
+			//_OwnerObject->NewState(EState::falling);
+			OnStateSwitch.OnNotifyAll(EState::falling);
+			OnExit();
 			return;
 		}
 
-		m_OwnerObject->NewState(EState::idle);
+		//m_OwnerObject->NewState(EState::idle);
+		OnStateSwitch.OnNotifyAll(EState::idle);
+		OnExit();
 	}
 }
 
@@ -136,7 +153,9 @@ void Game::Falling::Update(float time)
 	m_CurrentFallTime -= time;
 	if (m_CurrentFallTime <= 0.f)
 	{
-		m_OwnerObject->NewState(EState::dead);
+		//m_OwnerObject->NewState(EState::dead);
+		OnStateSwitch.OnNotifyAll(EState::dead);
+		OnExit();
 	}
 }
 
@@ -156,7 +175,9 @@ void Game::Dead::Update(float time)
 	m_CurrentDieTime -= time;
 	if (m_CurrentDieTime <= 0.f)
 	{
-		m_OwnerObject->NewState(EState::respawn);
+		//m_OwnerObject->NewState(EState::respawn);
+		OnStateSwitch.OnNotifyAll(EState::respawn);
+		OnExit();
 	}
 }
 
@@ -188,7 +209,9 @@ void Game::ReSpawn::Update(float time)
 	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
 	{
 		m_OwnerObject->SetLocalPosition(m_StartPos);
-		m_OwnerObject->NewState(EState::idle);
+		//m_OwnerObject->NewState(EState::idle);
+		OnStateSwitch.OnNotifyAll(EState::idle);
+		OnExit();
 	}
 }
 

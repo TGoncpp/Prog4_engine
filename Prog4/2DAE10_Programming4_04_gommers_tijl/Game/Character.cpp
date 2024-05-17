@@ -19,12 +19,34 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 
 	//Add States
 	m_PossibleStates.insert(std::make_pair(EState::idle, std::make_unique<Idle>(this)));
+	m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::walking, std::make_unique<WalkingQbertState>(this)));
+	m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::falling, std::make_unique<Falling>(this, 2.f)));
+	m_PossibleStates[EState::falling]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::dead, std::make_unique<Dead>(this, 1.f)));
+	m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::respawn, std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
+	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
 	m_CharacterState = m_PossibleStates[EState::idle].get();
+}
 
+void Game::Character::Notify(const EState& state)
+{
+	if (m_PossibleStates.contains(state))
+	{
+		m_CharacterState = m_PossibleStates[state].get();
+		m_CharacterState->OnEnter(m_Direction);
+	}
+	else
+	{
+		std::cout << "does not contain new state\n";
+	}
+}
+
+void Game::Character::OnSubjectDestroy()
+{
+	//m_PossibleStates[EState::dead]->OnStateSwitch.RemoveObserver(this);
 }
 
 void Game::Character::HandleInput(const glm::vec2& direction)
@@ -37,26 +59,10 @@ void Game::Character::Update(float time)
 	m_CharacterState->Update(time);
 }
 
-void Game::Character::NewState(const EState& newState)
-{
-	m_CharacterState->OnExit();
-
-	if (m_PossibleStates.contains(newState))
-	{
-		m_CharacterState = m_PossibleStates[newState].get();
-		m_CharacterState->OnEnter(m_Direction);
-	}
-	else
-	{
-		std::cout << "does not contain new state\n";
-	}
-}
-
-bool Game::Character::UpdateGridPosition(const glm::vec2& direction)
+void Game::Character::UpdateGridPosition(const glm::vec2& direction)
 {
 	m_GridPostion.first -= static_cast<int>(direction.y);
 	m_GridPostion.second += static_cast<int>(direction.x);
-	return m_GridPostion.first + m_GridPostion.second > 7;
 }
 
 void Game::Character::UpdateGrid(bool isMoving)
@@ -117,3 +123,19 @@ void Game::Character::ResetLife()
 	m_GridPostion = std::make_pair(0, 0);
 	UpdateGrid(false);
 }
+
+//void Game::Character::NewState(const EState& newState)
+//{
+//	m_CharacterState->OnExit();
+//
+//	if (m_PossibleStates.contains(newState))
+//	{
+//		m_CharacterState = m_PossibleStates[newState].get();
+//		m_CharacterState->OnEnter(m_Direction);
+//	}
+//	else
+//	{
+//		std::cout << "does not contain new state\n";
+//	}
+//}
+
