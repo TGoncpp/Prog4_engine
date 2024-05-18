@@ -12,9 +12,9 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 	m_EndPos = glm::vec2{ gridTop.x - texWidth/2.f, gridTop.y + textureSPTR->GetSize().y / 2.f } - glm::vec2{ 0.f, m_HeightAbove };
 	
 	//Set random start position
-	m_Depth   = rand() % 8;
+	m_Depth   = rand() % 7;
 	m_IsLeft = (rand() % 100) % 2 == 0;
-	SetStartLocation(3, m_IsLeft, offset);
+	SetStartLocation(m_Depth, m_IsLeft, offset);
 
 	//Add components
 	AddComponent<Game::MovementComponent>(this);
@@ -32,13 +32,14 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 
 void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 {
-	m_Visiter = character;
+	
 	if (JumpedOnDisc(location))
 	{
 		character->SetParent(this, true);
 		character->HandleInput(glm::vec2{0.f,0.f});
+		m_Visiter = character;
 	}
-	else
+	else if (m_Visiter == nullptr)
 	{
 		character->JumpOfGrid();
 	}
@@ -48,7 +49,7 @@ void Game::Disc::Notify()
 {
 	m_Visiter->SetParent(nullptr, true);
 	m_Visiter->HandleInput(glm::vec2{ 1.f,1.f });
-
+	//m_Visiter = nullptr;
 }
 
 void Game::Disc::OnSubjectDestroy()
@@ -77,8 +78,8 @@ void Game::Disc::SetStartLocation(int depth, bool isLeft, const glm::vec2& offse
 
 bool Game::Disc::JumpedOnDisc(std::pair<int, int> newPosition)
 {
-	if (   ( m_IsLeft && newPosition.first == m_Depth + 1 && newPosition.second == -1)
-		|| (!m_IsLeft && newPosition.second == m_Depth + 1 && newPosition.first == -1))
+	if (   ( m_IsLeft && newPosition.first == m_Depth - 1 && newPosition.second == -1)
+		|| (!m_IsLeft && newPosition.second == m_Depth - 1 && newPosition.first == -1))
 	{
 		ActivateDisc();
 		return true;

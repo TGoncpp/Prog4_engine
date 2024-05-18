@@ -55,7 +55,9 @@ void Game::Idle::Update(float)
 
 Game::WalkingState::WalkingState(Character* owner)
 	:State(owner)
+
 {
+	m_Type = EState::walking;
 	if (m_OwnerObject->CheckComponent<MovementComponent>())
 	{
 		m_MoveComp = m_OwnerObject->GetComponent<MovementComponent>();
@@ -134,21 +136,21 @@ void Game::WalkingQbertState::FixedUpdate(float time)
 		if (m_OwnerObject->IsDead())
 		{
 			//m_OwnerObject->NewState(EState::dead);
-			OnStateSwitch.OnNotifyAll(EState::dead);
 			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::dead);
 			return;
 		}
 		if (m_OwnerObject->IsFalling())
 		{
 			//_OwnerObject->NewState(EState::falling);
-			OnStateSwitch.OnNotifyAll(EState::falling);
 			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::falling);
 			return;
 		}
 
 		//m_OwnerObject->NewState(EState::idle);
-		OnStateSwitch.OnNotifyAll(EState::idle);
 		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
 	}
 }
 

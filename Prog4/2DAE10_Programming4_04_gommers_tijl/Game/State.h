@@ -50,6 +50,9 @@ namespace Game
 		void virtual FixedUpdate(float){};
 		void virtual OnExit(){};
 
+		EState GetState()const { return m_Type; }
+	protected:
+		EState m_Type{ };
 	};
 
 	//WALKING
@@ -88,11 +91,15 @@ namespace Game
 	{
 	public:
 		Idle(Character* owner)
-			:State(owner) {}
+			:State(owner) 
+		{
+			m_Type = EState::idle ;
+		}
 		void virtual InputHandeling(const glm::vec2& direction)override ;
 		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual Update(float)override;
 		void virtual OnExit()override{};
+
 	};
 
 	//LIFT
@@ -101,7 +108,10 @@ namespace Game
 	{
 	public:
 		Lift(Character* owner)
-			:State(owner) {}
+			:State(owner) 
+		{
+			m_Type = EState::lift ;
+		}
 		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual OnExit()override{};
 	};
@@ -112,7 +122,10 @@ namespace Game
 	{
 	public:
 		Dead(Character* owner, float timeToDie)
-			:State(owner), m_TimeToDie{ timeToDie } {}
+			:State(owner), m_TimeToDie{ timeToDie } 
+		{
+			m_Type = EState::dead ;
+		}
 		void virtual InputHandeling(const glm::vec2&)override {};
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
@@ -137,7 +150,10 @@ namespace Game
 	{
 	public:
 		Falling(Character* owner, float fallTime)
-			:State(owner), m_FallTime{ fallTime } {}
+			:State(owner), m_FallTime{ fallTime } 
+		{
+			m_Type = EState::falling;
+		}
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
@@ -155,9 +171,12 @@ namespace Game
 	{
 	public:
 		ReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight)
-			:State(owner), 
+			:State(owner),
 			m_StartPos{ startPosition },
-			m_SpawnHeight{ respawnHeight } {}
+			m_SpawnHeight{ respawnHeight } 
+		{
+			m_Type = EState::respawn;
+		}
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
@@ -166,6 +185,5 @@ namespace Game
 		const glm::vec2 m_StartPos;
 		glm::vec2 m_CurrentPos;
 		const float m_SpawnHeight{};
-
 	};
 }

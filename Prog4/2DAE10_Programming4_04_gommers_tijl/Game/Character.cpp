@@ -117,6 +117,7 @@ void Game::Character::SetDirection(const glm::vec2& newDirection)
 
 void Game::Character::JumpOfGrid()
 {
+	if (m_CharacterState->GetState() == EState::lift)return;
 	m_IsFalling = true;
 }
 
