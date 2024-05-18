@@ -100,7 +100,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	if (newPosition.first < 0 || newPosition.second < 0 ||
 		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
 	{
-		object->FallOfGrid();
+		//object->JumpOfGrid();
+		OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}
 	//remove character from the cube if moving

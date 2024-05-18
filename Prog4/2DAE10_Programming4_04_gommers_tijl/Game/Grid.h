@@ -26,6 +26,8 @@ namespace Game
 		glm::vec2 GetCubeSize()const;
 		void SetSubject(Game::Character* subjectToObserve);
 
+		TG::Subject < std::pair<int, int>,Character* > OnDiscInteraction;
+
 	private:
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;
 		glm::vec2 m_CubeSize{};

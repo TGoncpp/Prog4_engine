@@ -109,8 +109,10 @@ void Game::Character::SetDirection(const glm::vec2& newDirection)
 	m_Direction = newDirection;
 }
 
-void Game::Character::FallOfGrid()
+void Game::Character::JumpOfGrid()
 {
+
+
 	m_IsFalling = true;
 }
 
@@ -121,19 +123,4 @@ void Game::Character::ResetLife()
 	m_GridPostion = std::make_pair(0, 0);
 	UpdateGrid(false);
 }
-
-//void Game::Character::NewState(const EState& newState)
-//{
-//	m_CharacterState->OnExit();
-//
-//	if (m_PossibleStates.contains(newState))
-//	{
-//		m_CharacterState = m_PossibleStates[newState].get();
-//		m_CharacterState->OnEnter(m_Direction);
-//	}
-//	else
-//	{
-//		std::cout << "does not contain new state\n";
-//	}
-//}
 

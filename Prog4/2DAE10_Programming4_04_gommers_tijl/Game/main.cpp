@@ -71,11 +71,9 @@ void load()
 	grid->SetSubject(npcGreen.get());
 	npcGreen->UpdateGrid(false);
 
-	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition);
-	disc->SetStartLocation(7, false, cubeSize);
-
-	auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition);
-	disc2->SetStartLocation(5, true, cubeSize);
+	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	disc->SetSubject(grid.get());
+	//auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -83,41 +81,45 @@ void load()
 	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use Arrows to move red around, get points by killing the green character", font, glm::vec3{ 0.f, 20.f, 0.f });
 	IS->SetLocalPosition(5, 440);
 
-	//Add to scene
-	scene.Add(std::move(go));
-	scene.Add(std::move(grid));
-	scene.Add(std::move(character));
-	scene.Add(std::move(npc));
-	scene.Add(std::move(npcGreen));
-	scene.Add(std::move(IS));
-	scene.Add(std::move(disc));
-	scene.Add(std::move(disc2));
-		
 	
 
 	//----------------------------------------------------
 	//INPUT BINDING
 	//---------------------------------------------------
 	//inputMapping Character 1
-	auto moveUp = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, 1.f });
+	auto moveUp = std::make_unique<TG::Move>(character.get(), glm::vec2{0.f, 1.f});
 	input.InputBinding(std::move(moveUp), SDL_SCANCODE_UP, EInputType::pressed);
-	auto moveDown = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 0.f, -1.f });
+	auto moveDown = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });
 	input.InputBinding(std::move(moveDown), SDL_SCANCODE_DOWN, EInputType::pressed);
-	auto moveRight = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ 1.f, 0.f });
+	auto moveRight = std::make_unique<TG::Move>(character.get(), glm::vec2{ 1.f, 0.f });
 	input.InputBinding(std::move(moveRight), SDL_SCANCODE_RIGHT, EInputType::pressed);
-	auto moveLeft = std::make_unique<TG::Move>(scene.GetObjectByIndex(2), glm::vec2{ -1.f, 0.f });
+	auto moveLeft = std::make_unique<TG::Move>(character.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::pressed);
 
 	//inputMapping Snake
-	auto moveUpSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(4), glm::vec2{ 0.f, 1.f });
+	auto moveUpSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, 1.f });
 	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::pressed);
-	auto moveDownSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(4), glm::vec2{ 0.f, -1.f });
+	auto moveDownSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, -1.f });
 	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::pressed);
-	auto moveRightSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(4), glm::vec2{ 1.f, 0.f });
+	auto moveRightSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 1.f, 0.f });
 	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
-	auto moveLeftSnail = std::make_unique<TG::Move>(scene.GetObjectByIndex(4), glm::vec2{ -1.f, 0.f });
+	auto moveLeftSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
 
+
+	//----------------------------------------------------
+	//Add to scene
+	//----------------------------------------------------
+
+	scene.Add(std::move(go));
+	scene.Add(std::move(grid));
+	scene.Add(std::move(disc));
+	//scene.Add(std::move(disc2));
+	scene.Add(std::move(character));
+	scene.Add(std::move(npc));
+	scene.Add(std::move(npcGreen));
+	scene.Add(std::move(IS));
+		
 	
 	////Character 2
 	////inputMapping
