@@ -26,9 +26,11 @@ namespace TG
 		void SetSprite(int colum, int row);
 		void UpdateCurrentFrame(int frame);
 		void SetVisibility(bool isVisible);
+		void SetOffset(const glm::vec3& Offset);
 
 	private:
 		std::shared_ptr<Texture2D> m_TextureSPTR{};
+		glm::vec3 m_Offset{};
 		int m_Colum{ 1 };
 		int m_Row{ 1 };
 		int m_CurrentFrame{ -1 };

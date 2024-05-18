@@ -210,6 +210,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="QbertCharacter.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
@@ -224,6 +225,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="LootComponent.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="QbertCharacter.h" />
     <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>

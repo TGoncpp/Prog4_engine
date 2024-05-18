@@ -34,7 +34,7 @@ namespace Game
 		bool m_Visible{ true };
 
 		void SetStartLocation(int depth, bool isLeft, const glm::vec2& offset);
-		void ActivateDisc();
+		void ActivateDisc()const;
 		bool JumpedOnDisc(std::pair<int, int> newPosition);
 	};
 }

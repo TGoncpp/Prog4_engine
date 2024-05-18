@@ -28,8 +28,7 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::respawn, std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
-	m_PossibleStates.insert(std::make_pair(EState::lift, std::make_unique<Lift>(this)));
-	m_PossibleStates[EState::lift]->OnStateSwitch.AddObserver(this);
+	
 	m_CharacterState = m_PossibleStates[EState::idle].get();
 }
 

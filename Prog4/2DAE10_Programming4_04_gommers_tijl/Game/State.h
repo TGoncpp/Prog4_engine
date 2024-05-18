@@ -31,6 +31,8 @@ namespace Game
 		void virtual FixedUpdate(float) = 0;
 		void virtual OnExit() = 0;
 		TG::Subject<const EState&> OnStateSwitch{};
+		TG::Subject<bool> OnDead;
+
 	protected:
 
 		Character* m_OwnerObject{};
@@ -129,7 +131,7 @@ namespace Game
 		void virtual InputHandeling(const glm::vec2&)override {};
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
-		void virtual OnExit()override {};
+		void virtual OnExit()override ;
 	protected:
 		const float m_TimeToDie{};
 		float m_CurrentDieTime{};

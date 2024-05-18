@@ -23,7 +23,7 @@ void TG::RenderComponent::Render() const
 {
 	if (!m_TextureSPTR || !m_OwnerPTR || !m_IsVisseble)return;
 
-	glm::vec3 pos = m_OwnerPTR->GetWorldPosition();
+	glm::vec3 pos = m_OwnerPTR->GetWorldPosition() + m_Offset;
 	Renderer::GetInstance().RenderTexture(*m_TextureSPTR, pos.x, pos.y, m_Colum, m_Row, m_CurrentFrame);
 }
 
@@ -52,4 +52,9 @@ void TG::RenderComponent::UpdateCurrentFrame( int frame)
 void TG::RenderComponent::SetVisibility(bool isVisible)
 {
 	m_IsVisseble = isVisible;
+}
+
+void TG::RenderComponent::SetOffset(const glm::vec3& Offset)
+{
+	m_Offset = Offset;
 }

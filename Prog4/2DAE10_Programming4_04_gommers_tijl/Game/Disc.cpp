@@ -51,6 +51,7 @@ void Game::Disc::Notify()
 	m_Visiter->SetParent(nullptr, true);
 	m_Visiter->HandleInput(glm::vec2{ 1.f,1.f });
 	m_Visiter = nullptr;
+
 	if (CheckComponent<TG::RenderComponent>())
 	{
 		auto comp = GetComponent<TG::RenderComponent>();
@@ -93,7 +94,7 @@ bool Game::Disc::JumpedOnDisc(std::pair<int, int> newPosition)
 	return false;
 }
 
-void Game::Disc::ActivateDisc()
+void Game::Disc::ActivateDisc()const
 {
 	if (CheckComponent<MovementComponent>())
 	{

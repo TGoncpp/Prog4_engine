@@ -24,6 +24,7 @@
 #include "ServiceLocator.h"
 #include "Grid.h"
 #include "NPC.h"
+#include "QbertCharacter.h"
 #include "Disc.h"
 
 #include "time.h"
@@ -40,6 +41,7 @@ void load()
 	auto font         = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 16);
 	auto largeFont    = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 60);
 	auto cubeTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
+	auto CurseTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Curses.png", true, worldScale);
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
 	auto samTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale, std::pair<int, int>(2, 2));
@@ -59,7 +61,7 @@ void load()
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
-	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize);
+	auto character = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture, cubeSize, CurseTexture);
 	grid->SetGridSubject(character.get());
 
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
