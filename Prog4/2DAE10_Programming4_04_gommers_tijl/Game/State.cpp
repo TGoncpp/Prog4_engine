@@ -17,9 +17,23 @@ Game::State::State(Character* owner)
 //---------------------------------------------
 void Game::Idle::InputHandeling(const glm::vec2& direction)
 {
-	m_OwnerObject->SetDirection( direction);
-	OnStateSwitch.OnNotifyAll(EState::walking);
-	OnExit();
+	if (direction.x == 0 && direction.y == 0)
+	{
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::lift);
+	}
+	else if (direction.x == 1 && direction.y == 1)
+	{
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::respawn);
+	}
+	else
+	{
+		OnExit();
+		m_OwnerObject->SetDirection( direction);
+		OnStateSwitch.OnNotifyAll(EState::walking);
+	}
+
 	//m_OwnerObject->NewState(EState::walking); 
 
 }
@@ -29,8 +43,8 @@ void Game::Idle::Update(float)
 	if (m_OwnerObject->IsDead())
 	{
 		//m_OwnerObject->NewState(EState::dead);
-		OnStateSwitch.OnNotifyAll(EState::dead);
 		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::dead);
 	}
 }
 
@@ -61,9 +75,20 @@ Game::WalkingState::WalkingState(Character* owner)
 	}
 }
 
-void Game::WalkingQbertState::InputHandeling(const glm::vec2& )
+void Game::WalkingQbertState::InputHandeling(const glm::vec2& direction)
 {
-	//No input allowed
+	if (direction.x == 0 && direction.y == 0)
+	{
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::lift);
+		TG::Locator::getAudio().playSound("Disk Lift");
+
+	}
+	else if (direction.x == 1 && direction.y == 1)
+	{
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::respawn);
+	}
 }
 
 void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
@@ -94,11 +119,16 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 	TG::Locator::getAudio().playSound("Jump");
 }
 
-void Game::WalkingQbertState::Update(float time)
+void Game::WalkingQbertState::Update(float )
 {
 	
+	
+}
+
+void Game::WalkingQbertState::FixedUpdate(float time)
+{
 	m_MoveComp->FixedUpdate(time);
-	if (m_MoveComp->StoppedMoving() )
+	if (m_MoveComp->StoppedMoving())
 	{
 		m_OwnerObject->UpdateGrid(false);
 		if (m_OwnerObject->IsDead())
@@ -127,18 +157,14 @@ void Game::WalkingQbertState::OnExit()
 }
 
 
-void Game::WalkingState::Update(float)
-{
-
-}
 
 //-------------------------------------------
 //FALLING
 //---------------------------------------------
 void Game::Falling::OnEnter(const glm::vec2&)
 {
-	m_CurrentFallTime = m_FallTime;
-	m_FallPosition = m_OwnerObject->GetLocalPosition();
+	m_CurrentFallTime     = m_FallTime;
+	m_FallPosition        = m_OwnerObject->GetLocalPosition();
 	m_CurrentFallPosition = m_FallPosition;
 
 	TG::Locator::getAudio().playSound("Fall");

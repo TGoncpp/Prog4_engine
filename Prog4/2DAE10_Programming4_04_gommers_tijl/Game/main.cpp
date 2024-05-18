@@ -59,21 +59,22 @@ void load()
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
 	auto character = std::make_unique<Game::Character>(topCubePosition, QbertTexture, cubeSize);
-	grid->SetSubject(character.get());
+	grid->SetGridSubject(character.get());
 
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
-	grid->SetSubject(npc.get());
+	grid->SetGridSubject(npc.get());
 	npc->UpdateGrid(false);
 	
 	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green);
 	npcGreen.get()->SetPositionOnGridByIndex(3, 1, cubeSize);
-	grid->SetSubject(npcGreen.get());
+	grid->SetGridSubject(npcGreen.get());
 	npcGreen->UpdateGrid(false);
 
 	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
-	disc->SetSubject(grid.get());
-	//auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	disc->SetGridSubject(grid.get());
+	auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	disc2->SetGridSubject(grid.get());
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -114,7 +115,7 @@ void load()
 	scene.Add(std::move(go));
 	scene.Add(std::move(grid));
 	scene.Add(std::move(disc));
-	//scene.Add(std::move(disc2));
+	scene.Add(std::move(disc2));
 	scene.Add(std::move(character));
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));

@@ -15,7 +15,8 @@ namespace Game
 		walking,
 		falling,
 		dead,
-		respawn
+		respawn,
+		lift//only for red character
 	};
 
 	class IState
@@ -27,6 +28,7 @@ namespace Game
 		void virtual InputHandeling(const glm::vec2& ) = 0;
 		void virtual OnEnter(const glm::vec2&) = 0;
 		void virtual Update(float) = 0;
+		void virtual FixedUpdate(float) = 0;
 		void virtual OnExit() = 0;
 		TG::Subject<const EState&> OnStateSwitch{};
 	protected:
@@ -45,6 +47,7 @@ namespace Game
 		void virtual InputHandeling(const glm::vec2&) {};
 		void virtual OnEnter(const glm::vec2&){};
 		void virtual Update(float){};
+		void virtual FixedUpdate(float){};
 		void virtual OnExit(){};
 
 	};
@@ -58,7 +61,8 @@ namespace Game
 		WalkingState(Character* owner);
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override{};
-		void virtual Update(float)override;
+		void virtual Update(float)override {};
+		void virtual FixedUpdate(float)override {};
 		void virtual OnExit()override{};
 	protected:
 		MovementComponent* m_MoveComp{};
@@ -73,6 +77,7 @@ namespace Game
 		void virtual InputHandeling(const glm::vec2&)override ;
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override;
+		void virtual FixedUpdate(float)override;
 		void virtual OnExit()override ;
 
 	};
@@ -87,6 +92,17 @@ namespace Game
 		void virtual InputHandeling(const glm::vec2& direction)override ;
 		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual Update(float)override;
+		void virtual OnExit()override{};
+	};
+
+	//LIFT
+	//---------------------------------------
+	class Lift : public State
+	{
+	public:
+		Lift(Character* owner)
+			:State(owner) {}
+		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual OnExit()override{};
 	};
 	

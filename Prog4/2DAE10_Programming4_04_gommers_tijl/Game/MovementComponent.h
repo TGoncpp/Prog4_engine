@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "subject.h"
 
 class TG::Transform;
 
@@ -26,6 +27,7 @@ namespace Game
 		virtual void FixedUpdate(float dt) override;
 
 		bool StoppedMoving()const;
+		TG::Subject<> OnReachedDestination;
 
 	private:
 		glm::vec2 m_JumpOffset{};

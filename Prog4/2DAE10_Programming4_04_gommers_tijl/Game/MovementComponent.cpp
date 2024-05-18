@@ -29,7 +29,7 @@ void Game::MovementComponent::SetTargetLocationIndex(const glm::vec2& direction)
 void Game::MovementComponent::SetTargetLocation(const glm::vec2& target)
 {
 	if (m_IsMoving)return;
-	m_IsMoving = true;
+	m_IsMoving =  true;
 
 	glm::vec2 currentPosition{ m_OwnerPTR->GetLocalPosition() };
 
@@ -56,6 +56,7 @@ void Game::MovementComponent::FixedUpdate(float dt)
 	{
 		m_IsMoving      = false;
 		m_OwnerPTR->SetLocalPosition(m_TargetPosition);
+		OnReachedDestination.OnNotifyAll();
 	}
 
 }

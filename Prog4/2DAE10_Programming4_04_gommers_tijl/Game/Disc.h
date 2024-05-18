@@ -6,7 +6,7 @@ namespace Game
 {
 	class Grid;
 	class Character;
-	class Disc : public TG::GameObject, public TG::IObserver< std::pair<int, int>, Character*>
+	class Disc : public TG::GameObject, public TG::IObserver< std::pair<int, int>, Character*>, public TG::IObserver<>
 	{
 	public:
 		Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gridTop, const glm::vec2& offset);
@@ -18,11 +18,13 @@ namespace Game
 
 		//Observer overloads
 		virtual void Notify(std::pair<int, int>, Character*)override;
+		virtual void Notify()override;
 		virtual void OnSubjectDestroy();
 
-		void SetSubject(Grid* subject);
+		void SetGridSubject(Grid* subject);
 
 	private:
+		Character* m_Visiter;
 		glm::vec2 m_StartPos;
 		glm::vec2 m_EndPos;
 		glm::vec2 m_Direction;

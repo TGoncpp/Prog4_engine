@@ -24,7 +24,7 @@ namespace Game
 		virtual void OnSubjectDestroy();
 
 		glm::vec2 GetCubeSize()const;
-		void SetSubject(Game::Character* subjectToObserve);
+		void SetGridSubject(Game::Character* subjectToObserve);
 
 		TG::Subject < std::pair<int, int>,Character* > OnDiscInteraction;
 

@@ -26,16 +26,29 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 	spriteComp->SetTimePerFrame (0.05f);
 	auto MoveComp = GetComponent<MovementComponent>();
 	MoveComp->SetMovementSpeed(40.f);
-
+	MoveComp->OnReachedDestination.AddObserver(this);
 	
 }
 
 void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 {
+	m_Visiter = character;
 	if (JumpedOnDisc(location))
 	{
 		character->SetParent(this, true);
+		character->HandleInput(glm::vec2{0.f,0.f});
 	}
+	else
+	{
+		character->JumpOfGrid();
+	}
+}
+
+void Game::Disc::Notify()
+{
+	m_Visiter->SetParent(nullptr, true);
+	m_Visiter->HandleInput(glm::vec2{ 1.f,1.f });
+
 }
 
 void Game::Disc::OnSubjectDestroy()
@@ -43,7 +56,7 @@ void Game::Disc::OnSubjectDestroy()
 
 }
 
-void Game::Disc::SetSubject(Grid* subject)
+void Game::Disc::SetGridSubject(Grid* subject)
 {
 	subject->OnDiscInteraction.AddObserver(this);
 }

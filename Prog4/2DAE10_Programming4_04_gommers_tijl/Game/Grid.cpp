@@ -77,7 +77,7 @@ bool Game::Grid::CheckLevelState()
 	return true;
 }
 
-void Game::Grid::SetSubject(Character* subjectToObserve)
+void Game::Grid::SetGridSubject(Character* subjectToObserve)
 {
 	subjectToObserve->OnCubeInteraction.AddObserver(this);
 	m_vSubjectOwnrPtr.push_back( subjectToObserve);
@@ -100,7 +100,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	if (newPosition.first < 0 || newPosition.second < 0 ||
 		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
 	{
-		//object->JumpOfGrid();
+		if (type != ECharacterType::red)
+			object->JumpOfGrid();
 		OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}
