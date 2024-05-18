@@ -101,7 +101,7 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
 	{
 		if (type != ECharacterType::red)
-			object->JumpOfGrid();
+			object->JumpOfGrid(true);
 		OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}

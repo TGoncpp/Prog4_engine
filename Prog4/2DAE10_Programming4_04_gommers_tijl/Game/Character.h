@@ -39,7 +39,7 @@ namespace Game
 		TG::Subject<Character*, bool> OnCubeInteraction;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
-		void JumpOfGrid();
+		void JumpOfGrid(bool isFaling);
 		void ResetLife();
 
 		//Getters

@@ -26,6 +26,7 @@
 #include "NPC.h"
 #include "Disc.h"
 
+#include "time.h"
 #include <iostream>
 
 	const int WINDOW_WIDTH{ 640 }, WINDOW_HEIGHT{ 480 };
@@ -36,8 +37,8 @@ void load()
 	const int gridSize{ 7 };
 	auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
 	auto& input       = TG::InputManager::GetInstance();
-	auto font         = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
-	auto largeFont    = TG::ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
+	auto font         = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 16);
+	auto largeFont    = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 60);
 	auto cubeTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
@@ -75,6 +76,10 @@ void load()
 	disc->SetGridSubject(grid.get());
 	auto disc2 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc2->SetGridSubject(grid.get());
+	auto disc1 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	disc1->SetGridSubject(grid.get());
+	auto disc12 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
+	disc12->SetGridSubject(grid.get());
 
 	//InfoScreen
 	auto IS = std::make_unique<TG::GameObject>();
@@ -116,6 +121,8 @@ void load()
 	scene.Add(std::move(grid));
 	scene.Add(std::move(disc));
 	scene.Add(std::move(disc2));
+	scene.Add(std::move(disc1));
+	scene.Add(std::move(disc12));
 	scene.Add(std::move(character));
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
@@ -137,7 +144,7 @@ void load()
 
 int main(int, char* [])
 {
-
+	srand(static_cast<uint32_t>(time(NULL)));
 	TG::Minigin engine("../Data/", WINDOW_WIDTH, WINDOW_HEIGHT);
 	engine.Run(load);
 

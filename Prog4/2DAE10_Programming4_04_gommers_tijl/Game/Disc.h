@@ -31,6 +31,7 @@ namespace Game
 		float m_HeightAbove{ 55.f };
 		int m_Depth{};
 		bool m_IsLeft{ false };
+		bool m_Visible{ true };
 
 		void SetStartLocation(int depth, bool isLeft, const glm::vec2& offset);
 		void ActivateDisc();

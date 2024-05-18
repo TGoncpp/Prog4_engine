@@ -25,11 +25,13 @@ namespace TG
 
 		void SetSprite(int colum, int row);
 		void UpdateCurrentFrame(int frame);
+		void SetVisibility(bool isVisible);
 
 	private:
 		std::shared_ptr<Texture2D> m_TextureSPTR{};
 		int m_Colum{ 1 };
 		int m_Row{ 1 };
 		int m_CurrentFrame{ -1 };
+		bool m_IsVisseble{ true };
 	};
 }

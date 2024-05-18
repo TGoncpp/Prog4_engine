@@ -247,3 +247,8 @@ void Game::ReSpawn::OnExit()
 {
 	m_OwnerObject->ResetLife();
 }
+
+void Game::Lift::OnEnter(const glm::vec2&)
+{
+	m_OwnerObject->JumpOfGrid(false);
+}

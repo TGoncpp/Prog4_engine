@@ -112,7 +112,7 @@ namespace Game
 		{
 			m_Type = EState::lift ;
 		}
-		void virtual OnEnter(const glm::vec2&)override{};
+		void virtual OnEnter(const glm::vec2&)override;
 		void virtual OnExit()override{};
 	};
 	

@@ -48,9 +48,9 @@ namespace TG
 				{
 					return dynamic_cast<T*>(pComponent.get()) != nullptr;
 				});
-			m_vComponentUPtrs.erase(it, m_vComponentUPtrs.end());
 			if (it == m_vComponentUPtrs.end())
 				throw;
+			m_vComponentUPtrs.erase(it, m_vComponentUPtrs.end());
 		}
 		template<typename T>
 		T* GetComponent() const

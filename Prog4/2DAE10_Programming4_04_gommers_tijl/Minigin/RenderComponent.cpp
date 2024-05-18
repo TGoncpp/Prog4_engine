@@ -21,7 +21,7 @@ TG::RenderComponent::RenderComponent(TG::GameObject* owner, std::shared_ptr<TG::
 
 void TG::RenderComponent::Render() const
 {
-	if (!m_TextureSPTR || !m_OwnerPTR)return;
+	if (!m_TextureSPTR || !m_OwnerPTR || !m_IsVisseble)return;
 
 	glm::vec3 pos = m_OwnerPTR->GetWorldPosition();
 	Renderer::GetInstance().RenderTexture(*m_TextureSPTR, pos.x, pos.y, m_Colum, m_Row, m_CurrentFrame);
@@ -47,4 +47,9 @@ void TG::RenderComponent::SetSprite(int colum, int row)
 void TG::RenderComponent::UpdateCurrentFrame( int frame)
 {
 	m_CurrentFrame = frame;
+}
+
+void TG::RenderComponent::SetVisibility(bool isVisible)
+{
+	m_IsVisseble = isVisible;
 }
