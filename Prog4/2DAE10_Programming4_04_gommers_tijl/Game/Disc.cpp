@@ -38,7 +38,7 @@ void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 		character->SetParent(this, true);
 		character->HandleInput(glm::vec2{0.f,0.f});
 		m_Visiter = character;
-		
+		m_Depth = -1;
 	}
 	else if (m_Visiter == nullptr)
 	{

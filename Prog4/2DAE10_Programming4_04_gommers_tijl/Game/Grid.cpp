@@ -107,7 +107,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 			if (type == ECharacterType::purple)
 				object->OnScore.OnNotifyAll(ECharacterType::purple);
 		}
-		OnDiscInteraction.OnNotifyAll(newPosition, object);
+		else
+			OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}
 	//remove character from the cube if moving
