@@ -1,62 +1,70 @@
 #include "ScoreDisplay.h"
 #include "GameObject.h"
-#include "LootComponent.h"
+#include "Npc.h"
 #include <sdl_mixer.h>
 
-Game::ScoreDisplay::ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner)
-	:BaseComponent(owner),
-	IObserver<LootType>(),
-	m_SubjectOwnrPtr{subjectOwner}
+Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay )
+	:BaseComponent(Owner),
+	IObserver<const ECharacterType&>(),
+	m_ObservedCharacters{ observedCharacters },
+	m_SubjectOwnrPtr{Owner}
 {
-	if (m_SubjectOwnrPtr->CheckComponent<LootComponent>())
-		m_SubjectOwnrPtr->GetComponent<LootComponent>()->OnScoreChange.AddObserver(this);
+	//Get display refrence
+	m_TextCompUPtr = scoreDisplay;
+	if (m_TextCompUPtr)
+		m_TextCompUPtr->SetText(UpdateMessage());
 
-	m_TextCompUPtr = m_OwnerPTR->GetComponent<TG::TextComponent>();
+	//subscribe to subjects
+	for (auto& subject : observedCharacters)
+	{
+		subject->OnScore.AddObserver(this);
+	}
+}
+
+Game::ScoreComponent::~ScoreComponent()
+{
+	for (auto& subject : m_ObservedCharacters)
+	{
+		subject->OnScore.RemoveObserver(this);
+	}
+}
+
+//ObserverFunction
+void Game::ScoreComponent::Notify(const ECharacterType& characterType)
+{
+	UpdateScore(characterType);
+
 	if (m_TextCompUPtr)
 		m_TextCompUPtr->SetText(UpdateMessage());
 }
 
 //ObserverFunction
-void Game::ScoreDisplay::Notify(LootType loot)
-{
-	UpdateScore(loot);
-
-	if (m_TextCompUPtr)
-		m_TextCompUPtr->SetText(UpdateMessage());
-}
-
-//ObserverFunction
-void Game::ScoreDisplay::OnSubjectDestroy()
+void Game::ScoreComponent::OnSubjectDestroy()
 {
 	m_SubjectOwnrPtr = nullptr;
 }
 
-void Game::ScoreDisplay::UpdateScore(const LootType& loot)
+void Game::ScoreComponent::UpdateScore(const ECharacterType& characterType)
 {
-	switch (loot)
+	switch (characterType)
 	{
-	case LootType::dirt:
-		m_Score += 1;
-		break;
-	case LootType::silver:
-		m_Score += 10;
-		break;
-	case LootType::gold:
-		m_Score += 50;
-		break;
-	default:
-		break;
-	}
-	if (m_Score >= 500)
-	{
-		
+	case ECharacterType::green:
+			m_Score += m_GreenPoint;
+			break;
+		case ECharacterType::red:
+			m_Score += m_RedPoint;
+			break;
+		case ECharacterType::purple:
+			m_Score += m_PurplePoint;
+			break;
+		default:
+			break;
 	}
 }
 
-std::string Game::ScoreDisplay::UpdateMessage()
+std::string Game::ScoreComponent::UpdateMessage()
 {
 	std::string newScoreMessage;
-	newScoreMessage += m_SubjectOwnrPtr->GetName();
 	newScoreMessage += " score : ";
 	newScoreMessage += std::to_string(m_Score);
 

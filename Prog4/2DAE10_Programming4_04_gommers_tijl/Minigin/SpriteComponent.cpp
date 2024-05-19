@@ -48,3 +48,10 @@ void TG::SpriteComponent::SetAutomaiticMode(bool isAutomatic)
 	m_AutoUpdate = isAutomatic;
 }
 
+void TG::SpriteComponent::SetTexture(RenderComponent* renderComp)
+{
+	m_RenderCompPTR = renderComp;
+	m_RenderCompPTR->SetSprite(m_Colum, m_Row);
+
+}
+

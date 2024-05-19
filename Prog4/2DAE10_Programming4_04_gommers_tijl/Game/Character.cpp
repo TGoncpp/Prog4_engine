@@ -22,7 +22,7 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::walking, std::make_unique<WalkingQbertState>(this)));
 	m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
-	m_PossibleStates.insert(std::make_pair(EState::falling, std::make_unique<Falling>(this, 2.f)));
+	m_PossibleStates.insert(std::make_pair(EState::falling, std::make_unique<Falling>(this, 1.5f)));
 	m_PossibleStates[EState::falling]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::dead, std::make_unique<Dead>(this, 1.f)));
 	m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
@@ -36,6 +36,35 @@ void Game::Character::Notify(const EState& state)
 {
 	if (m_PossibleStates.contains(state))
 	{
+		auto currentType = m_CharacterState->GetState();
+		switch (currentType)
+		{
+		case EState::idle:
+			if (state != EState::dead && state != EState::walking)
+				return;
+			break;
+		case EState::walking:
+			if (state != EState::dead && state != EState::idle && state != EState::lift && state != EState::falling)
+				return;
+			break;
+		case EState::falling:
+			if (state != EState::dead )
+				return;
+			break;
+		case EState::dead:
+			if (state != EState::respawn )
+				return;
+			break;
+		case EState::respawn:
+			if (state != EState::idle )
+				return;
+			break;
+		case EState::lift:
+			if (state != EState::respawn )
+				return;
+			break;
+		}
+
 		m_CharacterState = m_PossibleStates[state].get();
 		m_CharacterState->OnEnter(m_Direction);
 	}
@@ -95,15 +124,14 @@ void Game::Character::CollisionCheck(const ECharacterType& dominantType, std::pa
 
 	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::red)
 	{
-		--m_Health;
-		m_IsDead = true;
+		OnDead.OnNotifyAll();
+		m_IsDead = true;// flag for state machine
 		std::cout << "red lose life\n";
 	}
 	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::green)
 	{
-		++m_Score;
-		std::cout << "score = "<< m_Score << "\n";
-		m_IsDead = true;
+		OnScore.OnNotifyAll(m_Type);
+		m_IsDead = true;// flag for state machine
 		std::cout << "green lose life\n";
 	}
 

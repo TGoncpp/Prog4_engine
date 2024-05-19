@@ -1,37 +1,40 @@
 #pragma once
 #include "TextComponent.h"
 #include "Observer.h"
+#include "character.h"
 #include <vector>
 #include <memory>
 
 
 namespace Game
 {
-	enum class LootType;
-
-	class ScoreDisplay final : public TG::IObserver<LootType>, public TG::BaseComponent
+	class ScoreComponent final : public TG::IObserver<const ECharacterType& >, public TG::BaseComponent
 	{
 	public:
-		ScoreDisplay(TG::GameObject* owner, TG::GameObject* subjectOwner);
-		virtual ~ScoreDisplay() override               = default;
-		ScoreDisplay(const ScoreDisplay&)              = delete;
-		ScoreDisplay(ScoreDisplay&&)                   = delete;
-		ScoreDisplay& operator=(const ScoreDisplay&)   = delete;
-		ScoreDisplay& operator=(ScoreDisplay&&)        = delete;
+		ScoreComponent(TG::GameObject* owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay);
+		virtual ~ScoreComponent() override;
+		ScoreComponent(const ScoreComponent&)              = delete;
+		ScoreComponent(ScoreComponent&&)                   = delete;
+		ScoreComponent& operator=(const ScoreComponent&)   = delete;
+		ScoreComponent& operator=(ScoreComponent&&)        = delete;
 
 		virtual void Update(float ) override {  };
 		virtual void FixedUpdate(float ) override {  };
 		virtual void Render() const override {};
 
-		virtual void Notify(LootType loot) override;
+		virtual void Notify(const ECharacterType& characterType) override;
 		virtual void OnSubjectDestroy() override;
 
 
 	private:
+		std::vector<Character*> m_ObservedCharacters;
 		TG::GameObject* m_SubjectOwnrPtr;
 		TG::TextComponent* m_TextCompUPtr;
 		int m_Score{};
-		void UpdateScore(const LootType& loot);
+		int m_RedPoint{ 15 };
+		int m_GreenPoint{ 30 };
+		int m_PurplePoint{ 150 };
+		void UpdateScore(const ECharacterType& characterType);
 		std::string UpdateMessage();
 
 

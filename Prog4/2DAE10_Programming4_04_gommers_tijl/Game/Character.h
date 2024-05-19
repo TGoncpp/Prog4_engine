@@ -37,6 +37,8 @@ namespace Game
 		void UpdateGridPosition(const glm::vec2& direction);
 
 		TG::Subject<Character*, bool> OnCubeInteraction;
+		TG::Subject<const ECharacterType&> OnScore;
+		TG::Subject<> OnDead;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
 		void JumpOfGrid(bool isFaling);
@@ -47,6 +49,7 @@ namespace Game
 		ECharacterType GetCharacterType()const     { return m_Type;}
 		bool IsDead()const                         { return m_IsDead; }
 		bool IsFalling()const                      { return m_IsFalling; }
+		State* GetCharacterState()const            { return m_CharacterState; }
 
 	protected:
 
@@ -57,8 +60,6 @@ namespace Game
 
 	private:
 		std::pair<int, int> m_GridPostion;
-		int m_Health{ 3 };
-		int m_Score{ 0 };
 		bool m_IsDead{ false };
 		bool m_IsFalling{ false };
 

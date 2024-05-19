@@ -7,9 +7,9 @@ Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<
 {
 	//curse texture
 	auto comp = AddComponent<TG::RenderComponent>(this, curseTex);
-	m_RenderCompRefrence = static_cast<TG::RenderComponent*>(comp);
-	m_RenderCompRefrence->SetOffset(glm::vec3{ 0.f, -30.f, 0.f });
-	m_RenderCompRefrence->SetVisibility(false);
+	m_RenderCurseCompRefrence = static_cast<TG::RenderComponent*>(comp);
+	m_RenderCurseCompRefrence->SetOffset(glm::vec3{ 0.f, -30.f, 0.f });
+	m_RenderCurseCompRefrence->SetVisibility(false);
 
 	//States
 	m_PossibleStates.insert(std::make_pair(EState::lift, std::make_unique<Lift>(this)));
@@ -25,5 +25,5 @@ void Game::QbertCharacter::Notify(bool isVisible)
 
 void Game::QbertCharacter::SetCurseVisibility(bool isVisible)
 {
-	m_RenderCompRefrence->SetVisibility(isVisible);
+	m_RenderCurseCompRefrence->SetVisibility(isVisible);
 }

@@ -4,7 +4,7 @@
 namespace Game
 {
 
-	class QbertCharacter : public Character, public TG::IObserver<bool>
+	class QbertCharacter final: public Character, public TG::IObserver<bool>
 	{
 	public:
 		QbertCharacter(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, std::shared_ptr<TG::Texture2D> curseTex);
@@ -21,7 +21,7 @@ namespace Game
 		virtual void Notify(bool)override;
 		virtual void OnSubjectDestroy()override {};
 
-		TG::RenderComponent* m_RenderCompRefrence{ nullptr };
+		TG::RenderComponent* m_RenderCurseCompRefrence{ nullptr };
 		void SetCurseVisibility(bool isVisible);
 	};
 

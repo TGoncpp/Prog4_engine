@@ -15,8 +15,9 @@ Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std
 	SetLocalPosition(position);	
 }
 
-void Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
+bool Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
 {
+	bool increaseScore{ false };
 	switch (visiterType)
 	{
 	case ECharacterType::green:
@@ -29,6 +30,7 @@ void Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
 		if (m_State != ECubeProgressState::endFase)
 		{
 			m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
+			increaseScore = true;
 		}
 		break;
 	default:
@@ -44,6 +46,8 @@ void Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
 	{
 		std::cout << "no valid spritecomponent available\n";
 	}
+
+	return increaseScore;
 }
 
 bool Game::Cube::IsFinalState() const

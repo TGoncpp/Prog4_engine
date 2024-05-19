@@ -4,7 +4,7 @@
 namespace Game 
 {
 
-	class NPC : public Character
+	class NPC final : public Character
 	{
 	public:
 		NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, const ECharacterType& type);

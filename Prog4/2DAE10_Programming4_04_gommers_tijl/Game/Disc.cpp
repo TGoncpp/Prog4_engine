@@ -49,7 +49,7 @@ void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 void Game::Disc::Notify()
 {
 	m_Visiter->SetParent(nullptr, true);
-	m_Visiter->HandleInput(glm::vec2{ 1.f,1.f });
+	m_Visiter->GetCharacterState()->OnStateSwitch.OnNotifyAll(EState::respawn);
 	m_Visiter = nullptr;
 
 	if (CheckComponent<TG::RenderComponent>())

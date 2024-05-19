@@ -29,7 +29,7 @@ namespace Game
 		Cube(const Cube&)                         = delete;
 		Cube(Cube&&)                              = delete;
 	
-		void UpdateProgressState(const ECharacterType& visiterType);
+		bool UpdateProgressState(const ECharacterType& visiterType);
 		bool IsFinalState()const;
 		bool IsCollisionOnCube()const;
 		void AddVisiterOnCube(const ECharacterType& type);

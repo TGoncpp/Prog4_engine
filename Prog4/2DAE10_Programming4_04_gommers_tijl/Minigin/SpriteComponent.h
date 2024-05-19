@@ -23,6 +23,7 @@ namespace TG
 		void UpdateFrame();
 		void UpdateFrame(int currentFrame);
 		void SetAutomaiticMode(bool isAutomatic);
+		void SetTexture(RenderComponent* renderComp);
 
 	private:
 		RenderComponent* m_RenderCompPTR{ nullptr };

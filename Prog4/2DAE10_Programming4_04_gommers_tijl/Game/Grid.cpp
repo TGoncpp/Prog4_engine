@@ -49,6 +49,7 @@ void Game::Grid::Update(float time)
 {
 	if (!m_IsLevelFinished)return;
 
+	//end off level animation
 	for (const auto& lines : m_vGrid)
 	{
 		for (const auto& cube : lines)
@@ -96,12 +97,16 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	std::pair<int, int> newPosition = object->GetGridPosition();
 	ECharacterType type             = object->GetCharacterType();
 
-	//jumped off the platform
+	//jumped off the platform - Add score if it was curly
 	if (newPosition.first < 0 || newPosition.second < 0 ||
 		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
 	{
 		if (type != ECharacterType::red)
+		{
 			object->JumpOfGrid(true);
+			if (type == ECharacterType::purple)
+				object->OnScore.OnNotifyAll(ECharacterType::purple);
+		}
 		OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}
@@ -128,7 +133,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	//if red or green->update cube
 	if (type == ECharacterType::purple)return;
 
-	m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState(type);
+	if (m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState(type))
+		object->OnScore.OnNotifyAll(ECharacterType::red);
 	if (CheckLevelState())
 	{
 		m_IsLevelFinished = true;

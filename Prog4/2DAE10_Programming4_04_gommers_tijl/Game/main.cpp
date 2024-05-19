@@ -26,6 +26,7 @@
 #include "NPC.h"
 #include "QbertCharacter.h"
 #include "Disc.h"
+#include "Hud.h"
 
 #include "time.h"
 #include <iostream>
@@ -35,27 +36,28 @@
 void load()
 {
 	const float worldScale{ 1.7f };
+	const float titleScale{ 1.f };
 	const int gridSize{ 7 };
 	auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
 	auto& input       = TG::InputManager::GetInstance();
 	auto font         = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 16);
 	auto largeFont    = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 60);
 	auto cubeTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
-	auto CurseTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Curses.png", true, worldScale);
+	auto CurseTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Curses.png", true, titleScale);
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
 	auto samTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale, std::pair<int, int>(2, 2));
-	auto DiscTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Disk Spritesheet.png", true, worldScale, std::pair<int, int>(1, 30));
+	auto DiscTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Disk Spritesheet.png", true, worldScale, std::pair<int, int>(1, 30));
+	auto background   = TG::ResourceManager::GetInstance().LoadTexture("Textures/background.tga", true, worldScale);
+	auto lvlTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, worldScale);
+	auto cubeIndTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Color Icons Spritesheet.png", true, 1.5f, std::pair<int, int>(2, 6));
+	auto HealthTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Heart.png", true, worldScale);
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
 	//TG::Locator::provide(std::make_unique< TG::LoggedAudio>());
 	
 	//TG::Locator::getAudio().playSound("Level");
-
-	//Create Background object
-	auto go = std::make_unique<TG::GameObject>();
-	go->AddComponent<TG::RenderComponent>(go.get(), "Textures/background.tga");
 
 	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 5.f } };
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
@@ -83,14 +85,9 @@ void load()
 	auto disc12 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc12->SetGridSubject(grid.get());
 
-	//InfoScreen
-	auto IS = std::make_unique<TG::GameObject>();
-	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use WASD to move Snake around to inflict damage to red on contact", font);
-	IS.get()->AddComponent<TG::TextComponent>(IS.get(), "Use Arrows to move red around, get points by killing the green character", font, glm::vec3{ 0.f, 20.f, 0.f });
-	IS->SetLocalPosition(5, 440);
-
-	
-
+	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get()};
+	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
+	auto hud = std::make_unique<Game::Hud>(vChar, vTex, font);
 	//----------------------------------------------------
 	//INPUT BINDING
 	//---------------------------------------------------
@@ -119,7 +116,7 @@ void load()
 	//Add to scene
 	//----------------------------------------------------
 
-	scene.Add(std::move(go));
+	scene.Add(std::move(hud));
 	scene.Add(std::move(grid));
 	scene.Add(std::move(disc));
 	scene.Add(std::move(disc2));
@@ -128,7 +125,6 @@ void load()
 	scene.Add(std::move(character));
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
-	scene.Add(std::move(IS));
 		
 	
 	////Character 2
