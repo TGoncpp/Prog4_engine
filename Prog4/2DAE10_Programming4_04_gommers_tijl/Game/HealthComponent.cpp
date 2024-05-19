@@ -2,21 +2,32 @@
 #include "GameObject.h"
 #include "serviceLocator.h"
 
-Game::HealthComponent::HealthComponent(TG::GameObject* owner, int startHealth)
+Game::HealthComponent::HealthComponent(TG::GameObject* owner, Character* Qbert, std::vector<TG::RenderComponent*> vHearths)
 	:TG::BaseComponent(owner),
-	 m_Health{startHealth}
+	m_vHearthRenderCompRef{vHearths},
+	m_Subject{Qbert}
 {
+	Qbert->OnDead.AddObserver(this);
+}
+
+Game::HealthComponent::~HealthComponent()
+{
+	m_Subject->OnDead.RemoveObserver(this);
+}
+
+void Game::HealthComponent::Notify()
+{
+	DecreaseHealth(1);
 }
 
 void Game::HealthComponent::DecreaseHealth(int decrement)
 {
 	m_Health -= decrement;
-	OnHealthChange.OnNotifyAll();
-	TG::Locator::getAudio().playSound("Hit");
 
 	if (m_Health <= 0)
 	{
-		OnDead.OnNotifyAll(m_OwnerPTR->GetName());
-		TG::Locator::getAudio().playSound("Swearing");
+		OnGameOver.OnNotifyAll();
+		return;
 	}
+	m_vHearthRenderCompRef[m_Health - 1]->SetVisibility(false);
 }

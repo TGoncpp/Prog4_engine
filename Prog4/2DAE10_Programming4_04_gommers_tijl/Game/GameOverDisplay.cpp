@@ -8,11 +8,7 @@ Game::GameOverDisplay::GameOverDisplay(TG::GameObject* owner, std::vector<TG::Ga
 	TG::IObserver<const std::string&>(),
 	m_vSubjectOwnrPtrs{ vSubjectOwner }
 {
-	for (auto& subject : m_vSubjectOwnrPtrs)
-	{
-		if (subject->CheckComponent<HealthComponent>())
-			subject->GetComponent<HealthComponent>()->OnDead.AddObserver(this);
-	}
+	
 
 	m_TextCompUPtr = m_OwnerPTR->GetComponent< TG::TextComponent>();
 }

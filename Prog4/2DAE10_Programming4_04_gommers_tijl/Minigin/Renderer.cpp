@@ -95,6 +95,11 @@ void TG::Renderer::RenderTexture(const Texture2D& texture, const float x, const 
 		SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
 		return;
 	}
+	else
+	{
+		dst.w = static_cast<int>(dst.w * scale);
+		dst.h = static_cast<int>(dst.h * scale);
+	}
 	
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }

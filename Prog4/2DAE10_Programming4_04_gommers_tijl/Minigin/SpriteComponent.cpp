@@ -15,6 +15,19 @@ TG::SpriteComponent::SpriteComponent(GameObject* owner, int colum, int row, bool
 	}
 }
 
+TG::SpriteComponent::SpriteComponent(GameObject* owner, int colum, int row, bool autoUpdate, RenderComponent* renderRef)
+	:BaseComponent(owner),
+	m_Colum{ colum },
+	m_Row{ row },
+	m_AutoUpdate{ autoUpdate }
+{
+	if (m_OwnerPTR && renderRef)
+	{
+		m_RenderCompPTR = renderRef;
+		m_RenderCompPTR->SetSprite(m_Colum, m_Row);
+	}
+}
+
 void TG::SpriteComponent::Update(float elapsedTime)
 {
 	if (!m_AutoUpdate) return;

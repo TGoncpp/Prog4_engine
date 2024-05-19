@@ -1,7 +1,6 @@
 #include "ScoreDisplay.h"
 #include "GameObject.h"
 #include "Npc.h"
-#include <sdl_mixer.h>
 
 Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay )
 	:BaseComponent(Owner),

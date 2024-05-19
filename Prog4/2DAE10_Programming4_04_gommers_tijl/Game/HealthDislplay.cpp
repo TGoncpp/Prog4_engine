@@ -7,8 +7,7 @@ Game::HealthDisplay::HealthDisplay(TG::GameObject* owner, TG::GameObject* subjec
 	IObserver<>(),
 	m_SubjectOwnrPtr{subjectOwner}
 {
-	if (m_SubjectOwnrPtr->CheckComponent<HealthComponent>())
-		m_SubjectOwnrPtr->GetComponent< HealthComponent>()->OnHealthChange.AddObserver(this);
+	
 	m_TextCompUPtr =  m_OwnerPTR->GetComponent< TG::TextComponent>();
 	UpdateText();
 }

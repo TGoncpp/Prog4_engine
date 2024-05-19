@@ -195,6 +195,7 @@ void Game::Dead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
 	OnDead.OnNotifyAll(true);
+	m_OwnerObject->OnDead.OnNotifyAll();
 	TG::Locator::getAudio().playSound("Swearing");
 }
 

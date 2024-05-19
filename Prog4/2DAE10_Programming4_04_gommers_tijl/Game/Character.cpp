@@ -124,15 +124,12 @@ void Game::Character::CollisionCheck(const ECharacterType& dominantType, std::pa
 
 	if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::red)
 	{
-		OnDead.OnNotifyAll();
 		m_IsDead = true;// flag for state machine
-		std::cout << "red lose life\n";
 	}
 	else if (static_cast<int>(m_Type) - static_cast<int>(dominantType) == -1 && m_Type == ECharacterType::green)
 	{
 		OnScore.OnNotifyAll(m_Type);
 		m_IsDead = true;// flag for state machine
-		std::cout << "green lose life\n";
 	}
 
 }

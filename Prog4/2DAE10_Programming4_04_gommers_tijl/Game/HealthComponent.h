@@ -1,31 +1,36 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Subject.h"
+#include "character.h"
 
 namespace Game
 {
-	class HealthComponent final : public TG::BaseComponent
+	class HealthComponent final : public TG::BaseComponent, public TG::IObserver<>
 	{
 	public:
-		HealthComponent(TG::GameObject* owner, int startHealth);
-		virtual ~HealthComponent()override = default;
+		HealthComponent(TG::GameObject* owner, Character* Qbert, std::vector<TG::RenderComponent*> vHearths);
+		virtual ~HealthComponent()override;
 		HealthComponent& operator=(const HealthComponent&) = delete;
-		HealthComponent& operator=(HealthComponent&&) = delete;
-		HealthComponent(const HealthComponent&) = delete;
-		HealthComponent(HealthComponent&&) = delete;
+		HealthComponent& operator=(HealthComponent&&)      = delete;
+		HealthComponent(const HealthComponent&)            = delete;
+		HealthComponent(HealthComponent&&)                 = delete;
 
 
 		int GetHealth()const { return m_Health; };
-		void DecreaseHealth(int decrement);
-		TG::Subject<> OnHealthChange;
-		TG::Subject<const std::string&> OnDead;
+		TG::Subject<> OnGameOver;
 
-		virtual void Update(float dt) { (void)dt; };
-		virtual void FixedUpdate(float dt) { (void)dt; };
+		virtual void Update(float ) {};
+		virtual void FixedUpdate(float ) {};
 		virtual void Render()const {};
+
+		virtual void Notify()override;
+		virtual void OnSubjectDestroy()override {};
 
 
 	private:
-		int m_Health{3};
+		std::vector<TG::RenderComponent*> m_vHearthRenderCompRef;
+		Character* m_Subject;
+		int m_Health{4};
+		void DecreaseHealth(int decrement);
 	};
 }

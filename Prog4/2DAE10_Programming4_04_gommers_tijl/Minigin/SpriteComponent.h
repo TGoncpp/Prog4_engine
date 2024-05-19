@@ -13,6 +13,7 @@ namespace TG
 
 
 		SpriteComponent(GameObject* owner, int colum, int row, bool autoUpdate );
+		SpriteComponent(GameObject* owner, int colum, int row, bool autoUpdate, RenderComponent* renderRef );
 		virtual ~SpriteComponent() = default;
 		SpriteComponent& operator=(const SpriteComponent&) = delete;
 		SpriteComponent& operator=(SpriteComponent&&) = delete;

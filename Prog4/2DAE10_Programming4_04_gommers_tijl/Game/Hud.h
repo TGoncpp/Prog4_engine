@@ -21,7 +21,9 @@ namespace Game
 		std::map<std::string, TG::RenderComponent*> m_mTextureRenderRefrences
 		{
 			std::make_pair("background", nullptr),
-			std::make_pair("healt", nullptr),
+			std::make_pair("health", nullptr),
+			std::make_pair("health2", nullptr),
+			std::make_pair("health3", nullptr),
 			std::make_pair("targetCube", nullptr)
 		};
 		std::map<std::string, TG::TextComponent*> m_mTextRenderRefrences
