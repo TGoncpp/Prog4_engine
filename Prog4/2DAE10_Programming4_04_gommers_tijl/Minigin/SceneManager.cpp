@@ -46,6 +46,11 @@ void TG::SceneManager::LateUpdate()
 	m_IsMenuDirty = false;
 }
 
+void TG::SceneManager::HandleInput(const glm::vec2& direction)
+{
+	m_CurrentMenu->InputHandeling(direction);
+}
+
 void TG::SceneManager::Notify(const EMenuState& newState)
 {
 	if (!m_mPossibleMenus.contains(newState))
@@ -95,7 +100,7 @@ void TG::SceneManager::CreateMenu()
 	m_mPossibleMenus.insert(std::make_pair(EMenuState::gameOver, std::make_unique<GameOverState>(this, m_mScenes[EMenuState::gameOver].get())));
 	m_mPossibleMenus[EMenuState::gameOver]->OnStateSwitch.AddObserver(this);
 
-	m_CurrentMenu = m_mPossibleMenus[EMenuState::game].get();
+	m_CurrentMenu = m_mPossibleMenus[EMenuState::intermediate].get();
 }
 
 TG::SceneManager::SceneManager()

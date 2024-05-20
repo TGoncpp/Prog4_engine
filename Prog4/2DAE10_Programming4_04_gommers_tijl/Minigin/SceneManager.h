@@ -21,8 +21,7 @@ namespace TG
 		void Render();
 		void LateUpdate();
 
-		virtual void Notify(const EMenuState& newState)override;
-		virtual void OnSubjectDestroy()override {};
+		void HandleInput(const glm::vec2& direction);
 
 		MenuState* GetMenustate()const { return m_CurrentMenu; }
 		void CreateMenu();
@@ -30,6 +29,9 @@ namespace TG
 		friend class Singleton<SceneManager>;
 		SceneManager();
 		
+		virtual void Notify(const EMenuState& newState)override;
+		virtual void OnSubjectDestroy()override {};
+
 		std::map< EMenuState, std::unique_ptr<Scene>> m_mScenes;
 		std::map< EMenuState, std::unique_ptr<MenuState>> m_mPossibleMenus;
 		MenuState* m_CurrentMenu{nullptr};

@@ -52,6 +52,7 @@ void load()
 	auto lvlTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, worldScale);
 	auto cubeIndTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Color Icons Spritesheet.png", true, 1.5f, std::pair<int, int>(2, 6));
 	auto HealthTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Heart.png", true, worldScale);
+	auto IntroTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/intro.png", true, 2.8f);
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -126,6 +127,19 @@ void load()
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
 		
+	//----------------------------------------------------
+	//INTROSCENE
+	//-----------------------------------------------
+	auto& InterScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intermediate);
+	auto introTexture = std::make_unique<TG::GameObject>();
+	introTexture->AddComponent<TG::RenderComponent>(introTexture.get(), IntroTexture);
+	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press SPACE ", largeFont, glm::vec3 {80.f, 400.f, 0.f});
+
+	auto enter = std::make_unique<TG::Enter>(introTexture.get());
+	input.InputBinding(std::move(enter), SDL_SCANCODE_SPACE, EInputType::pressed);
+
+	InterScene.Add(std::move(introTexture));
+
 	TG::SceneManager::GetInstance().CreateMenu();
 	
 	////Character 2

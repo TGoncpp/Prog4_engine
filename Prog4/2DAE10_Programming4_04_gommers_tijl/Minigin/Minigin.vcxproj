@@ -242,6 +242,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui_window.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MenuInputComponent.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />

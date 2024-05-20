@@ -68,7 +68,7 @@ namespace TG
 			m_MenuType = EMenuState::intro;
 		}
 
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&);
 		void virtual OnEnter(const glm::vec2&) {};
 		void virtual Update(float) {};
 		void virtual FixedUpdate(float){} ;
@@ -85,7 +85,7 @@ namespace TG
 			m_MenuType = EMenuState::controls;
 		}
 
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&);
 		void virtual OnEnter(const glm::vec2&) {};
 		void virtual Update(float) {};
 		void virtual FixedUpdate(float){} ;
@@ -102,7 +102,7 @@ namespace TG
 			m_MenuType = EMenuState::selection;
 		}
 
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&);
 		void virtual OnEnter(const glm::vec2&) {};
 		void virtual Update(float) {};
 		void virtual FixedUpdate(float){} ;
@@ -117,9 +117,9 @@ namespace TG
 		{
 			m_MenuType = EMenuState::intermediate;
 		}
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&) ;
 		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) {};
+		void virtual Update(float) ;
 		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
 

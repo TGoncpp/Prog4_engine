@@ -11,3 +11,28 @@ void TG::GameState::FixedUpdate(float dt)
 {
 	m_ActiveScene->FixedUpdate(dt);
 }
+
+void TG::ControlsState::InputHandeling(const glm::vec2&)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+}
+
+void TG::IntroState::InputHandeling(const glm::vec2&)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::selection);
+}
+
+void TG::SelectionState::InputHandeling(const glm::vec2&)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+}
+
+void TG::IntermediateState::InputHandeling(const glm::vec2&)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::game);
+}
+
+void TG::IntermediateState::Update(float dt)
+{
+	m_ActiveScene->Update(dt);
+}

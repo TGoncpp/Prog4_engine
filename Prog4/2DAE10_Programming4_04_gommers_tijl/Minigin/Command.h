@@ -39,5 +39,17 @@ namespace TG
 	protected:
 		glm::vec2 m_Direction{ glm::vec2{0.f, 0.f} };
 	};
+	
+	class Enter final : public CommandActor
+	{
+	public:
+		Enter(GameObject* Objectrefrence)
+			: CommandActor(Objectrefrence)
+			{}
+		
+		~Enter() = default;
+		virtual void Execute()override;
+	
+	};
 
 }
