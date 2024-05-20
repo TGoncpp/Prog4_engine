@@ -2,6 +2,11 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void TG::GameState::InputHandeling(const glm::vec2&)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::intro);
+}
+
 void TG::GameState::Update(float dt)
 {
 	m_ActiveScene->Update(dt);
@@ -19,7 +24,12 @@ void TG::ControlsState::InputHandeling(const glm::vec2&)
 
 void TG::IntroState::InputHandeling(const glm::vec2&)
 {
-	OnStateSwitch.OnNotifyAll(EMenuState::selection);
+	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+}
+
+void TG::IntroState::Update(float dt)
+{
+	m_ActiveScene->Update(dt);
 }
 
 void TG::SelectionState::InputHandeling(const glm::vec2&)

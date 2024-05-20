@@ -70,7 +70,7 @@ namespace TG
 
 		void virtual InputHandeling(const glm::vec2&);
 		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) {};
+		void virtual Update(float) ;
 		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
 
@@ -134,7 +134,7 @@ namespace TG
 			m_MenuType = EMenuState::game;
 		}
 
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&) ;
 		void virtual OnEnter(const glm::vec2&) {};
 		void virtual Update(float) ;
 		void virtual FixedUpdate(float) ;
