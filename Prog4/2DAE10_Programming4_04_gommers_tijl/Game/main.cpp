@@ -14,7 +14,6 @@
 #include "Scene.h"
 
 #include "RenderComponent.h"
-#include "healthDisplay.h"
 #include "GameOverDisplay.h"
 #include "ScoreDisplay.h"
 #include "MovementComponent.h"
@@ -38,7 +37,8 @@ void load()
 	const float worldScale{ 1.7f };
 	const float titleScale{ 1.f };
 	const int gridSize{ 7 };
-	auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene       = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::game);
 	auto& input       = TG::InputManager::GetInstance();
 	auto font         = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 16);
 	auto largeFont    = TG::ResourceManager::GetInstance().LoadFont("Textures/Minecraft.ttf", 60);
@@ -126,6 +126,7 @@ void load()
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
 		
+	TG::SceneManager::GetInstance().CreateMenu();
 	
 	////Character 2
 	////inputMapping

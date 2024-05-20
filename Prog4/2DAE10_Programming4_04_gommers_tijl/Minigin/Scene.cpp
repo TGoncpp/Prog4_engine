@@ -53,8 +53,3 @@ void Scene::Render() const
 	}
 }
 
-GameObject* Scene::GetObjectByIndex(int index)const 
-{
-	assert(static_cast<int>(m_objects.size()) > index);
-	return m_objects[index].get(); 
-}

@@ -1,5 +1,4 @@
 #include "GameOverDisplay.h"
-#include "HealthDisplay.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
 

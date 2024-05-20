@@ -145,6 +145,15 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&)override ;
 	
 	};
+	
+	class PurpleDead : public Dead
+	{
+	public:
+		PurpleDead(Character* owner, float timeToDie)
+			:Dead(owner, timeToDie) {}
+		void virtual OnEnter(const glm::vec2&)override ;
+	
+	};
 
 	//FALLING
 	//---------------------------------------

@@ -110,6 +110,7 @@ void TG::Minigin::Run(const std::function<void()>& load)
 		}
 		sceneManager.Update(deltaTime);
 		renderer.Render(lag/ FIXED_TIME_STEP);
+		sceneManager.LateUpdate();
 
 		const auto end       = high_resolution_clock::now();
 		const auto sleepTime = currentTime + milliseconds(MS_PF) - end;

@@ -223,6 +223,11 @@ void Game::GreenDead::OnEnter(const glm::vec2&)
 	TG::Locator::getAudio().playSound("Hit");
 }
 
+void Game::PurpleDead::OnEnter(const glm::vec2&)
+{
+	m_CurrentDieTime = m_TimeToDie;
+}
+
 //-------------------------------------------
 //RESPAWN
 //---------------------------------------------
