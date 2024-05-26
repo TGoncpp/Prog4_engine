@@ -60,7 +60,7 @@ namespace TG
 		EMenuState m_MenuType{ EMenuState::game };
 	};
 
-	class IntroState : public MenuState
+	class IntroState final : public MenuState
 	{
 	public:
 		IntroState(SceneManager* sceneManager, Scene* owner)
@@ -70,14 +70,11 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&);
-		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) ;
-		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
 
 	};
 	
-	class ControlsState : public MenuState
+	class ControlsState final : public MenuState
 	{
 	public:
 		ControlsState(SceneManager* sceneManager, Scene* owner)
@@ -90,7 +87,7 @@ namespace TG
 		
 	};
 	
-	class SelectionState : public MenuState
+	class SelectionState final : public MenuState
 	{
 	public:
 		SelectionState(SceneManager* sceneManager, Scene* owner)
@@ -106,7 +103,7 @@ namespace TG
 		void virtual OnExit(){} ;
 	};
 	
-	class IntermediateState : public MenuState
+	class IntermediateState final : public MenuState
 	{
 	public:
 		IntermediateState(SceneManager* sceneManager, Scene* owner)
@@ -120,7 +117,7 @@ namespace TG
 
 	};
 	
-	class GameState : public MenuState
+	class GameState final : public MenuState
 	{
 	public:
 		GameState(SceneManager* sceneManager, Scene* owner)
@@ -137,14 +134,14 @@ namespace TG
 
 	};
 	
-	class PauseState : public MenuState
+	class PauseState final : public MenuState
 	{
 	public:
 		PauseState(SceneManager* sceneManager, Scene* owner, Scene* gameScene)
 			:MenuState(sceneManager, owner ),
 			m_GameScenePtr{gameScene}
 		{
-			m_MenuType = EMenuState::game;
+			m_MenuType = EMenuState::pause;
 		}
 
 		//signal stands for ENTER: 0,random
@@ -157,7 +154,7 @@ namespace TG
 
 	};
 	
-	class GameOverState : public MenuState
+	class GameOverState final : public MenuState
 	{
 	public:
 		GameOverState(SceneManager* sceneManager, Scene* owner)

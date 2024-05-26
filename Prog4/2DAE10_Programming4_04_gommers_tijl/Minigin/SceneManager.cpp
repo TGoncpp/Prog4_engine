@@ -11,30 +11,19 @@ void TG::SceneManager::Update(float dt)
 {
 	m_CurrentMenu->Update(dt);
 
-	//for(auto& scene : m_mScenes)
-	//{
-	//	scene.second->Update(dt);
-	//}
 }
 
 void TG::SceneManager::FixedUpdate(float dt)
 {
 	m_CurrentMenu->FixedUpdate(dt);
 
-	//for(auto& scene : m_mScenes)
-	//{
-	//	scene.second->FixedUpdate(dt);
-	//}
 }
 
 void TG::SceneManager::Render()
 {
 	m_mScenes[m_CurrentMenu->GetMenuType()]->Render();
 
-	//for (const auto& scene : m_mScenes)
-	//{
-	//	scene.second->Render();
-	//}
+	
 }
 
 void TG::SceneManager::LateUpdate()
@@ -46,9 +35,9 @@ void TG::SceneManager::LateUpdate()
 	m_IsMenuDirty = false;
 }
 
-void TG::SceneManager::HandleInput(const glm::vec2& direction)
+void TG::SceneManager::HandleInput(const glm::vec2& signal)
 {
-	m_CurrentMenu->InputHandeling(direction);
+	m_CurrentMenu->InputHandeling(signal);
 }
 
 void TG::SceneManager::Notify(const EMenuState& newState)
@@ -59,15 +48,15 @@ void TG::SceneManager::Notify(const EMenuState& newState)
 	switch (m_CurrentMenu->GetMenuType())
 	{
 	case EMenuState::intro:
-		if (newState != EMenuState::selection && newState != EMenuState::intermediate)
+		if (newState != EMenuState::selection )
 			return;
 		break;
 	case EMenuState::selection:
-		if (newState != EMenuState::controls && newState != EMenuState::intermediate)
+		if (newState != EMenuState::controls )
 			return;
 		break;
 	case EMenuState::controls:
-		if (newState != EMenuState::selection )
+		if (newState != EMenuState::intermediate )
 			return;
 		break;
 	case EMenuState::intermediate:
@@ -75,8 +64,14 @@ void TG::SceneManager::Notify(const EMenuState& newState)
 			return;
 		break;
 	case EMenuState::game:
-		if (newState != EMenuState::selection && newState != EMenuState::gameOver && newState != EMenuState::intro)
+		if (newState != EMenuState::gameOver && newState != EMenuState::pause)
 			return;
+		break;
+	case EMenuState::pause:
+		if (newState != EMenuState::selection && newState != EMenuState::game)
+			return;
+		break;
+	default:
 		break;
 	}
 	
@@ -99,6 +94,8 @@ void TG::SceneManager::CreateMenu()
 	m_mPossibleMenus[EMenuState::game]->OnStateSwitch.AddObserver(this);
 	m_mPossibleMenus.insert(std::make_pair(EMenuState::gameOver, std::make_unique<GameOverState>(this, m_mScenes[EMenuState::gameOver].get())));
 	m_mPossibleMenus[EMenuState::gameOver]->OnStateSwitch.AddObserver(this);
+	m_mPossibleMenus.insert(std::make_pair(EMenuState::pause, std::make_unique<PauseState>(this, m_mScenes[EMenuState::pause].get(), m_mScenes[EMenuState::game].get())));
+	m_mPossibleMenus[EMenuState::pause]->OnStateSwitch.AddObserver(this);
 
 	m_CurrentMenu = m_mPossibleMenus[EMenuState::intro].get();
 }

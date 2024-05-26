@@ -14,12 +14,12 @@ TG::TextComponent::TextComponent(GameObject* owner, const std::string& text, std
 	m_textTexture{nullptr},
 	m_Offset{offset}
 {
+	Update(0.f);
 }
 
-void TG::TextComponent::Update(float dt)
+void TG::TextComponent::Update(float )
 {
 	if (m_text == "")return;
-	dt = 0.0f;
 	if (m_needsUpdate)
 	{
 		const SDL_Color color = { 255,255,255,255 }; // only white text is supported now
@@ -59,4 +59,9 @@ void TG::TextComponent::SetText(const std::string& text)
 void TG::TextComponent::SetOffset(const glm::vec2& offset)
 {
 	m_Offset = glm::vec3{ offset.x, offset.y, 0.f };
+}
+
+glm::vec2 TG::TextComponent::GetTextSize()const
+{
+	return m_textTexture->GetSize();
 }

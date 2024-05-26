@@ -2,10 +2,15 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void TG::GameState::InputHandeling(const glm::vec2&)
+//-----------------------------------------
+//GAME
+//-----------------------------------------
+void TG::GameState::InputHandeling(const glm::vec2& signal)
 {
-	OnStateSwitch.OnNotifyAll(EMenuState::intro);
-}
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::pause);
+	
+} 
 
 void TG::GameState::Update(float dt)
 {
@@ -17,38 +22,53 @@ void TG::GameState::FixedUpdate(float dt)
 	m_ActiveScene->FixedUpdate(dt);
 }
 
-void TG::ControlsState::InputHandeling(const glm::vec2&)
+//-----------------------------------------
+//INTRO
+//-----------------------------------------
+void TG::IntroState::InputHandeling(const glm::vec2& signal)
 {
-	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::selection);
 }
 
-void TG::IntroState::InputHandeling(const glm::vec2&)
+
+//-----------------------------------------
+//SELECTION
+//-----------------------------------------
+void TG::SelectionState::InputHandeling(const glm::vec2& signal)
 {
-	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::controls);
 }
 
-void TG::IntroState::Update(float dt)
+//-----------------------------------------
+//CONTROL
+//-----------------------------------------
+void TG::ControlsState::InputHandeling(const glm::vec2& signal)
 {
-	m_ActiveScene->Update(dt);
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
 }
 
-void TG::SelectionState::InputHandeling(const glm::vec2&)
+//-----------------------------------------
+//INTERMEDIATE
+//-----------------------------------------
+void TG::IntermediateState::InputHandeling(const glm::vec2& signal)
 {
-	OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::game);
 }
 
-void TG::IntermediateState::InputHandeling(const glm::vec2&)
-{
-	OnStateSwitch.OnNotifyAll(EMenuState::game);
-}
-
+//-----------------------------------------
+//PAUSE
+//-----------------------------------------
 void TG::PauseState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::game);
-	if (signal.x == 1)
+	else if (signal.x == 1)
 	{
 		m_GameScenePtr->Reset();
-		OnStateSwitch.OnNotifyAll(EMenuState::intro);
+		OnStateSwitch.OnNotifyAll(EMenuState::selection);
 	}
 }

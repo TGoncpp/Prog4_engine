@@ -36,6 +36,7 @@ void load()
 {
 	const float worldScale{ 1.7f };
 	const float titleScale{ 1.f };
+	const float arrowScale{ 2.5f };
 	const int gridSize{ 7 };
 	//auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
 	auto& scene       = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::game);
@@ -57,7 +58,10 @@ void load()
 	//intro
 	auto MenuIntroTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/intro.png", true, 2.8f);
 	//pause
-	auto PauseLvlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Pause Screen.png", true, titleScale);
+	auto PauseTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Pause Screen.png", true, titleScale);
+	//selection
+	auto selectionTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Game Title.png", true, titleScale);
+	auto arrowTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Selection Arrow.png", true, arrowScale);
 	//intermediate
 	auto MenuLvlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, titleScale);
 	auto MenuLvlTexture2  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 02 Title.png", true, titleScale);
@@ -99,6 +103,7 @@ void load()
 	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get()};
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
 	auto hud = std::make_unique<Game::Hud>(vChar, vTex, font);
+
 	//----------------------------------------------------
 	//INPUT BINDING
 	//---------------------------------------------------
@@ -124,7 +129,7 @@ void load()
 
 
 	//----------------------------------------------------
-	//Add to scene
+	//Add to GAME scene
 	//----------------------------------------------------
 
 	scene.Add(std::move(hud));
@@ -138,7 +143,7 @@ void load()
 	scene.Add(std::move(npcGreen));
 		
 	//----------------------------------------------------
-	//INTROSCENE
+	//INTRO SCENE
 	//-----------------------------------------------
 	auto& IntroScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intro);
 	auto introTexture = std::make_unique<TG::GameObject>();
@@ -147,6 +152,9 @@ void load()
 
 	auto enter = std::make_unique<TG::Enter>(introTexture.get());
 	input.InputBinding(std::move(enter), SDL_SCANCODE_SPACE, EInputType::pressed);
+
+	auto quit = std::make_unique<TG::Quit>(introTexture.get());
+	input.InputBinding(std::move(quit), SDL_SCANCODE_ESCAPE, EInputType::pressed);
 
 	IntroScene.Add(std::move(introTexture));
 
@@ -157,11 +165,51 @@ void load()
 	auto interTexture = std::make_unique<TG::GameObject>();
 	interTexture->AddComponent<TG::RenderComponent>(interTexture.get(), MenuLvlTexture);
 	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "Press SPACE ", largeFont, glm::vec3 {45.f, 350.f, 0.f});
-	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });//update once to set text
-	interTexture->Update(1.f);
+	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });
 
 	InterScene.Add(std::move(interTexture));
 
+	//----------------------------------------------------
+	//PAUSE
+	//-----------------------------------------------
+	auto& pauseScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::pause);
+	auto pauseScreen = std::make_unique<TG::GameObject>();
+	pauseScreen->AddComponent<TG::RenderComponent>(pauseScreen.get(), PauseTexture);
+
+	pauseScene.Add(std::move(pauseScreen));
+
+	//----------------------------------------------------
+	//SLECTION
+	//-----------------------------------------------
+	auto& selectionScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::selection);
+	auto selectionScreen = std::make_unique<TG::GameObject>();
+
+	selectionScreen->AddComponent<TG::RenderComponent>(selectionScreen.get(), selectionTexture);
+	auto comp = selectionScreen->AddComponent<TG::RenderComponent>(selectionScreen.get(), arrowTexture);
+	TG::RenderComponent* TextureComp = static_cast<TG::RenderComponent*>(comp);
+	TextureComp->SetOffset(glm::vec3{ 50.f, 200.f, 0.f });
+
+	comp = selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "Single Player ", largeFont, glm::vec3 {100.f, 200.f, 0.f});
+	TG::TextComponent* TextComp = static_cast<TG::TextComponent*>(comp);
+	float textHeight = TextComp->GetTextSize().y;
+	selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "VS  ", largeFont, glm::vec3 {100.f, 200.f + textHeight, 0.f});
+	selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "Co-Op  ", largeFont, glm::vec3 {100.f, 200.f + textHeight * 2, 0.f});
+
+	selectionScene.Add(std::move(selectionScreen));
+
+
+	//----------------------------------------------------
+	//CONTROL
+	//-----------------------------------------------
+	auto& controlScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::controls);
+	auto controlScreen = std::make_unique<TG::GameObject>();
+	comp = controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "get gud ", font, glm::vec3{5.f, 350.f, 0.f });
+	TextComp = static_cast<TG::TextComponent*>(comp);
+	textHeight = TextComp->GetTextSize().y;
+	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "or just die  ", font, glm::vec3{ 5.f, 350.f + textHeight, 0.f });
+	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "Whatever, you do you  ", font, glm::vec3{ 5.f, 350.f + textHeight * 2, 0.f });
+
+	controlScene.Add(std::move(controlScreen));
 
 	//-------------------------------------------
 	//MenuStates

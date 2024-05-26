@@ -21,6 +21,8 @@ namespace TG
 		void Render();
 		void LateUpdate();
 
+		//signal ENTER -> x=0
+		//signal Quit  -> x=1
 		void HandleInput(const glm::vec2& direction);
 
 		MenuState* GetMenustate()const { return m_CurrentMenu; }

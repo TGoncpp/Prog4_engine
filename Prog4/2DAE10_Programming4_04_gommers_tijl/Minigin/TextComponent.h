@@ -24,6 +24,7 @@ namespace TG
 
 		void SetText(const std::string& text);
 		void SetOffset(const glm::vec2& offset);
+		glm::vec2 GetTextSize()const;
 
 	private:
 		bool m_needsUpdate;
