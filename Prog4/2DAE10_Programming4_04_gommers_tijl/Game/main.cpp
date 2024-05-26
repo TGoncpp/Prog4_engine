@@ -53,8 +53,16 @@ void load()
 	auto cubeIndTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Color Icons Spritesheet.png", true, 1.5f, std::pair<int, int>(2, 6));
 	auto HealthTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/Heart.png", true, worldScale);
 	//Menus
+	//-----------------
+	//intro
 	auto MenuIntroTexture= TG::ResourceManager::GetInstance().LoadTexture("Textures/intro.png", true, 2.8f);
-	auto MenuLvlTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, titleScale);
+	//pause
+	auto PauseLvlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Pause Screen.png", true, titleScale);
+	//intermediate
+	auto MenuLvlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, titleScale);
+	auto MenuLvlTexture2  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 02 Title.png", true, titleScale);
+	auto MenuLvlTexture3  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 03 Title.png", true, titleScale);
+
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
 	//Else 
@@ -135,7 +143,7 @@ void load()
 	auto& IntroScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intro);
 	auto introTexture = std::make_unique<TG::GameObject>();
 	introTexture->AddComponent<TG::RenderComponent>(introTexture.get(), MenuIntroTexture);
-	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press SPACE ", largeFont, glm::vec3 {80.f, 400.f, 0.f});
+	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press SPACE ", largeFont, glm::vec3 {120.f, 400.f, 0.f});
 
 	auto enter = std::make_unique<TG::Enter>(introTexture.get());
 	input.InputBinding(std::move(enter), SDL_SCANCODE_SPACE, EInputType::pressed);
@@ -148,9 +156,15 @@ void load()
 	auto& InterScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intermediate);
 	auto interTexture = std::make_unique<TG::GameObject>();
 	interTexture->AddComponent<TG::RenderComponent>(interTexture.get(), MenuLvlTexture);
-	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "Press SPACE ", largeFont, glm::vec3 {45.f, 350.f, 0.f});
+	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });//update once to set text
+	interTexture->Update(1.f);
 
 	InterScene.Add(std::move(interTexture));
+
+
+	//-------------------------------------------
+	//MenuStates
 
 	TG::SceneManager::GetInstance().CreateMenu();
 	

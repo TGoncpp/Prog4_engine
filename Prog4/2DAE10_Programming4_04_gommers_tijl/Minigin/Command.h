@@ -51,5 +51,17 @@ namespace TG
 		virtual void Execute()override;
 	
 	};
+	
+	class Quit final : public CommandActor
+	{
+	public:
+		Quit(GameObject* Objectrefrence)
+			: CommandActor(Objectrefrence)
+			{}
+		
+		~Quit() = default;
+		virtual void Execute()override;
+	
+	};
 
 }

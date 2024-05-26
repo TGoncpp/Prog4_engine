@@ -42,7 +42,13 @@ void TG::IntermediateState::InputHandeling(const glm::vec2&)
 	OnStateSwitch.OnNotifyAll(EMenuState::game);
 }
 
-void TG::IntermediateState::Update(float dt)
+void TG::PauseState::InputHandeling(const glm::vec2& signal)
 {
-	m_ActiveScene->Update(dt);
+	if (signal.x == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::game);
+	if (signal.x == 1)
+	{
+		m_GameScenePtr->Reset();
+		OnStateSwitch.OnNotifyAll(EMenuState::intro);
+	}
 }

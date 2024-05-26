@@ -17,6 +17,7 @@ namespace TG
 		controls,
 		intermediate,
 		game,
+		pause,
 		gameOver
 	};
 
@@ -86,11 +87,7 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&);
-		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) {};
-		void virtual FixedUpdate(float){} ;
-		void virtual OnExit(){} ;
-
+		
 	};
 	
 	class SelectionState : public MenuState
@@ -118,9 +115,7 @@ namespace TG
 			m_MenuType = EMenuState::intermediate;
 		}
 		void virtual InputHandeling(const glm::vec2&) ;
-		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) ;
-		void virtual FixedUpdate(float){} ;
+		
 		void virtual OnExit(){} ;
 
 	};
@@ -139,6 +134,26 @@ namespace TG
 		void virtual Update(float) ;
 		void virtual FixedUpdate(float) ;
 		void virtual OnExit(){} ;
+
+	};
+	
+	class PauseState : public MenuState
+	{
+	public:
+		PauseState(SceneManager* sceneManager, Scene* owner, Scene* gameScene)
+			:MenuState(sceneManager, owner ),
+			m_GameScenePtr{gameScene}
+		{
+			m_MenuType = EMenuState::game;
+		}
+
+		//signal stands for ENTER: 0,random
+		//signal stands for QUIT   1,random
+		void virtual InputHandeling(const glm::vec2&) ;
+		
+		void virtual OnExit(){} ;
+	private:
+		Scene* m_GameScenePtr{ nullptr };
 
 	};
 	

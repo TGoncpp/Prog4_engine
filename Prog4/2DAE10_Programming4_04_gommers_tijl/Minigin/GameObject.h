@@ -19,6 +19,7 @@ namespace TG
 		virtual void Update(float dt);
 		virtual void FixedUpdate(float dt);
 		virtual void Render() const;
+		virtual void Reset() {};
 
 		//used by Command
 		virtual void HandleInput(const glm::vec2&) {};

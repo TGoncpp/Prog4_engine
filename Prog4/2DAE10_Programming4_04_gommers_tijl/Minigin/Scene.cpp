@@ -53,3 +53,11 @@ void Scene::Render() const
 	}
 }
 
+void TG::Scene::Reset()
+{
+	for (const auto& object : m_objects)
+	{
+		object->Reset();
+	}
+}
+
