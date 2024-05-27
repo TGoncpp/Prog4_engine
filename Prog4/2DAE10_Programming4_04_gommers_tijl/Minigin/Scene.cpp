@@ -2,14 +2,23 @@
 #include "SceneManager.h"
 
 #include <algorithm>
+#include <iostream>
 
 using namespace TG;
-
-unsigned int Scene::m_idCounter = 0;
 
 Scene::Scene(const std::string& name) : m_name(name) 
 {
 	
+}
+
+size_t TG::Scene::findGOwithName(const std::string& name)
+{
+	for (size_t index{}; index < m_objects.size(); ++index)
+	{
+		if (m_objects[index]->GetName() == name)
+			return index;
+	}
+	throw std::runtime_error("gameObject with name is not found in scene");
 }
 
 Scene::~Scene() = default;
@@ -27,6 +36,16 @@ void Scene::Remove(std::unique_ptr<GameObject> object)
 void Scene::RemoveAll()
 {
 	m_objects.clear();
+}
+
+GameObject* TG::Scene::GetGO(int index) const
+{
+	if (index >= m_objects.size())
+	{
+		std::cout << "overflow index off game objects in scene\n";
+		throw;
+	}
+	return m_objects[index].get();
 }
 
 void Scene::Update(float dt)
@@ -53,11 +72,9 @@ void Scene::Render() const
 	}
 }
 
-void TG::Scene::Reset()
+void TG::Scene::ActivateInput(bool IsActive)
 {
-	for (const auto& object : m_objects)
-	{
-		object->Reset();
-	}
+	size_t index = findGOwithName("Qbert");
+	m_objects[index]->ActivateInput(IsActive);
 }
 

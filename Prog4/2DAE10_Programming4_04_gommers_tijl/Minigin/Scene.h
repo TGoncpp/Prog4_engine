@@ -11,11 +11,12 @@ namespace TG
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(std::unique_ptr<GameObject> object);
 		void RemoveAll();
+		GameObject* GetGO(int index)const;
 
 		void Update(float dt);
 		void FixedUpdate(float dt);
 		void Render() const;
-		void Reset();
+		void ActivateInput(bool IsActive);
 
 		~Scene();
 		Scene(const Scene& other)            = delete;
@@ -29,7 +30,7 @@ namespace TG
 		std::string m_name;
 		std::vector < std::unique_ptr<GameObject>> m_objects{};
 
-		static unsigned int m_idCounter; 
+		size_t findGOwithName(const std::string& name);
 	};
 
 }

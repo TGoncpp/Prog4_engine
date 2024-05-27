@@ -63,5 +63,19 @@ namespace TG
 		virtual void Execute()override;
 	
 	};
+	
+	class MoveArrow final : public CommandActor
+	{
+	public:
+		MoveArrow(GameObject* Objectrefrence, bool isUp)
+			: CommandActor(Objectrefrence),
+			m_MoveUp{isUp}
+			{}
+		
+		~MoveArrow() = default;
+		virtual void Execute()override;
+	private:
+		bool m_MoveUp{ };
+	};
 
 }

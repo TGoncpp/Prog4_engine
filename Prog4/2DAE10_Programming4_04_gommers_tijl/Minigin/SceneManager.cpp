@@ -30,7 +30,9 @@ void TG::SceneManager::LateUpdate()
 {
 	if (!m_IsMenuDirty)
 		return;
+	m_CurrentMenu->OnExit();
 	m_CurrentMenu = m_FutureMenu;
+	m_CurrentMenu->OnEnter();
 	m_FutureMenu = nullptr;
 	m_IsMenuDirty = false;
 }

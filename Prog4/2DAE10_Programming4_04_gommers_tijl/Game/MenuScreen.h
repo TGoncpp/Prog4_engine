@@ -14,7 +14,8 @@ namespace Game
 		MenuScreen& operator=(const MenuScreen& other)  = delete;
 		MenuScreen& operator=(MenuScreen&& other)       = delete;
 
-		int MoveArrow(int movement);
+		virtual void HandleInput(const glm::vec2&);
+
 	private:
 		glm::vec3 m_ArrowPosition{};
 		const std::pair<int, int> m_MinMaxSelectionValue{ std::make_pair(0,2) };
@@ -22,5 +23,6 @@ namespace Game
 		float m_TextHeight{};
 		int m_Selected{ 0 };
 
+		int MoveArrow(int movement);
 	};
 }

@@ -31,6 +31,12 @@ Game::MenuScreen::MenuScreen(const std::shared_ptr < TG::Texture2D>& selectionTe
 
 }
 
+void Game::MenuScreen::HandleInput(const glm::vec2& upDown)
+{
+	int movement{ static_cast<int>(upDown.y) };
+	MoveArrow(movement);
+}
+
 int Game::MenuScreen::MoveArrow(int movement)
 {
 	m_Selected += movement;

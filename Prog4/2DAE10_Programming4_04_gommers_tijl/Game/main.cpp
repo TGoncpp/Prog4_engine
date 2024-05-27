@@ -157,6 +157,12 @@ void load()
 	auto quit = std::make_unique<TG::Quit>(introTexture.get());
 	input.InputBinding(std::move(quit), SDL_SCANCODE_ESCAPE, EInputType::pressed);
 
+	auto MoveUp = std::make_unique<TG::MoveArrow>(introTexture.get(), true);
+	input.InputBinding(std::move(MoveUp), SDL_SCANCODE_UP, EInputType::pressed);
+
+	auto MoveDown = std::make_unique<TG::MoveArrow>(introTexture.get(), false);
+	input.InputBinding(std::move(MoveDown), SDL_SCANCODE_DOWN, EInputType::pressed);
+
 	IntroScene.Add(std::move(introTexture));
 
 	//----------------------------------------------------

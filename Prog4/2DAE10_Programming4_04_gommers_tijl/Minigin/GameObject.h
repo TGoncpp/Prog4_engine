@@ -20,10 +20,12 @@ namespace TG
 		virtual void Update(float dt);
 		virtual void FixedUpdate(float dt);
 		virtual void Render() const;
-		virtual void Reset() {};
 
 		//used by Command
 		virtual void HandleInput(const glm::vec2&) {};
+
+		//used by scene for (de)activating game input 
+		virtual void ActivateInput(bool ) {};
 		
 
 		//----------------------------------------
@@ -96,8 +98,10 @@ namespace TG
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other)      = delete;
 
-		void SetName(const std::string& newName) { m_Name = newName; };
 		std::string GetName() {return m_Name ; };
+
+	protected:
+		std::string m_Name{ "default" };
 
 	private:
 		Transform m_LocalTransform{};
@@ -110,6 +114,5 @@ namespace TG
 
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
-		std::string m_Name{ "default" };
 	};
 }

@@ -16,7 +16,8 @@ namespace Game
 		falling,
 		dead,
 		respawn,
-		lift//only for red character
+		lift,//only for red character,
+		dissable
 	};
 
 	class IState
@@ -196,5 +197,19 @@ namespace Game
 		const glm::vec2 m_StartPos;
 		glm::vec2 m_CurrentPos;
 		const float m_SpawnHeight{};
+	};
+
+
+	//DISSABLE
+	//---------------------------------------
+	class Dissable : public State
+	{
+	public:
+		Dissable(Character* owner)
+			:State(owner)
+		{
+			m_Type = EState::dissable;
+		}
+
 	};
 }

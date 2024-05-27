@@ -21,6 +21,9 @@ namespace Game
 		virtual void Notify(bool)override;
 		virtual void OnSubjectDestroy()override {};
 
+		virtual void ActivateInput(bool isActive)override ;
+
+
 		TG::RenderComponent* m_RenderCurseCompRefrence{ nullptr };
 		void SetCurseVisibility(bool isVisible);
 	};

@@ -27,7 +27,7 @@ namespace TG
 		IMenuState(){}
 
 		void virtual InputHandeling(const glm::vec2&) = 0;
-		void virtual OnEnter(const glm::vec2&) = 0;
+		void virtual OnEnter() = 0;
 		void virtual Update(float) = 0;
 		void virtual FixedUpdate(float) = 0;
 		void virtual OnExit() = 0;
@@ -46,7 +46,7 @@ namespace TG
 			m_ActiveScene{scene}{}
 
 		void virtual InputHandeling(const glm::vec2&) {};
-		void virtual OnEnter(const glm::vec2&) {};
+		void virtual OnEnter() {};
 		void virtual Update(float) {};
 		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
@@ -89,18 +89,22 @@ namespace TG
 	
 	class SelectionState final : public MenuState
 	{
+		enum class EGameMode
+		{
+			single,
+			coop,
+			vs
+		};
 	public:
 		SelectionState(SceneManager* sceneManager, Scene* owner)
 			:MenuState(sceneManager, owner ) 
 		{
 			m_MenuType = EMenuState::selection;
 		}
-
 		void virtual InputHandeling(const glm::vec2&);
-		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) {};
-		void virtual FixedUpdate(float){} ;
-		void virtual OnExit(){} ;
+
+	private:
+		EGameMode m_GameMode{ EGameMode::single };
 	};
 	
 	class IntermediateState final : public MenuState
@@ -113,7 +117,6 @@ namespace TG
 		}
 		void virtual InputHandeling(const glm::vec2&) ;
 		
-		void virtual OnExit(){} ;
 
 	};
 	
@@ -127,10 +130,10 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&) ;
-		void virtual OnEnter(const glm::vec2&) {};
+		void virtual OnEnter() ;
 		void virtual Update(float) ;
 		void virtual FixedUpdate(float) ;
-		void virtual OnExit(){} ;
+		void virtual OnExit() ;
 
 	};
 	
