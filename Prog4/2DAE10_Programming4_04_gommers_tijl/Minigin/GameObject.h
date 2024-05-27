@@ -10,6 +10,7 @@ namespace TG
 {
 	class RenderComponent;
 	class Texture2D;
+	class Font;
 
 	class GameObject
 	{

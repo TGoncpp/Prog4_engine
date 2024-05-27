@@ -26,6 +26,7 @@
 #include "QbertCharacter.h"
 #include "Disc.h"
 #include "Hud.h"
+#include "MenuScreen.h"
 
 #include "time.h"
 #include <iostream>
@@ -36,7 +37,7 @@ void load()
 {
 	const float worldScale{ 1.7f };
 	const float titleScale{ 1.f };
-	const float arrowScale{ 2.5f };
+	const float arrowScale{ 4.f };
 	const int gridSize{ 7 };
 	//auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
 	auto& scene       = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::game);
@@ -182,18 +183,7 @@ void load()
 	//SLECTION
 	//-----------------------------------------------
 	auto& selectionScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::selection);
-	auto selectionScreen = std::make_unique<TG::GameObject>();
-
-	selectionScreen->AddComponent<TG::RenderComponent>(selectionScreen.get(), selectionTexture);
-	auto comp = selectionScreen->AddComponent<TG::RenderComponent>(selectionScreen.get(), arrowTexture);
-	TG::RenderComponent* TextureComp = static_cast<TG::RenderComponent*>(comp);
-	TextureComp->SetOffset(glm::vec3{ 50.f, 200.f, 0.f });
-
-	comp = selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "Single Player ", largeFont, glm::vec3 {100.f, 200.f, 0.f});
-	TG::TextComponent* TextComp = static_cast<TG::TextComponent*>(comp);
-	float textHeight = TextComp->GetTextSize().y;
-	selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "VS  ", largeFont, glm::vec3 {100.f, 200.f + textHeight, 0.f});
-	selectionScreen->AddComponent<TG::TextComponent>(selectionScreen.get(), "Co-Op  ", largeFont, glm::vec3 {100.f, 200.f + textHeight * 2, 0.f});
+	auto selectionScreen = std::make_unique<Game::MenuScreen>(selectionTexture, arrowTexture, largeFont);
 
 	selectionScene.Add(std::move(selectionScreen));
 
@@ -203,9 +193,9 @@ void load()
 	//-----------------------------------------------
 	auto& controlScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::controls);
 	auto controlScreen = std::make_unique<TG::GameObject>();
-	comp = controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "get gud ", font, glm::vec3{5.f, 350.f, 0.f });
-	TextComp = static_cast<TG::TextComponent*>(comp);
-	textHeight = TextComp->GetTextSize().y;
+	auto comp = controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "get gud ", font, glm::vec3{5.f, 350.f, 0.f });
+	TG::TextComponent*  TextComp = static_cast<TG::TextComponent*>(comp);
+	float textHeight = TextComp->GetTextSize().y;
 	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "or just die  ", font, glm::vec3{ 5.f, 350.f + textHeight, 0.f });
 	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "Whatever, you do you  ", font, glm::vec3{ 5.f, 350.f + textHeight * 2, 0.f });
 
