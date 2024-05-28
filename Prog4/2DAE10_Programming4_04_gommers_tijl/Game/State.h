@@ -75,7 +75,7 @@ namespace Game
 		TG::SpriteComponent* m_SpriteComp{};
 	};
 
-	class WalkingQbertState : public WalkingState
+	class WalkingQbertState final: public WalkingState
 	{
 	public:
 		WalkingQbertState(Character* owner)
@@ -107,7 +107,7 @@ namespace Game
 
 	//LIFT
 	//---------------------------------------
-	class Lift : public State
+	class Lift final: public State
 	{
 	public:
 		Lift(Character* owner)
@@ -138,7 +138,7 @@ namespace Game
 		float m_CurrentDieTime{};
 	};
 
-	class GreenDead : public Dead
+	class GreenDead final: public Dead
 	{
 	public:
 		GreenDead(Character* owner, float timeToDie)
@@ -147,7 +147,7 @@ namespace Game
 	
 	};
 	
-	class PurpleDead : public Dead
+	class PurpleDead final: public Dead
 	{
 	public:
 		PurpleDead(Character* owner, float timeToDie)
@@ -158,7 +158,7 @@ namespace Game
 
 	//FALLING
 	//---------------------------------------
-	class Falling : public State
+	class Falling final: public State
 	{
 	public:
 		Falling(Character* owner, float fallTime)
@@ -179,7 +179,7 @@ namespace Game
 
 	//RESPAWN
 	//---------------------------------------
-	class ReSpawn : public State
+	class ReSpawn final: public State
 	{
 	public:
 		ReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight)
@@ -202,7 +202,7 @@ namespace Game
 
 	//DISSABLE
 	//---------------------------------------
-	class Dissable : public State
+	class Dissable final: public State
 	{
 	public:
 		Dissable(Character* owner)
