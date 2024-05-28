@@ -7,9 +7,11 @@
 #include<iostream>
 
 Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset)
+	:m_JumpOffset{jumpOffset}
 {
 	const std::pair<int, int> spriteRowsColums{ textureSPTR->GetSpriteRowColum()};
 	glm::vec2 posOnCube{ gridPosition.x - (textureSPTR->GetSize().x / (spriteRowsColums.second * 2.f)), gridPosition.y - (textureSPTR->GetSize().y/ spriteRowsColums.first) + jumpOffset.y /**1.4f*/ };
+	m_ZeroPosition = posOnCube;
 	SetLocalPosition(posOnCube);
 
 	//Add components
@@ -105,10 +107,11 @@ void Game::Character::UpdateGrid(bool isMoving)
 }
 
 void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset)
+
 {
 	m_GridPostion = std::make_pair(toLeft, ToBelow);
-	glm::vec2 oldPos{ GetLocalPosition() };
-	glm::vec2 newPos{ TG::Transform::CalculateGridPosition(toLeft, ToBelow, jumpOffset, oldPos) };
+	//glm::vec2 oldPos{ GetLocalPosition() };
+	glm::vec2 newPos{ TG::Transform::CalculateGridPosition(toLeft, ToBelow, jumpOffset, m_ZeroPosition) };
 
 	SetLocalPosition(newPos);
 }

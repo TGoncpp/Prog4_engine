@@ -231,6 +231,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="Player2Component.h" />
     <ClInclude Include="QbertCharacter.h" />
     <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="State.h" />

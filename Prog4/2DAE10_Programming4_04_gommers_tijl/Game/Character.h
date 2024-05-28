@@ -54,6 +54,8 @@ namespace Game
 	protected:
 
 		glm::vec2 m_Direction{};
+		glm::vec2 m_JumpOffset{};
+		glm::vec2 m_ZeroPosition{};
 		ECharacterType m_Type{ ECharacterType::red };
 		std::map <EState ,std::unique_ptr<State>> m_PossibleStates;
 		State* m_CharacterState{ nullptr };
