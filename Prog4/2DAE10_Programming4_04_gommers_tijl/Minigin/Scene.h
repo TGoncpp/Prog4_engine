@@ -16,7 +16,7 @@ namespace TG
 		void Update(float dt);
 		void FixedUpdate(float dt);
 		void Render() const;
-		void ActivateInput(bool IsActive);
+		void ActivateInput(bool IsActive, int gameMode);
 		void ApplyGameMode(int activeGameMode);
 
 		~Scene();

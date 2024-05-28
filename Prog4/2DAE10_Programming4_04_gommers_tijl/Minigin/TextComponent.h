@@ -22,11 +22,13 @@ namespace TG
 		virtual void FixedUpdate(float dt) override { (void)dt; };
 		virtual void Render() const override;
 
+		void SetVisibility(bool visibility);
 		void SetText(const std::string& text);
 		void SetOffset(const glm::vec2& offset);
 		glm::vec2 GetTextSize()const;
 
 	private:
+		bool m_IsVisible{ true };
 		bool m_needsUpdate;
 		glm::vec3 m_Offset{};
 		std::string m_text;

@@ -64,7 +64,7 @@ void Game::ScoreComponent::UpdateScore(const ECharacterType& characterType)
 std::string Game::ScoreComponent::UpdateMessage()
 {
 	std::string newScoreMessage;
-	newScoreMessage += " score : ";
+	newScoreMessage += "Score : ";
 	newScoreMessage += std::to_string(m_Score);
 
 	return newScoreMessage;

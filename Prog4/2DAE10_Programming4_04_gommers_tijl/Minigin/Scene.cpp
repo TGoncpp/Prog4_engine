@@ -75,13 +75,18 @@ void Scene::Render() const
 	}
 }
 
-void TG::Scene::ActivateInput(bool IsActive)
+void TG::Scene::ActivateInput(bool IsActive, int gameMode)
 {
 	std::vector<int> vPlayers = findGOwithName("Qbert");
-	 for (size_t index{}; index < vPlayers.size(); ++index)
-	 {
-		 m_objects [vPlayers[index]] ->ActivateInput(IsActive);
-	 }
+	if (gameMode == 0)
+		m_objects[vPlayers[0]]->ActivateInput(IsActive);
+	else
+	{
+		for (size_t index{}; index < vPlayers.size(); ++index)
+		{
+			m_objects[vPlayers[index]]->ActivateInput(IsActive);
+		}
+	}
 }
 
 void TG::Scene::ApplyGameMode(int activeGameMode)

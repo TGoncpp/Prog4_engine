@@ -41,7 +41,7 @@ void TG::TextComponent::Update(float )
 
 void TG::TextComponent::Render() const
 {
-	if (m_textTexture != nullptr || !m_OwnerPTR)
+	if ((m_textTexture != nullptr || !m_OwnerPTR) && m_IsVisible)
 	{
 		glm::vec3 pos = m_OwnerPTR->GetWorldPosition() + m_Offset;
 		TG::Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
@@ -64,4 +64,9 @@ void TG::TextComponent::SetOffset(const glm::vec2& offset)
 glm::vec2 TG::TextComponent::GetTextSize()const
 {
 	return m_textTexture->GetSize();
+}
+
+void TG::TextComponent::SetVisibility(bool visibility)
+{
+	m_IsVisible = visibility;
 }

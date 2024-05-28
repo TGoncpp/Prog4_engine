@@ -92,7 +92,7 @@ void load()
 	grid->SetGridSubject(character.get());
 
 	auto character2 = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture2, cubeSize, CurseTexture);
-	character2.get()->SetPositionOnGridByIndex(5, 0, cubeSize);
+	character2.get()->SetPositionOnGridByIndex(6, 0, cubeSize);
 	grid->SetGridSubject(character2.get());
 
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);

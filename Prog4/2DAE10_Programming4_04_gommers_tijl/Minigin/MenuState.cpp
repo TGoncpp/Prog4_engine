@@ -28,11 +28,11 @@ void TG::GameState::InputHandeling(const glm::vec2& signal)
 }
 void TG::GameState::OnEnter()
 {
-	m_ActiveScene->ActivateInput(true);
+	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+	m_ActiveScene->ActivateInput(true, activeMode);
 
 	if (m_OwnerObject->GetPreviousMenuState() == EMenuState::pause)
 		return;
-	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
 	m_ActiveScene->ApplyGameMode(activeMode);
 }
 
@@ -48,7 +48,8 @@ void TG::GameState::FixedUpdate(float dt)
 
 void TG::GameState::OnExit()
 {
-	m_ActiveScene->ActivateInput(false);
+	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+	m_ActiveScene->ActivateInput(false, activeMode);
 }
 
 //-----------------------------------------

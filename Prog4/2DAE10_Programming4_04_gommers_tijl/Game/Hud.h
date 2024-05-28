@@ -18,6 +18,8 @@ namespace Game
 		Hud& operator=(const Hud&) = delete;
 		Hud& operator=(Hud&&)      = delete;
 
+		virtual void ApplyGameMode(int gameMode)override;
+
 	private:
 		std::map<std::string, TG::RenderComponent*> m_mTextureRenderRefrences
 		{
@@ -35,12 +37,13 @@ namespace Game
 			std::make_pair("level", nullptr),
 			std::make_pair("Player 1", nullptr),
 			std::make_pair("round", nullptr),
-			std::make_pair("score", nullptr)
+			std::make_pair("Score", nullptr)
 		};
 
 		void SetTextComponent(const glm::vec2& offset, const std::string& key, std::shared_ptr<TG::Font> font, std::string text = "");
 
 		int m_Level{ 2 };
 		int m_Round{ 1 };
+		bool m_ShowPlayer2{ false };
 	};
 }
