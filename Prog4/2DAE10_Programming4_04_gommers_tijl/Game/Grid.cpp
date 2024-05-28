@@ -17,7 +17,7 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 		startCube.x -= m_CubeSize.x;
 		startCube.y += m_CubeSize.y;
 		glm::vec2 topCubeLocation{ startCube  };
-		for (int cube{}; cube < vLines.size() ; ++cube)
+		for (size_t cube{}; cube < vLines.size() ; ++cube)
 		{
 			topCubeLocation += m_CubeSize;
 			vLines[cube] = std::make_unique< Cube>(topCubeLocation, ECubeProgressState::startFase, textureSPTR, std::make_pair<int, int>(3, 6));
@@ -94,7 +94,7 @@ void Game::Grid::OnSubjectDestroy()
 
 void Game::Grid::Notify(Character* object, bool isMoving)
 {
-	std::pair<int, int> newPosition = object->GetGridPosition();
+	std::pair<size_t, size_t> newPosition = object->GetGridPosition();
 	ECharacterType type             = object->GetCharacterType();
 
 	//jumped off the platform - Add score if it was curly

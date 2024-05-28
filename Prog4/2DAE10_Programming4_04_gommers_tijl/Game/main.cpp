@@ -50,6 +50,7 @@ void load()
 	auto cubeTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Cubes.png", true, worldScale);
 	auto CurseTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert Curses.png", true, titleScale);
 	auto QbertTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P1 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
+	auto QbertTexture2 = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P2 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
 	auto samTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale, std::pair<int, int>(2, 2));
 	auto DiscTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Disk Spritesheet.png", true, worldScale, std::pair<int, int>(1, 30));
@@ -90,6 +91,10 @@ void load()
 	auto character = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture, cubeSize, CurseTexture);
 	grid->SetGridSubject(character.get());
 
+	auto character2 = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture2, cubeSize, CurseTexture);
+	character2.get()->SetPositionOnGridByIndex(5, 0, cubeSize);
+	grid->SetGridSubject(character2.get());
+
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetGridSubject(npc.get());
@@ -110,8 +115,9 @@ void load()
 	disc12->SetGridSubject(grid.get());
 
 	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get()};
+	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get()};
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
-	auto hud = std::make_unique<Game::Hud>(vChar, vTex, font);
+	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vTex, font);
 
 	//----------------------------------------------------
 	//INPUT BINDING
@@ -126,15 +132,36 @@ void load()
 	auto moveLeft = std::make_unique<TG::Move>(character.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::pressed);
 
+	//inputMapping XBox controller
+	auto moveUp2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });
+	input.InputBinding(std::move(moveUp2), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, true);
+	auto moveDown2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, 1.f });
+	input.InputBinding(std::move(moveDown2), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, true);
+	auto moveRight2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 1.f, 0.f });
+	input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, true);
+	auto moveLeft2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ -1.f, 0.f });
+	input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, true);
+
+	//Character 2
 	//inputMapping Snake
-	auto moveUpSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, 1.f });
+	auto moveUpSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, 1.f });
 	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::pressed);
-	auto moveDownSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, -1.f });
+	auto moveDownSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, -1.f });
 	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::pressed);
-	auto moveRightSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 1.f, 0.f });
+	auto moveRightSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 1.f, 0.f });
 	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
-	auto moveLeftSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ -1.f, 0.f });
+	auto moveLeftSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
+
+	////inputMapping XBox controller
+	//auto moveUp2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });
+	//input.InputBinding(std::move(moveUp2), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, true);
+	//auto moveDown2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, 1.f });
+	//input.InputBinding(std::move(moveDown2), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, true);
+	//auto moveRight2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 1.f, 0.f });
+	//input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, true);
+	//auto moveLeft2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ -1.f, 0.f });
+	//input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, true);
 
 
 	//----------------------------------------------------
@@ -148,6 +175,7 @@ void load()
 	scene.Add(std::move(disc1));
 	scene.Add(std::move(disc12));
 	scene.Add(std::move(character));
+	scene.Add(std::move(character2));
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
 		
@@ -207,13 +235,6 @@ void load()
 
 	auto controlScreen = std::make_unique<Game::controlScreen>(std::vector{ controlTexture ,controlTexture1 ,controlTexture2 });
 
-	/*auto controlScreen = std::make_unique<TG::GameObject>();
-	auto comp = controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "get gud ", font, glm::vec3{5.f, 350.f, 0.f });
-	TG::TextComponent*  TextComp = static_cast<TG::TextComponent*>(comp);
-	float textHeight = TextComp->GetTextSize().y;
-	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "or just die  ", font, glm::vec3{ 5.f, 350.f + textHeight, 0.f });
-	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "Whatever, you do you  ", font, glm::vec3{ 5.f, 350.f + textHeight * 2, 0.f });*/
-
 	controlScene.Add(std::move(controlScreen));
 
 	//-------------------------------------------
@@ -221,16 +242,6 @@ void load()
 
 	TG::SceneManager::GetInstance().CreateMenu();
 	
-	////Character 2
-	////inputMapping
-	//auto moveUp2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ 0.f, -1.f });
-	//input.InputBinding(std::move(moveUp2), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, true);
-	//auto moveDown2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ 0.f, 1.f });
-	//input.InputBinding(std::move(moveDown2), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, true);
-	//auto moveRight2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ 1.f, 0.f });
-	//input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, true);
-	//auto moveLeft2 = std::make_unique<TG::Move>(scene.GetObjectByIndex(5), glm::vec2{ -1.f, 0.f });
-	//input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, true);
 	
 }
 

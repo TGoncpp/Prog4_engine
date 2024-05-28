@@ -11,14 +11,17 @@ Scene::Scene(const std::string& name) : m_name(name)
 	
 }
 
-size_t TG::Scene::findGOwithName(const std::string& name)
+std::vector<int> TG::Scene::findGOwithName(const std::string& name)
 {
+	std::vector<int> playerIndexes;
 	for (size_t index{}; index < m_objects.size(); ++index)
 	{
 		if (m_objects[index]->GetName() == name)
-			return index;
+			playerIndexes.push_back(static_cast<int>(index));
 	}
-	throw std::runtime_error("gameObject with name is not found in scene");
+	if (playerIndexes.size()<= 0)
+		throw std::runtime_error("gameObject with name is not found in scene");
+	return playerIndexes;
 }
 
 Scene::~Scene() = default;
@@ -38,7 +41,7 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-GameObject* TG::Scene::GetGO(int index) const
+GameObject* TG::Scene::GetGO(size_t index) const
 {
 	if (index >= m_objects.size())
 	{
@@ -74,8 +77,11 @@ void Scene::Render() const
 
 void TG::Scene::ActivateInput(bool IsActive)
 {
-	size_t index = findGOwithName("Qbert");
-	m_objects[index]->ActivateInput(IsActive);
+	std::vector<int> vPlayers = findGOwithName("Qbert");
+	 for (size_t index{}; index < vPlayers.size(); ++index)
+	 {
+		 m_objects [vPlayers[index]] ->ActivateInput(IsActive);
+	 }
 }
 
 void TG::Scene::ApplyGameMode(int activeGameMode)

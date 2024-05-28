@@ -10,7 +10,8 @@ namespace Game
 	class Hud final : public TG::GameObject
 	{
 	public:
-		Hud(std::vector<Character*> vCharacters, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font);
+		Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2
+			, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font);
 		~Hud()                     = default;
 		Hud(const Hud&)            = delete;
 		Hud(Hud&&)                 = delete;
@@ -24,6 +25,9 @@ namespace Game
 			std::make_pair("health", nullptr),
 			std::make_pair("health2", nullptr),
 			std::make_pair("health3", nullptr),
+			std::make_pair("healthPlayer2-1", nullptr),
+			std::make_pair("healthPlayer2-2", nullptr),
+			std::make_pair("healthPlayer2-3", nullptr),
 			std::make_pair("targetCube", nullptr)
 		};
 		std::map<std::string, TG::TextComponent*> m_mTextRenderRefrences

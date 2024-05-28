@@ -11,7 +11,7 @@ namespace TG
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(std::unique_ptr<GameObject> object);
 		void RemoveAll();
-		GameObject* GetGO(int index)const;
+		GameObject* GetGO(size_t index)const;
 
 		void Update(float dt);
 		void FixedUpdate(float dt);
@@ -32,7 +32,7 @@ namespace TG
 		std::string m_name;
 		std::vector < std::unique_ptr<GameObject>> m_objects{};
 
-		size_t findGOwithName(const std::string& name);
+		std::vector<int>  findGOwithName(const std::string& name);
 	};
 
 }

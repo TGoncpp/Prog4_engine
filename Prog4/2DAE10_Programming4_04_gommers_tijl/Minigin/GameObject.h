@@ -99,7 +99,8 @@ namespace TG
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other)      = delete;
 
-		std::string GetName() {return m_Name ; };
+		std::string GetName()const {return m_Name ; };
+		void SetName(const std::string& name) {m_Name = name; };
 
 	protected:
 		std::string m_Name{ "default" };
