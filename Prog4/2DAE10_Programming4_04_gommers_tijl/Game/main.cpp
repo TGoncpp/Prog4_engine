@@ -28,6 +28,7 @@
 #include "Hud.h"
 #include "MenuScreen.h"
 #include "IntermediateScreen.h"
+#include "controlScreen.h"
 
 #include "time.h"
 #include <iostream>
@@ -38,6 +39,7 @@ void load()
 {
 	const float worldScale{ 1.7f };
 	const float titleScale{ 1.f };
+	const float screenScale{ 0.8f };
 	const float arrowScale{ 4.f };
 	const int gridSize{ 7 };
 	//auto& scene       = TG::SceneManager::GetInstance().CreateScene("Demo");
@@ -66,8 +68,13 @@ void load()
 	auto arrowTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Selection Arrow.png", true, arrowScale);
 	//intermediate
 	auto MenuLvlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, titleScale);
-	auto MenuLvlTexture2  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 02 Title.png", true, titleScale);
-	auto MenuLvlTexture3  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 03 Title.png", true, titleScale);
+	auto MenuLvlTexture1  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 02 Title.png", true, titleScale);
+	auto MenuLvlTexture2  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 03 Title.png", true, titleScale);
+	//controls
+	auto controlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls Single.png", true, screenScale);
+	auto controlTexture1 = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls vs.png", true, screenScale);
+	auto controlTexture2 = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls coop.png", true, screenScale);
+
 
 	//if NDEBUG
 	TG::Locator::provide(std::make_unique< TG::GameAudio>());
@@ -150,10 +157,10 @@ void load()
 	auto& IntroScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intro);
 	auto introTexture = std::make_unique<TG::GameObject>();
 	introTexture->AddComponent<TG::RenderComponent>(introTexture.get(), MenuIntroTexture);
-	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press SPACE ", largeFont, glm::vec3 {120.f, 400.f, 0.f});
+	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press ENTER ", largeFont, glm::vec3 {120.f, 400.f, 0.f});
 
 	auto enter = std::make_unique<TG::Enter>(introTexture.get());
-	input.InputBinding(std::move(enter), SDL_SCANCODE_SPACE, EInputType::pressed);
+	input.InputBinding(std::move(enter), SDL_SCANCODE_RETURN, EInputType::pressed);
 
 	auto quit = std::make_unique<TG::Quit>(introTexture.get());
 	input.InputBinding(std::move(quit), SDL_SCANCODE_ESCAPE, EInputType::pressed);
@@ -171,7 +178,7 @@ void load()
 	//-----------------------------------------------
 	auto& InterScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intermediate);
 
-	auto interScreen = std::make_unique<Game::IntermedateScreen>(std::vector{ MenuLvlTexture, MenuLvlTexture2, MenuLvlTexture3 }, largeFont);
+	auto interScreen = std::make_unique<Game::IntermedateScreen>(std::vector{ MenuLvlTexture, MenuLvlTexture1, MenuLvlTexture2 }, largeFont);
 
 	InterScene.Add(std::move(interScreen));
 
@@ -197,12 +204,15 @@ void load()
 	//CONTROL
 	//-----------------------------------------------
 	auto& controlScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::controls);
-	auto controlScreen = std::make_unique<TG::GameObject>();
+
+	auto controlScreen = std::make_unique<Game::controlScreen>(std::vector{ controlTexture ,controlTexture1 ,controlTexture2 });
+
+	/*auto controlScreen = std::make_unique<TG::GameObject>();
 	auto comp = controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "get gud ", font, glm::vec3{5.f, 350.f, 0.f });
 	TG::TextComponent*  TextComp = static_cast<TG::TextComponent*>(comp);
 	float textHeight = TextComp->GetTextSize().y;
 	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "or just die  ", font, glm::vec3{ 5.f, 350.f + textHeight, 0.f });
-	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "Whatever, you do you  ", font, glm::vec3{ 5.f, 350.f + textHeight * 2, 0.f });
+	controlScreen->AddComponent<TG::TextComponent>(controlScreen.get(), "Whatever, you do you  ", font, glm::vec3{ 5.f, 350.f + textHeight * 2, 0.f });*/
 
 	controlScene.Add(std::move(controlScreen));
 
