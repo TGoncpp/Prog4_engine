@@ -2,6 +2,21 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+
+void TG::MenuState::UpdateGameMode(float Ydirection)
+{
+	int currentMode = static_cast<int>(m_GameMode);
+
+	if (currentMode + Ydirection >= 2)
+		m_GameMode = EGameMode::coop;
+	else if (currentMode + Ydirection <= 0)
+		m_GameMode = EGameMode::single;
+	else
+		m_GameMode = EGameMode::vs;
+}
+
+
+
 //-----------------------------------------
 //GAME
 //-----------------------------------------
@@ -14,6 +29,11 @@ void TG::GameState::InputHandeling(const glm::vec2& signal)
 void TG::GameState::OnEnter()
 {
 	m_ActiveScene->ActivateInput(true);
+
+	if (m_OwnerObject->GetPreviousMenuState() == EMenuState::pause)
+		return;
+	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+	m_ActiveScene->ApplyGameMode(activeMode);
 }
 
 void TG::GameState::Update(float dt)
@@ -46,13 +66,22 @@ void TG::IntroState::InputHandeling(const glm::vec2& signal)
 //-----------------------------------------
 void TG::SelectionState::InputHandeling(const glm::vec2& signal)
 {
+	//chose mode
 	if (signal.x == 1 && signal.y != 0)
 	{
 		m_ActiveScene->GetGO(0)->HandleInput(signal);
+		UpdateGameMode(signal.y);
 	}
+	// Enter
 	else if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::controls);
 }
+
+void TG::SelectionState::OnExit()
+{
+	m_OwnerObject->UpdateGameMode(m_GameMode);
+}
+
 
 //-----------------------------------------
 //CONTROL
@@ -63,6 +92,12 @@ void TG::ControlsState::InputHandeling(const glm::vec2& signal)
 		OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
 }
 
+void TG::ControlsState::OnEnter()
+{
+	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+	m_ActiveScene->ApplyGameMode(activeMode);
+}
+
 //-----------------------------------------
 //INTERMEDIATE
 //-----------------------------------------
@@ -70,6 +105,12 @@ void TG::IntermediateState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::game);
+}
+
+void TG::IntermediateState::OnEnter()
+{
+	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+	m_ActiveScene->ApplyGameMode(activeMode);
 }
 
 //-----------------------------------------

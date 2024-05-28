@@ -8,7 +8,7 @@ namespace TG
 	class Scene;
 	class SceneManager;
 	//-----------------------------------------
-	//INTERFACE
+	//ENUMERATIONS
 	//---------------------------------------
 	enum class EMenuState
 	{
@@ -20,7 +20,15 @@ namespace TG
 		pause,
 		gameOver
 	};
-
+	enum class EGameMode
+	{
+		single = 0,
+		vs     = 1,
+		coop   = 2
+	};
+	//-----------------------------------------
+	//INTERFACE
+	//---------------------------------------
 	class IMenuState
 	{
 	public:
@@ -58,6 +66,9 @@ namespace TG
 		SceneManager* m_OwnerObject{};
 		Scene* m_ActiveScene{};
 		EMenuState m_MenuType{ EMenuState::game };
+		void UpdateGameMode(float Ydirection);
+		EGameMode m_GameMode{ EGameMode::single };
+
 	};
 
 	class IntroState final : public MenuState
@@ -84,17 +95,13 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&);
+		void virtual OnEnter();
 		
 	};
 	
 	class SelectionState final : public MenuState
 	{
-		enum class EGameMode
-		{
-			single,
-			coop,
-			vs
-		};
+		
 	public:
 		SelectionState(SceneManager* sceneManager, Scene* owner)
 			:MenuState(sceneManager, owner ) 
@@ -102,9 +109,8 @@ namespace TG
 			m_MenuType = EMenuState::selection;
 		}
 		void virtual InputHandeling(const glm::vec2&);
+		void virtual OnExit();
 
-	private:
-		EGameMode m_GameMode{ EGameMode::single };
 	};
 	
 	class IntermediateState final : public MenuState
@@ -116,8 +122,8 @@ namespace TG
 			m_MenuType = EMenuState::intermediate;
 		}
 		void virtual InputHandeling(const glm::vec2&) ;
+		void virtual OnEnter() ;
 		
-
 	};
 	
 	class GameState final : public MenuState
@@ -140,20 +146,15 @@ namespace TG
 	class PauseState final : public MenuState
 	{
 	public:
-		PauseState(SceneManager* sceneManager, Scene* owner, Scene* gameScene)
-			:MenuState(sceneManager, owner ),
-			m_GameScenePtr{gameScene}
+		PauseState(SceneManager* sceneManager, Scene* owner)
+			:MenuState(sceneManager, owner )
 		{
 			m_MenuType = EMenuState::pause;
 		}
 
-		//signal stands for ENTER: 0,random
-		//signal stands for QUIT   1,random
+		//signal stands for ENTER: 0,0
+		//signal stands for QUIT   1,0
 		void virtual InputHandeling(const glm::vec2&) ;
-		
-		void virtual OnExit(){} ;
-	private:
-		Scene* m_GameScenePtr{ nullptr };
 
 	};
 	

@@ -169,12 +169,31 @@ void load()
 	//INTERMEDIATE SCENE
 	//-----------------------------------------------
 	auto& InterScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::intermediate);
+
+	//SINGLE PLAYER
 	auto interTexture = std::make_unique<TG::GameObject>();
 	interTexture->AddComponent<TG::RenderComponent>(interTexture.get(), MenuLvlTexture);
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "SINGLE PLAYER ", largeFont, glm::vec3 {45.f, 150.f, 0.f});
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "Press SPACE ", largeFont, glm::vec3 {45.f, 350.f, 0.f});
+	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });
+
+	//VS
+	auto interTexture1 = std::make_unique<TG::GameObject>();
+	interTexture->AddComponent<TG::RenderComponent>(interTexture.get(), MenuLvlTexture);
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "VS ", largeFont, glm::vec3 {45.f, 150.f, 0.f});
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "Press SPACE ", largeFont, glm::vec3 {45.f, 350.f, 0.f});
+	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });
+
+	//COOP
+	auto interTexture2 = std::make_unique<TG::GameObject>();
+	interTexture->AddComponent<TG::RenderComponent>(interTexture.get(), MenuLvlTexture);
+	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "COOP ", largeFont, glm::vec3 {45.f, 150.f, 0.f});
 	interTexture->AddComponent<TG::TextComponent>(interTexture.get(), "Press SPACE ", largeFont, glm::vec3 {45.f, 350.f, 0.f});
 	interTexture->SetLocalPosition(glm::vec2{ 75.f, 50.f });
 
 	InterScene.Add(std::move(interTexture));
+	InterScene.Add(std::move(interTexture1));
+	InterScene.Add(std::move(interTexture2));
 
 	//----------------------------------------------------
 	//PAUSE

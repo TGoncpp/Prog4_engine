@@ -78,3 +78,11 @@ void TG::Scene::ActivateInput(bool IsActive)
 	m_objects[index]->ActivateInput(IsActive);
 }
 
+void TG::Scene::ApplyGameMode(int activeGameMode)
+{
+	for (const auto& object : m_objects)
+	{
+		object->ApplyGameMode(activeGameMode);
+	}
+}
+

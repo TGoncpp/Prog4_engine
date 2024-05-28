@@ -23,16 +23,18 @@ void TG::SceneManager::Render()
 {
 	m_mScenes[m_CurrentMenu->GetMenuType()]->Render();
 
-	
 }
 
 void TG::SceneManager::LateUpdate()
 {
 	if (!m_IsMenuDirty)
 		return;
+
+	m_PrevioustMenu = m_CurrentMenu;
 	m_CurrentMenu->OnExit();
 	m_CurrentMenu = m_FutureMenu;
 	m_CurrentMenu->OnEnter();
+
 	m_FutureMenu = nullptr;
 	m_IsMenuDirty = false;
 }
@@ -96,7 +98,7 @@ void TG::SceneManager::CreateMenu()
 	m_mPossibleMenus[EMenuState::game]->OnStateSwitch.AddObserver(this);
 	m_mPossibleMenus.insert(std::make_pair(EMenuState::gameOver, std::make_unique<GameOverState>(this, m_mScenes[EMenuState::gameOver].get())));
 	m_mPossibleMenus[EMenuState::gameOver]->OnStateSwitch.AddObserver(this);
-	m_mPossibleMenus.insert(std::make_pair(EMenuState::pause, std::make_unique<PauseState>(this, m_mScenes[EMenuState::pause].get(), m_mScenes[EMenuState::game].get())));
+	m_mPossibleMenus.insert(std::make_pair(EMenuState::pause, std::make_unique<PauseState>(this, m_mScenes[EMenuState::pause].get())));
 	m_mPossibleMenus[EMenuState::pause]->OnStateSwitch.AddObserver(this);
 
 	m_CurrentMenu = m_mPossibleMenus[EMenuState::intro].get();
@@ -107,10 +109,3 @@ TG::SceneManager::SceneManager()
 	
 }
 
-//TG::Scene& TG::SceneManager::CreateScene(const std::string& name)
-//{
-//	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-//	//const auto& scene = std::make_unique<Scene>(name);
-//	m_scenes.push_back(scene);
-//	return *scene;
-//}

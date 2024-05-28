@@ -17,6 +17,7 @@ namespace TG
 		void FixedUpdate(float dt);
 		void Render() const;
 		void ActivateInput(bool IsActive);
+		void ApplyGameMode(int activeGameMode);
 
 		~Scene();
 		Scene(const Scene& other)            = delete;
@@ -25,6 +26,7 @@ namespace TG
 		Scene& operator=(Scene&& other)      = delete;
 
 		explicit Scene(const std::string& name);
+
 	private: 
 
 		std::string m_name;

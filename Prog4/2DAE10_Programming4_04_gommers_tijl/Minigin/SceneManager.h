@@ -21,12 +21,18 @@ namespace TG
 		void Render();
 		void LateUpdate();
 
-		//signal ENTER -> x=0
-		//signal Quit  -> x=1
+		//signal ENTER -> 0,0
+		//signal Quit  -> 1,0
 		void HandleInput(const glm::vec2& direction);
 
 		MenuState* GetMenustate()const { return m_CurrentMenu; }
+		Scene* GetSceneOffState(const EMenuState& state) { return m_mScenes[state].get(); }
+		MenuState* GetMenuOffState(const EMenuState& state) { return m_mPossibleMenus[state].get(); }
+		EMenuState GetPreviousMenuState()const { return m_PrevioustMenu->GetMenuType(); }
 		void CreateMenu();
+		
+		void UpdateGameMode(const EGameMode& newGameMode) { m_ActiveGameMode = newGameMode; }
+		int GetActiveGameModeIndex()const { return static_cast<int>(m_ActiveGameMode); }
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager();
@@ -36,8 +42,10 @@ namespace TG
 
 		std::map< EMenuState, std::unique_ptr<Scene>> m_mScenes;
 		std::map< EMenuState, std::unique_ptr<MenuState>> m_mPossibleMenus;
+		MenuState* m_PrevioustMenu{nullptr};
 		MenuState* m_CurrentMenu{nullptr};
 		MenuState* m_FutureMenu{nullptr};
+		EGameMode m_ActiveGameMode{ EGameMode::single };
 		bool m_IsMenuDirty{false};
 	};
 }
