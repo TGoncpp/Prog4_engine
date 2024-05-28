@@ -43,6 +43,13 @@ void Game::ScoreComponent::OnSubjectDestroy()
 	m_SubjectOwnrPtr = nullptr;
 }
 
+void Game::ScoreComponent::ResetScore()
+{
+	m_Score = 0;
+	if (m_TextCompUPtr)
+		m_TextCompUPtr->SetText(UpdateMessage());
+}
+
 void Game::ScoreComponent::UpdateScore(const ECharacterType& characterType)
 {
 	switch (characterType)

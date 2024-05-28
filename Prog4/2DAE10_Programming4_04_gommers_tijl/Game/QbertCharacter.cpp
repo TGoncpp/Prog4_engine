@@ -42,11 +42,14 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode)
 		if (mode == TG::EGameMode::coop)
 		{
 			SetPositionOnGridByIndex(6, 0, m_JumpOffset);
-			
+			m_CharacterState = m_PossibleStates[EState::idle].get();
 		}
 
 		else
+		{
 			SetPositionOnGridByIndex(12, 0, m_JumpOffset);
+			m_CharacterState = m_PossibleStates[EState::dissable].get();
+		}
 	}
 	else
 	{

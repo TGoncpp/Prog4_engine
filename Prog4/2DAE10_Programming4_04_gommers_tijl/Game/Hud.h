@@ -7,6 +7,8 @@
 
 namespace Game
 {
+	class ScoreComponent;
+	class HealthComponent;
 	class Hud final : public TG::GameObject
 	{
 	public:
@@ -39,6 +41,11 @@ namespace Game
 			std::make_pair("round", nullptr),
 			std::make_pair("Score", nullptr)
 		};
+		ScoreComponent* m_ScorePlayer1Ptr{ nullptr };
+		ScoreComponent* m_ScorePlayer2Ptr{ nullptr };
+		HealthComponent* m_HealthPlayer1Ptr{ nullptr };
+		HealthComponent* m_HealthPlayer2Ptr{ nullptr };
+
 
 		void SetTextComponent(const glm::vec2& offset, const std::string& key, std::shared_ptr<TG::Font> font, std::string text = "");
 

@@ -25,14 +25,16 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 	
 	//Score Player1
 	SetTextComponent(glm::vec2{ borderOffset, 150.f }, "Score", font);
-	AddComponent<ScoreComponent>(this, vCharacters, m_mTextRenderRefrences["Score"]);
+	auto comp = AddComponent<ScoreComponent>(this, vCharacters, m_mTextRenderRefrences["Score"]);
+	m_ScorePlayer1Ptr = static_cast<ScoreComponent*>(comp);
 
 	//Player
 	SetTextComponent(glm::vec2{ borderOffset, 100.f }, "Player 1", font);
 
 	//Score Player2
 	SetTextComponent(glm::vec2{ Player2X, 150.f }, "Score", font);
-	AddComponent<ScoreComponent>(this, vCharactersPlayer2, m_mTextRenderRefrences["Score"]);
+	comp = AddComponent<ScoreComponent>(this, vCharactersPlayer2, m_mTextRenderRefrences["Score"]);
+	m_ScorePlayer2Ptr = static_cast<ScoreComponent*>(comp);
 	
 	//Player
 	SetTextComponent(glm::vec2{ Player2X, 100.f }, "Player 2", font);
@@ -60,7 +62,9 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 	m_mTextureRenderRefrences["health2"]->SetOffset(glm::vec3{ borderOffset, startHeight + offset * 2, 0.f });
 	m_mTextureRenderRefrences["health3"]->SetOffset(glm::vec3{ borderOffset, startHeight + offset * 3, 0.f });
 	std::vector vHearths{ m_mTextureRenderRefrences["health"] , m_mTextureRenderRefrences["health2"] , m_mTextureRenderRefrences["health3"] };
-	AddComponent<HealthComponent>(this, vCharacters[0], vHearths);
+	comp = AddComponent<HealthComponent>(this, vCharacters[0], vHearths);
+	m_HealthPlayer1Ptr = static_cast<HealthComponent*>(comp);
+
 	
 	//Set Health player 2
 	m_mTextureRenderRefrences["healthPlayer2-1"]->SetOffset(glm::vec3{ Player2X, startHeight + offset, 0.f });
@@ -70,7 +74,8 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 	m_mTextureRenderRefrences["healthPlayer2-2"]->SetVisibility(false);
 	m_mTextureRenderRefrences["healthPlayer2-3"]->SetVisibility(false);
 	std::vector vHearthsPlayer2{ m_mTextureRenderRefrences["healthPlayer2-1"] , m_mTextureRenderRefrences["healthPlayer2-2"] , m_mTextureRenderRefrences["healthPlayer2-3"] };
-	AddComponent<HealthComponent>(this, vCharactersPlayer2[0], vHearthsPlayer2);
+	comp = AddComponent<HealthComponent>(this, vCharactersPlayer2[0], vHearthsPlayer2);
+	m_HealthPlayer2Ptr = static_cast<HealthComponent*>(comp);
 
 	m_mTextRenderRefrences["Score"]->SetVisibility(false);
 	m_mTextRenderRefrences["Player 2"]->SetVisibility(false);
@@ -82,12 +87,16 @@ void Game::Hud::ApplyGameMode(int gameMode)
 {
 	if (gameMode == 2)
 	{
+		//Set visibility
 		m_mTextureRenderRefrences["healthPlayer2-1"]->SetVisibility(true);
 		m_mTextureRenderRefrences["healthPlayer2-2"]->SetVisibility(true);
 		m_mTextureRenderRefrences["healthPlayer2-3"]->SetVisibility(true);
 
 		m_mTextRenderRefrences["Score"]->SetVisibility(true);
 		m_mTextRenderRefrences["Player 2"]->SetVisibility(true);
+
+		m_HealthPlayer2Ptr->ResetHealth();
+		m_ScorePlayer2Ptr->ResetScore();
 
 	}
 	else
@@ -100,6 +109,9 @@ void Game::Hud::ApplyGameMode(int gameMode)
 		m_mTextRenderRefrences["Player 2"]->SetVisibility(false);
 
 	}
+		//Reset values
+		m_HealthPlayer1Ptr->ResetHealth();
+		m_ScorePlayer1Ptr->ResetScore();
 }
 
 void Game::Hud::SetTextComponent(const glm::vec2& offset, const std::string& key, std::shared_ptr<TG::Font> font, std::string text)

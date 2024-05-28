@@ -15,6 +15,13 @@ Game::HealthComponent::~HealthComponent()
 	m_Subject->OnDead.RemoveObserver(this);
 }
 
+void Game::HealthComponent::ResetHealth()
+{
+	m_Health = 4;
+	for (auto& hearth : m_vHearthRenderCompRef)
+		hearth->SetVisibility(true);
+}
+
 void Game::HealthComponent::Notify()
 {
 	DecreaseHealth(1);

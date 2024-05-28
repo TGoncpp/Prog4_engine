@@ -25,6 +25,7 @@ namespace Game
 		virtual void Notify(const ECharacterType& characterType) override;
 		virtual void OnSubjectDestroy() override;
 
+		void ResetScore();
 
 	private:
 		std::vector<Character*> m_ObservedCharacters;

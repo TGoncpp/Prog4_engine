@@ -15,7 +15,7 @@ namespace Game
 		HealthComponent(const HealthComponent&)            = delete;
 		HealthComponent(HealthComponent&&)                 = delete;
 
-
+		void ResetHealth();
 		int GetHealth()const { return m_Health; };
 		TG::Subject<> OnGameOver;
 
