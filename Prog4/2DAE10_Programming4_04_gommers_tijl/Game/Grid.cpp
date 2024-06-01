@@ -94,12 +94,12 @@ void Game::Grid::OnSubjectDestroy()
 
 void Game::Grid::Notify(Character* object, bool isMoving)
 {
-	std::pair<size_t, size_t> newPosition = object->GetGridPosition();
+	std::pair<int, int> newPosition = object->GetGridPosition();
 	ECharacterType type             = object->GetCharacterType();
 
 	//jumped off the platform - Add score if it was curly
 	if (newPosition.first < 0 || newPosition.second < 0 ||
-		newPosition.first >= m_vGrid.size() || newPosition.second >= m_vGrid[newPosition.first].size())
+		newPosition.first >= static_cast<int>(m_vGrid.size()) || newPosition.second >= static_cast<int>(m_vGrid[newPosition.first].size()))
 	{
 		if (type != ECharacterType::red)
 		{

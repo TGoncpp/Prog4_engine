@@ -4,12 +4,13 @@
 
 namespace TG
 {
-	class Controller final : public TG::Singleton<Controller>
+	class Controller final 
 	{
 	public:
 		Controller();
 		~Controller();
 
+		void SetControllerIndex(int index);
 		void InputHandling();
 
 		bool IsPressedThisFrame(Uint32 button) const;

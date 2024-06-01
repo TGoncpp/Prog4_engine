@@ -12,6 +12,7 @@ public:
 	~ControllerImpl()  = default;
 
 	void InputHandling();
+	void SetControllerIndex(int index);
 
 	bool IsPressedThisFrame(Uint32 button) const;
 	bool IsUpThisFrame(Uint32 button) const;
@@ -38,6 +39,11 @@ void TG::Controller::ControllerImpl::InputHandling()
 	auto newButtons            = m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons;
 	m_ButtonsPressedThisFrame  = newButtons & m_CurrentState.Gamepad.wButtons;
 	m_ButtonsReleasedThisFrame = newButtons & (~m_CurrentState.Gamepad.wButtons);
+}
+
+void TG::Controller::ControllerImpl::SetControllerIndex(int index)
+{
+	m_ControllerIndex = index;
 }
 
 bool TG::Controller::ControllerImpl::IsPressedThisFrame(Uint32 button) const
@@ -71,6 +77,11 @@ bool TG::Controller::ControllerImpl::IsRightThumbsNotInDeadZone() const
 	return (thumbRPercentage > m_DeadzonePercentage);
 }
 
+
+
+
+
+
 TG::Controller::Controller() 
 	: m_pPimpl{ std::make_unique<ControllerImpl>() }
 {
@@ -78,6 +89,11 @@ TG::Controller::Controller()
 
 TG::Controller::~Controller() = default;
 
+
+void TG::Controller::SetControllerIndex(int index)
+{
+	m_pPimpl->SetControllerIndex(index);
+}
 
 void TG::Controller::InputHandling()
 {

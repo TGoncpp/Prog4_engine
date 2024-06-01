@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include "InputManager.h"
 #include<backends/imgui_impl_sdl2.h>
+#include<iostream>
 const Uint8* keyboardStatePtr =  SDL_GetKeyboardState(nullptr);
 
 bool TG::InputManager::ProcessInput()
@@ -39,43 +40,15 @@ bool TG::InputManager::ProcessInput()
 
 	//CONTROLLER INPUT HANDELING
 	//------------------------------------------
-	auto& controller = TG::Controller::GetInstance();
-	controller.InputHandling();
-
-	for (const auto& inputAction : m_vBindedControllerCommandActorsPtrs)
+	//auto& controller = TG::Controller::GetInstance();
+	
+	
+	for (size_t index{}; index < 2; ++index)
 	{
-		switch (inputAction->inputType)
-		{
-		case EInputType::hold:
-			if (controller.IsDown(inputAction->inputEvent))
-			{
-				inputAction->commandActor->Execute();
-			}
-			break;
-		case EInputType::completed:
-			if (controller.IsUpThisFrame(inputAction->inputEvent))
-			{
-				inputAction->commandActor->Execute();
-			}
-			break;
-		case EInputType::pressed:
-			if (controller.IsPressedThisFrame(inputAction->inputEvent))
-			{
-				inputAction->commandActor->Execute();
-			}
-			break;
-		case EInputType::joyStick:
-			if (controller.IsRightThumbsNotInDeadZone())
-			{
-				inputAction->commandActor->Execute();
-			}
-			if (controller.IsLeftThumbsNotInDeadZone())
-			{
-				inputAction->commandActor->Execute();
-			}
-			break;
-		}
+		m_vControllers[index]->InputHandling();
+		HandleControllerInput(index);
 	}
+
 	m_vCommandPtrQueue.clear();
 	return true;
 }
@@ -85,12 +58,31 @@ bool TG::InputManager::ProcessInput()
 
 
 //Binds all input in array to check during game if that binded input is used
-void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, bool controller)
+void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, int controller)
 {
-	if(controller)
-		m_vBindedControllerCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type }));
-	else
-		m_vBindedCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type}));
+	//keyboard
+	if (controller == -1)
+	{
+		m_vBindedCommandActorsPtrs.push_back(std::make_unique<Input>(Input{ std::move(commandActorPtr), input, type }));
+		return;
+	}
+
+	//Controllers
+	if (controller >= m_MaxNumOfPlayers)
+	{
+		std::cout << "amaunt off players is not allowed, max number is 2\n";
+		return;
+	}
+
+	if (m_vControllers[controller] == nullptr)
+	{
+		m_vControllers[controller] = std::make_unique<Controller>();
+		m_vControllers[controller]->SetControllerIndex(controller);
+		if (controller > m_NumOfPlayers  )
+			m_NumOfPlayers = controller;
+	}
+	m_vvBindedControllerCommandActorsPtrs[controller].push_back(std::make_unique<Input>(Input{std::move(commandActorPtr), input, type}));
+
 }
 
 //for keyboard input only
@@ -107,4 +99,42 @@ void TG::InputManager::InputHandling(EInputType type)
 		}
 	}
 
+}
+
+void TG::InputManager::HandleControllerInput(size_t controllerIndex)
+{
+	for (const auto& inputAction : m_vvBindedControllerCommandActorsPtrs[controllerIndex])
+	{
+		switch (inputAction->inputType)
+		{
+		case EInputType::hold:
+			if (m_vControllers[controllerIndex]->IsDown(inputAction->inputEvent))
+			{
+				inputAction->commandActor->Execute();
+			}
+			break;
+		case EInputType::completed:
+			if (m_vControllers[controllerIndex]->IsUpThisFrame(inputAction->inputEvent))
+			{
+				inputAction->commandActor->Execute();
+			}
+			break;
+		case EInputType::pressed:
+			if (m_vControllers[controllerIndex]->IsPressedThisFrame(inputAction->inputEvent))
+			{
+				inputAction->commandActor->Execute();
+			}
+			break;
+		case EInputType::joyStick:
+			if (m_vControllers[controllerIndex]->IsRightThumbsNotInDeadZone())
+			{
+				inputAction->commandActor->Execute();
+			}
+			if (m_vControllers[controllerIndex]->IsLeftThumbsNotInDeadZone())
+			{
+				inputAction->commandActor->Execute();
+			}
+			break;
+		}
+	}
 }

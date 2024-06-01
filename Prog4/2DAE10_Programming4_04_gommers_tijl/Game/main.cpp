@@ -134,14 +134,14 @@ void load()
 	input.InputBinding(std::move(moveLeft), SDL_SCANCODE_LEFT, EInputType::pressed);
 
 	//inputMapping XBox controller
-	auto moveUp2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });
-	input.InputBinding(std::move(moveUp2), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, true);
-	auto moveDown2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, 1.f });
-	input.InputBinding(std::move(moveDown2), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, true);
+	auto moveUp2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, 1.f });
+	input.InputBinding(std::move(moveUp2), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, 0);
+	auto moveDown2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });
+	input.InputBinding(std::move(moveDown2), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, 0);
 	auto moveRight2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 1.f, 0.f });
-	input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, true);
+	input.InputBinding(std::move(moveRight2), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, 0);
 	auto moveLeft2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ -1.f, 0.f });
-	input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, true);
+	input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, 0);
 
 	//Character 2
 	//inputMapping Snake
@@ -153,6 +153,17 @@ void load()
 	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
 	auto moveLeftSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
+	
+	//inputMapping XBox controller
+	auto moveUp3 = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, 1.f });
+	input.InputBinding(std::move(moveUp3), XINPUT_GAMEPAD_DPAD_UP, EInputType::hold, 1);
+	auto moveDown3 = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, -1.f });
+	input.InputBinding(std::move(moveDown3), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::hold, 1);
+	auto moveRight3 = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 1.f, 0.f });
+	input.InputBinding(std::move(moveRight3), XINPUT_GAMEPAD_DPAD_RIGHT, EInputType::hold, 1);
+	auto moveLeft3 = std::make_unique<TG::Move>(character2.get(), glm::vec2{ -1.f, 0.f });
+	input.InputBinding(std::move(moveLeft3), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::hold, 1);
+
 
 	////inputMapping XBox controller
 	//auto moveUp2 = std::make_unique<TG::Move>(character.get(), glm::vec2{ 0.f, -1.f });

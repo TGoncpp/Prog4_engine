@@ -45,7 +45,7 @@ namespace Game
 		void ResetLife();
 
 		//Getters
-		std::pair<size_t, size_t> GetGridPosition()const { return m_GridPostion; }
+		std::pair<int, int> GetGridPosition()const { return m_GridPostion; }
 		ECharacterType GetCharacterType()const     { return m_Type;}
 		bool IsDead()const                         { return m_IsDead; }
 		bool IsFalling()const                      { return m_IsFalling; }
