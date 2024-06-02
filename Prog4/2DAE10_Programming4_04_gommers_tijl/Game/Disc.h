@@ -20,6 +20,7 @@ namespace Game
 		virtual void Notify(std::pair<int, int>, Character*)override;
 		virtual void Notify()override;
 		virtual void OnSubjectDestroy();
+		virtual void ApplyGameMode(int) override;
 
 		void SetGridSubject(Grid* subject);
 
@@ -28,12 +29,12 @@ namespace Game
 		glm::vec2 m_StartPos;
 		glm::vec2 m_EndPos;
 		glm::vec2 m_Direction;
+		glm::vec2 m_Offset;
 		float m_HeightAbove{ 55.f };
 		int m_Depth{};
 		bool m_IsLeft{ false };
-		bool m_Visible{ true };
 
-		void SetStartLocation(int depth, bool isLeft, const glm::vec2& offset);
+		void SetStartLocation(int depth, bool isLeft);
 		void ActivateDisc()const;
 		bool JumpedOnDisc(std::pair<int, int> newPosition);
 	};

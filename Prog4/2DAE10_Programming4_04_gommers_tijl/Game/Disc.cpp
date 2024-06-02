@@ -10,11 +10,12 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 	const std::pair<int, int> spriteRowsColums{ textureSPTR->GetSpriteRowColum() };
 	int texWidth{ textureSPTR->GetSize().x / (spriteRowsColums.second) };
 	m_EndPos = glm::vec2{ gridTop.x - texWidth/2.f, gridTop.y + textureSPTR->GetSize().y / 2.f } - glm::vec2{ 0.f, m_HeightAbove };
-	
+	m_Offset = offset;
+
 	//Set random start position
 	m_Depth = (rand() % 6) + 1;
 	m_IsLeft = (rand() % 100) % 2 == 0;
-	SetStartLocation(m_Depth, m_IsLeft, offset);
+	SetStartLocation(m_Depth, m_IsLeft);
 
 	//Add components
 	AddComponent<Game::MovementComponent>(this);
@@ -64,20 +65,36 @@ void Game::Disc::OnSubjectDestroy()
 
 }
 
+void Game::Disc::ApplyGameMode(int)
+{
+	//Set random start position
+	m_Depth = (rand() % 6) + 1;
+	m_IsLeft = (rand() % 100) % 2 == 0;
+	SetStartLocation(m_Depth, m_IsLeft);
+	m_Visiter = nullptr;
+
+	if (CheckComponent<TG::RenderComponent>())
+	{
+		auto comp = GetComponent<TG::RenderComponent>();
+		comp->SetVisibility(true);
+	}
+
+}
+
 void Game::Disc::SetGridSubject(Grid* subject)
 {
 	subject->OnDiscInteraction.AddObserver(this);
 }
 
-void Game::Disc::SetStartLocation(int depth, bool isLeft, const glm::vec2& offset)
+void Game::Disc::SetStartLocation(int depth, bool isLeft)
 {
 	if (isLeft)
 	{
-		m_StartPos = TG::Transform::CalculateGridPosition(depth, 0, offset, m_EndPos);
+		m_StartPos = TG::Transform::CalculateGridPosition(depth, 0, m_Offset, m_EndPos);
 	}
 	else
 	{
-		m_StartPos = TG::Transform::CalculateGridPosition( 0, depth, offset, m_EndPos);
+		m_StartPos = TG::Transform::CalculateGridPosition( 0, depth, m_Offset, m_EndPos);
 	}
 	SetLocalPosition(m_StartPos);
 
