@@ -50,6 +50,12 @@ void Game::Grid::Render() const
 	}
 }
 
+void Game::Grid::ApplyGameMode(int )
+{
+	ResetGridOnSetLvlRound(1, 0);
+	OnHudUpdate.OnNotifyAll(1, 0);
+}
+
 glm::vec2 Game::Grid::GetCubeSize() const
 {
 	return m_CubeSize;
@@ -80,6 +86,19 @@ void Game::Grid::FinishAnim(float time)
 		for (const auto& cube : lines)
 		{
 			cube->Update(time);
+		}
+	}
+}
+
+void Game::Grid::ResetGridOnSetLvlRound(int lvl, int round)
+{
+	for (const auto& lines : m_vGrid)
+	{
+		for (const auto& cube : lines)
+		{
+			cube->ClearCube();
+			cube->SetLvlRound(lvl, round);
+
 		}
 	}
 }
@@ -157,15 +176,8 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 
 void Game::Grid::Notify(int round, int level)
 {
-	for (const auto& lines : m_vGrid)
-	{
-		for (const auto& cube : lines)
-		{
-			cube->ClearCube();
-			cube->SetLvlRound(level, round);
-
-		}
-	}
+	ResetGridOnSetLvlRound(level, round);
+	OnHudUpdate.OnNotifyAll(level, round);
 }
 
 void Game::Grid::Notify(float time)

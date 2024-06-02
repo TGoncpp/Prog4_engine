@@ -2,6 +2,7 @@
 #include "RenderComponent.h"
 #include "scoreDisplay.h"
 #include "HealthComponent.h"
+#include "Grid.h"
 
 Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2
 	, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font)
@@ -39,21 +40,22 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 	//Player
 	SetTextComponent(glm::vec2{ Player2X, 100.f }, "Player 2", font);
 
+	int Level{ 1 };
+	int Round{ 1 };
 	//Lvl
-	std::string text = "Level  " + std::to_string(m_Level);
-	SetTextComponent(glm::vec2{ 250.f, 440.f }, "level", font, text);
+	std::string text = "Level  " + std::to_string(Level);
+	SetTextComponent(glm::vec2{ 250.f, 440.f }, "Level", font, text);
 
 	//round
-	text = "Round  " + std::to_string(m_Round);
-	SetTextComponent(glm::vec2{ 350.f, 440.f  }, "round", font, text);
+	text = "Round  " + std::to_string(Round);
+	SetTextComponent(glm::vec2{ 350.f, 440.f  }, "Round", font, text);
 
 	//set cube target
 	AddComponent<TG::TextComponent>(this, "Target", font, glm::vec3{ 15.f, 25.f, 0.f });
 	m_mTextureRenderRefrences["targetCube"]->SetOffset(glm::vec3{ 15.f, 50.f, 0.f });
 	auto rowColum = m_mTextureRenderRefrences["targetCube"]->GetTexture()->GetSpriteRowColum();
 	auto Comp = AddComponent<TG::SpriteComponent>(this, rowColum.second, rowColum.first, false, m_mTextureRenderRefrences["targetCube"]);
-	auto sprite = static_cast<TG::SpriteComponent*>(Comp);
-	sprite->UpdateFrame((m_Round - 1) + (m_Level - 1) * rowColum.second);
+	Comp->UpdateFrame((Round - 1) + (Level - 1) * rowColum.second);
 
 	//Set Health player 1
 	const float startHeight = 175.f;
@@ -81,11 +83,16 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 
 }
 
+Game::Hud::~Hud()
+{
+	m_SubscibedObject->OnHudUpdate.RemoveObserver(this);
+}
+
 void Game::Hud::ApplyGameMode(int gameMode)
 {
+	//Set visibility off charcter 2 stats
 	if (gameMode == 2)
 	{
-		//Set visibility
 		m_mTextureRenderRefrences["healthPlayer2-1"]->SetVisibility(true);
 		m_mTextureRenderRefrences["healthPlayer2-2"]->SetVisibility(true);
 		m_mTextureRenderRefrences["healthPlayer2-3"]->SetVisibility(true);
@@ -107,9 +114,22 @@ void Game::Hud::ApplyGameMode(int gameMode)
 		m_mTextRenderRefrences["Player 2"]->SetVisibility(false);
 
 	}
-		//Reset values
-		m_HealthPlayer1Ptr->ResetHealth();
-		m_ScorePlayer1Ptr->ResetScore();
+	//Reset values
+	m_HealthPlayer1Ptr->ResetHealth();
+	m_ScorePlayer1Ptr->ResetScore();
+	
+}
+
+void Game::Hud::Notify(int lvl, int round)
+{
+	ResetGridValues(round, lvl);
+}
+	
+
+void Game::Hud::SubscribeToGrid(Grid* grid)
+{
+	grid->OnHudUpdate.AddObserver(this);
+	m_SubscibedObject = grid;
 }
 
 void Game::Hud::SetTextComponent(const glm::vec2& offset, const std::string& key, std::shared_ptr<TG::Font> font, std::string text)
@@ -119,5 +139,21 @@ void Game::Hud::SetTextComponent(const glm::vec2& offset, const std::string& key
 	auto Comp = AddComponent<TG::TextComponent>(this, text, font);
 	m_mTextRenderRefrences[key] = static_cast<TG::TextComponent*>(Comp);
 	m_mTextRenderRefrences[key]->SetOffset(offset);
+}
+
+void Game::Hud::ResetGridValues(int round, int lvl)
+{
+	//Lvl
+	std::string text = "Level  " + std::to_string(lvl);
+	m_mTextRenderRefrences["Level"]->SetText(text);
+
+	//round
+	text = "Round  " + std::to_string(round);
+	m_mTextRenderRefrences["Round"]->SetText(text);
+
+	//Target
+	auto rowColum = m_mTextureRenderRefrences["targetCube"]->GetTexture()->GetSpriteRowColum();
+	auto Comp = GetComponent<TG::SpriteComponent>();
+	Comp->UpdateFrame((round ) + (lvl - 1) * rowColum.second);
 }
 	

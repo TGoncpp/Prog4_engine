@@ -9,18 +9,23 @@ namespace Game
 {
 	class ScoreComponent;
 	class HealthComponent;
-	class Hud final : public TG::GameObject
+	class Grid;
+	class Hud final : public TG::GameObject, public TG::IObserver<int, int>
 	{
 	public:
 		Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2
 			, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font);
-		~Hud()                     = default;
+		~Hud();
 		Hud(const Hud&)            = delete;
 		Hud(Hud&&)                 = delete;
 		Hud& operator=(const Hud&) = delete;
 		Hud& operator=(Hud&&)      = delete;
 
 		virtual void ApplyGameMode(int gameMode)override;
+		virtual void Notify(int lvl, int round)override;
+		virtual void OnSubjectDestroy()override {};
+
+		void SubscribeToGrid(Grid* grid);
 
 	private:
 		std::map<std::string, TG::RenderComponent*> m_mTextureRenderRefrences
@@ -36,21 +41,20 @@ namespace Game
 		};
 		std::map<std::string, TG::TextComponent*> m_mTextRenderRefrences
 		{
-			std::make_pair("level", nullptr),
+			std::make_pair("Level", nullptr),
 			std::make_pair("Player 1", nullptr),
-			std::make_pair("round", nullptr),
+			std::make_pair("Round", nullptr),
 			std::make_pair("Score", nullptr)
 		};
 		ScoreComponent* m_ScorePlayer1Ptr{ nullptr };
 		ScoreComponent* m_ScorePlayer2Ptr{ nullptr };
 		HealthComponent* m_HealthPlayer1Ptr{ nullptr };
 		HealthComponent* m_HealthPlayer2Ptr{ nullptr };
-
+		Grid* m_SubscibedObject{ nullptr };
+		bool m_ShowPlayer2{ false };
 
 		void SetTextComponent(const glm::vec2& offset, const std::string& key, std::shared_ptr<TG::Font> font, std::string text = "");
-
-		int m_Level{ 2 };
-		int m_Round{ 1 };
-		bool m_ShowPlayer2{ false };
+		void ResetGridValues(int round, int lvl);
+		
 	};
 }

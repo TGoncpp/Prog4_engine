@@ -42,6 +42,7 @@ void Game::NPC::ApplyGameMode(int gameMode)
 			m_CharacterState = m_PossibleStates[EState::dissable].get();
 		}
 	}
-	
+	else
+		m_CharacterState = m_PossibleStates[EState::dead].get();
 
 }

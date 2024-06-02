@@ -204,7 +204,6 @@ void Game::Dead::Update(float time)
 	m_CurrentDieTime -= time;
 	if (m_CurrentDieTime <= 0.f)
 	{
-		//m_OwnerObject->NewState(EState::respawn);
 		OnStateSwitch.OnNotifyAll(EState::respawn);
 		OnExit();
 	}
@@ -248,7 +247,6 @@ void Game::ReSpawn::Update(float time)
 	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
 	{
 		m_OwnerObject->SetLocalPosition(m_StartPos);
-		//m_OwnerObject->NewState(EState::idle);
 		OnStateSwitch.OnNotifyAll(EState::idle);
 		OnExit();
 	}

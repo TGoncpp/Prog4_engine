@@ -17,6 +17,7 @@ namespace Game
 
 		//Components
 		virtual void Render()const override;
+		virtual void ApplyGameMode(int gameMode)override;
 
 		//IObserver
 		virtual void Notify(Character* object, bool isMoving)override;
@@ -28,6 +29,7 @@ namespace Game
 		void SetGridSubject(Game::Character* subjectToObserve);
 
 		TG::Subject < std::pair<int, int>,Character* > OnDiscInteraction;
+		TG::Subject < int, int > OnHudUpdate;
 
 	private:
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;
@@ -36,5 +38,6 @@ namespace Game
 
 		bool CheckLevelState();
 		void FinishAnim(float time);
+		void ResetGridOnSetLvlRound(int lvl, int round);
 	};
 }

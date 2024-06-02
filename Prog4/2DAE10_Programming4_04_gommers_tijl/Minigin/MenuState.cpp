@@ -29,10 +29,12 @@ void TG::GameState::InputHandeling(const glm::vec2& signal)
 void TG::GameState::OnEnter()
 {
 	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
+
 	m_ActiveScene->ActivateInput(true, activeMode);
 
 	if (m_OwnerObject->GetPreviousMenuState() == EMenuState::pause)
 		return;
+
 	m_ActiveScene->ApplyGameMode(activeMode);
 }
 

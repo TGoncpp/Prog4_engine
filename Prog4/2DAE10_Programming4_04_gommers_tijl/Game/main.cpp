@@ -119,6 +119,7 @@ void load()
 	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get()};
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
 	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vTex, font);
+	hud->SubscribeToGrid(grid.get());
 
 	//----------------------------------------------------
 	//INPUT BINDING
