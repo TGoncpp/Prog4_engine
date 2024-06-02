@@ -26,6 +26,7 @@ namespace Game
 
 		void NextRound();
 		void StartAnim();
+		void Reset();
 
 		int GetRound()const { return m_CurrentRound; }
 		int GetLvl()const { return m_CurrentLvl; }
@@ -38,9 +39,6 @@ namespace Game
 		const int m_MaxLvls{ 3 };
 		float m_CurrentTransferTime{};
 		const float m_TransferTime{2.f};
-
-		void ResetRounds();
-		void ResetLvls();
 
 	};
 }

@@ -30,6 +30,7 @@ namespace Game
 
 		TG::Subject < std::pair<int, int>,Character* > OnDiscInteraction;
 		TG::Subject < int, int > OnHudUpdate;
+		TG::Subject < > OnCharacterReset;
 
 	private:
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;

@@ -53,7 +53,7 @@ void Game::Grid::Render() const
 void Game::Grid::ApplyGameMode(int )
 {
 	ResetGridOnSetLvlRound(1, 0);
-	OnHudUpdate.OnNotifyAll(1, 0);
+	OnHudUpdate.OnNotifyAll(1, 1);
 }
 
 glm::vec2 Game::Grid::GetCubeSize() const
@@ -98,6 +98,8 @@ void Game::Grid::ResetGridOnSetLvlRound(int lvl, int round)
 		{
 			cube->ClearCube();
 			cube->SetLvlRound(lvl, round);
+			if (CheckComponent<LvlRoundComponent>())
+				GetComponent<LvlRoundComponent>()->Reset();
 
 		}
 	}
@@ -178,9 +180,12 @@ void Game::Grid::Notify(int round, int level)
 {
 	ResetGridOnSetLvlRound(level, round);
 	OnHudUpdate.OnNotifyAll(level, round);
+	OnDiscInteraction.OnNotifyAll(std::make_pair(0, 0), nullptr);
+	OnCharacterReset.OnNotifyAll();
 }
 
 void Game::Grid::Notify(float time)
 {
 	FinishAnim(time);
 }
+

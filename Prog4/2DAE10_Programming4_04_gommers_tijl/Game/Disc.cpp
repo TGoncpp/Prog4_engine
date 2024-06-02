@@ -33,7 +33,12 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 
 void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 {
-	
+	if (character == nullptr)
+	{
+		ResetDisc();
+		return;
+	}
+
 	if (JumpedOnDisc(location))
 	{
 		character->SetParent(this, true);
@@ -67,18 +72,7 @@ void Game::Disc::OnSubjectDestroy()
 
 void Game::Disc::ApplyGameMode(int)
 {
-	//Set random start position
-	m_Depth = (rand() % 6) + 1;
-	m_IsLeft = (rand() % 100) % 2 == 0;
-	SetStartLocation(m_Depth, m_IsLeft);
-	m_Visiter = nullptr;
-
-	if (CheckComponent<TG::RenderComponent>())
-	{
-		auto comp = GetComponent<TG::RenderComponent>();
-		comp->SetVisibility(true);
-	}
-
+	ResetDisc();
 }
 
 void Game::Disc::SetGridSubject(Grid* subject)
@@ -109,6 +103,22 @@ bool Game::Disc::JumpedOnDisc(std::pair<int, int> newPosition)
 		return true;
 	}
 	return false;
+}
+
+void Game::Disc::ResetDisc()
+{
+	//Set random start position
+	m_Depth = (rand() % 6) + 1;
+	m_IsLeft = (rand() % 100) % 2 == 0;
+	SetStartLocation(m_Depth, m_IsLeft);
+	m_Visiter = nullptr;
+
+	if (CheckComponent<TG::RenderComponent>())
+	{
+		auto comp = GetComponent<TG::RenderComponent>();
+		comp->SetVisibility(true);
+	}
+
 }
 
 void Game::Disc::ActivateDisc()const

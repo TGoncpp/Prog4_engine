@@ -1,6 +1,7 @@
 #include "QbertCharacter.h"
 #include "RenderComponent.h"
 #include "Player2Component.h"
+#include "Grid.h"
 #include "MenuState.h"
 
 
@@ -25,6 +26,12 @@ Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<
 void Game::QbertCharacter::Notify(bool isVisible)
 {
 	SetCurseVisibility(isVisible);
+}
+
+void Game::QbertCharacter::Notify()
+{
+	if (m_CharacterState->GetState() != EState::dissable)
+		m_CharacterState = m_PossibleStates[EState::dead].get();
 }
 
 void Game::QbertCharacter::ActivateInput(bool isActive)
@@ -61,6 +68,11 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode)
 			SetPositionOnGridByIndex(0, 0, m_JumpOffset);
 	}
 
+}
+
+void Game::QbertCharacter::SubscribeToGrid(Grid* grid)
+{
+	grid->OnCharacterReset.AddObserver(this);
 }
 
 void Game::QbertCharacter::SetCurseVisibility(bool isVisible)

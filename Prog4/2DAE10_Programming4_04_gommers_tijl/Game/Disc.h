@@ -37,5 +37,6 @@ namespace Game
 		void SetStartLocation(int depth, bool isLeft);
 		void ActivateDisc()const;
 		bool JumpedOnDisc(std::pair<int, int> newPosition);
+		void ResetDisc();
 	};
 }

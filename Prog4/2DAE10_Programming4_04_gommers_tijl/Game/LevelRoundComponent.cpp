@@ -42,3 +42,9 @@ void Game::LvlRoundComponent::StartAnim()
 	m_IsTransferring = true;
 }
 
+void Game::LvlRoundComponent::Reset()
+{
+	m_CurrentLvl = 1;
+	m_CurrentRound = 1;
+}
+

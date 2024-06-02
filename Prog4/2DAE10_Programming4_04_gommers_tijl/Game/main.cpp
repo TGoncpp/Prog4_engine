@@ -91,10 +91,12 @@ void load()
 
 	auto character = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture, cubeSize, CurseTexture);
 	grid->SetGridSubject(character.get());
+	character->SubscribeToGrid(grid.get());
 
 	auto character2 = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture2, cubeSize, CurseTexture);
 	character2->AddComponent<Game::Player2Component>(character2.get());
 	grid->SetGridSubject(character2.get());
+	character2->SubscribeToGrid(grid.get());
 
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc->AddComponent<Game::Player2Component>(npc.get());
