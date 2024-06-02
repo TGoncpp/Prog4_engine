@@ -23,8 +23,7 @@ Game::MenuScreen::MenuScreen(const std::shared_ptr < TG::Texture2D>& selectionTe
 	const float arrowWidth{ m_ArrowTextureCompPtr->GetTexture()->GetSize().x + spaceBetweenArrowText} ;
 
 	//Text off options
-	comp = AddComponent<TG::TextComponent>(this, "Single Player ", font, glm::vec3{ borderX + arrowWidth, textStartHeigt, 0.f });
-	TG::TextComponent* TextComp = static_cast<TG::TextComponent*>(comp);
+	TG::TextComponent* TextComp = AddComponent<TG::TextComponent>(this, "Single Player ", font, glm::vec3{ borderX + arrowWidth, textStartHeigt, 0.f });
 	m_TextHeight = TextComp->GetTextSize().y;
 	AddComponent<TG::TextComponent>(this, "VS  "   , font, glm::vec3{ borderX + arrowWidth, textStartHeigt + m_TextHeight    , 0.f });
 	AddComponent<TG::TextComponent>(this, "Co-Op  ", font, glm::vec3{ borderX + arrowWidth, textStartHeigt + m_TextHeight * 2, 0.f });

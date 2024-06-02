@@ -41,10 +41,10 @@ namespace TG
 		//----------------------------------------
 		//COMPONENT FUNCTIONS
 		template <typename T, typename... Args>
-		BaseComponent* AddComponent(Args&&... args)
+		T* AddComponent(Args&&... args)
 		{
 			m_vComponentUPtrs.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-			return m_vComponentUPtrs.back().get();
+			return static_cast<T*>(m_vComponentUPtrs.back().get());
 		}
 		template <typename T>
 		void RemoveComponent()

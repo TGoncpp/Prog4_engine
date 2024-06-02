@@ -1,5 +1,6 @@
 #include "Grid.h"
 #include "Texture2D.h"
+#include "LevelRoundComponent.h"
 
 
 Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR)
@@ -24,6 +25,8 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 		}
 		m_vGrid[outer] = std::move(vLines);
 	}
+	auto comp = AddComponent<LvlRoundComponent>(this);
+	comp->OnFinishTransfer.AddObserver(this);
 }
 
 Game::Grid::~Grid()
@@ -97,6 +100,13 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	std::pair<int, int> newPosition = object->GetGridPosition();
 	ECharacterType type             = object->GetCharacterType();
 
+	//remove character from the cube if moving
+	if (isMoving)
+	{
+		m_vGrid[newPosition.first][newPosition.second]->RemoveVisiterOnCube(type);
+		return;
+	}
+	
 	//jumped off the platform - Add score if it was curly
 	if (newPosition.first < 0 || newPosition.second < 0 ||
 		newPosition.first >= static_cast<int>(m_vGrid.size()) || newPosition.second >= static_cast<int>(m_vGrid[newPosition.first].size()))
@@ -111,13 +121,6 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 			OnDiscInteraction.OnNotifyAll(newPosition, object);
 		return;
 	}
-	//remove character from the cube if moving
-	if (isMoving)
-	{
-		m_vGrid[newPosition.first][newPosition.second]->RemoveVisiterOnCube(type);
-		return;
-	}
-	
 	
 	//if valid index check-> check for collision
 	m_vGrid[newPosition.first][newPosition.second]->AddVisiterOnCube(type);
@@ -139,5 +142,12 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	if (CheckLevelState())
 	{
 		m_IsLevelFinished = true;
+		if (CheckComponent<LvlRoundComponent>())
+			GetComponent<LvlRoundComponent>()->NextRound();
 	}
+}
+
+void Game::Grid::Notify()
+{
+	m_IsLevelFinished = false;
 }

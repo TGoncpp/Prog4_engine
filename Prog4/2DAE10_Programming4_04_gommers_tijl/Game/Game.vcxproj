@@ -208,6 +208,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="IntermediateScreen.cpp" />
+    <ClCompile Include="LevelRoundComponent.cpp" />
     <ClCompile Include="LootComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
@@ -227,6 +228,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="IntermediateScreen.h" />
+    <ClInclude Include="LevelRoundComponent.h" />
     <ClInclude Include="LootComponent.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="MovementComponent.h" />

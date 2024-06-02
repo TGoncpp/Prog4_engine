@@ -19,7 +19,6 @@ Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<
 	m_PossibleStates.insert(std::make_pair(EState::lift, std::make_unique<Lift>(this)));
 	m_PossibleStates[EState::lift]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates[EState::dead]->OnDead.AddObserver(this);
-	m_PossibleStates.insert(std::make_pair(EState::dissable, std::make_unique<Dissable>(this)));
 	m_CharacterState = m_PossibleStates[EState::dissable].get();
 }
 
@@ -37,6 +36,7 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode)
 {
 	TG::EGameMode mode = static_cast<TG::EGameMode>(gameMode);
 
+	//activate player 2 if coop
 	if (CheckComponent<Player2Component>())
 	{
 		if (mode == TG::EGameMode::coop)
@@ -51,6 +51,7 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode)
 			m_CharacterState = m_PossibleStates[EState::dissable].get();
 		}
 	}
+	//player 1
 	else
 	{
 		if (mode == TG::EGameMode::coop)

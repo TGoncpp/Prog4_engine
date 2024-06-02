@@ -5,7 +5,7 @@
 
 namespace Game
 {
-	class Grid final : public TG::GameObject, public TG::IObserver<Character*, bool> 
+	class Grid final : public TG::GameObject, public TG::IObserver<Character*, bool>, public TG::IObserver<> 
 	{
 	public:
 		Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR);
@@ -21,6 +21,7 @@ namespace Game
 
 		//IObserver
 		virtual void Notify(Character* object, bool isMoving)override;
+		virtual void Notify()override;
 		virtual void OnSubjectDestroy();
 
 		glm::vec2 GetCubeSize()const;

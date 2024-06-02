@@ -15,7 +15,8 @@ namespace Game
 		NPC(const NPC&) = delete;
 		NPC(NPC&&) = delete;
 
-		
+		virtual void ApplyGameMode(int gameMode)override;
+
 	private:
 
 	};

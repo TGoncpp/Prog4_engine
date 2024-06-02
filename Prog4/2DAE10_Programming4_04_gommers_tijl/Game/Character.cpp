@@ -30,8 +30,9 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates.insert(std::make_pair(EState::respawn, std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
+	m_PossibleStates.insert(std::make_pair(EState::dissable, std::make_unique<Dissable>(this)));
+	m_CharacterState = m_PossibleStates[EState::dissable].get();
 	
-	m_CharacterState = m_PossibleStates[EState::idle].get();
 }
 
 void Game::Character::Notify(const EState& state)
@@ -110,7 +111,6 @@ void Game::Character::SetPositionOnGridByIndex(int toLeft, int ToBelow, const gl
 
 {
 	m_GridPostion = std::make_pair(toLeft, ToBelow);
-	//glm::vec2 oldPos{ GetLocalPosition() };
 	glm::vec2 newPos{ TG::Transform::CalculateGridPosition(toLeft, ToBelow, jumpOffset, m_ZeroPosition) };
 
 	SetLocalPosition(newPos);
