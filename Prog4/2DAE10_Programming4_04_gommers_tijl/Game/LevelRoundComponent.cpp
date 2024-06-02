@@ -7,14 +7,16 @@ Game::LvlRoundComponent::LvlRoundComponent(TG::GameObject* owner)
 
 void Game::LvlRoundComponent::Update(float time)
 {
-	if (m_CurrentTransferTime <= 0.f)
+	if (!m_IsTransferring)
 		return;
 
 	m_CurrentTransferTime -= time;
+	OnAnim.OnNotifyAll(time);
 	if (m_CurrentTransferTime <= 0.f)
 	{
 		m_CurrentTransferTime = 0.f;
-		OnFinishTransfer.OnNotifyAll();
+		m_IsTransferring = false;
+		NextRound();
 	}
 }
 
@@ -30,5 +32,13 @@ void Game::LvlRoundComponent::NextRound()
 	}
 
 	OnNextPhase.OnNotifyAll(m_CurrentRound, m_CurrentLvl);
+}
+
+void Game::LvlRoundComponent::StartAnim()
+{
+	if (m_IsTransferring)return;
+
+	m_CurrentTransferTime = m_TransferTime;
+	m_IsTransferring = true;
 }
 

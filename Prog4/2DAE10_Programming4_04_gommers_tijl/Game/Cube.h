@@ -29,17 +29,24 @@ namespace Game
 		Cube(const Cube&)                         = delete;
 		Cube(Cube&&)                              = delete;
 	
-		bool UpdateProgressState(const ECharacterType& visiterType);
-		bool IsFinalState()const;
+		bool UpdateProgressState(const ECharacterType& visiterType, int level);
+		bool IsFinalState(int lvl)const;
 		bool IsCollisionOnCube()const;
 		void AddVisiterOnCube(const ECharacterType& type);
 		void RemoveVisiterOnCube(const ECharacterType& type);
 		ECharacterType GetDominantTypeOnCube()const;
 		void SetAnimationAuto()const;
 
+		void ClearCube();
+		void SetLvlRound(int level, int round);
+
 	private:
 		ECubeProgressState m_State{ECubeProgressState::empty};
 		std::vector<ECharacterType> m_vTypesOnCube;
 		std::pair<int, int>m_RowColumSprite;
+		int m_Round{ 0 };
+		int m_Level{ 0 };
+
+		bool ProgressOnLvl(const ECharacterType& visiterType, int level);
 	};
 }

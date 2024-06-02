@@ -5,7 +5,7 @@
 
 namespace Game
 {
-	class Grid final : public TG::GameObject, public TG::IObserver<Character*, bool>, public TG::IObserver<> 
+	class Grid final : public TG::GameObject, public TG::IObserver<Character*, bool>, public TG::IObserver<float>, public TG::IObserver<int, int>
 	{
 	public:
 		Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR);
@@ -17,11 +17,11 @@ namespace Game
 
 		//Components
 		virtual void Render()const override;
-		virtual void Update(float time) override;
 
 		//IObserver
 		virtual void Notify(Character* object, bool isMoving)override;
-		virtual void Notify()override;
+		virtual void Notify(int round, int level)override;
+		virtual void Notify(float time)override;
 		virtual void OnSubjectDestroy();
 
 		glm::vec2 GetCubeSize()const;
@@ -33,9 +33,8 @@ namespace Game
 		std::vector<std::vector<std::unique_ptr<Cube>>> m_vGrid;
 		glm::vec2 m_CubeSize{};
 		std::vector<Game::Character*> m_vSubjectOwnrPtr;
-		bool m_IsLevelFinished{ false };
 
 		bool CheckLevelState();
-
+		void FinishAnim(float time);
 	};
 }

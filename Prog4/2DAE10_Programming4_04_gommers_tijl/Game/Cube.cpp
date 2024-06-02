@@ -15,32 +15,13 @@ Game::Cube::Cube(const glm::vec2& position, const ECubeProgressState& state, std
 	SetLocalPosition(position);	
 }
 
-bool Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
+bool Game::Cube::UpdateProgressState(const ECharacterType& visiterType, int level)
 {
-	bool increaseScore{ false };
-	switch (visiterType)
-	{
-	case ECharacterType::green:
-		if (m_State != ECubeProgressState::startFase)
-		{
-			m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
-		}
-		break;
-	case ECharacterType::red:
-		if (m_State != ECubeProgressState::endFase)
-		{
-			m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
-			increaseScore = true;
-		}
-		break;
-	default:
-		break;
-	}
+	bool increaseScore{ ProgressOnLvl(visiterType, level) };
 
-
-	if (CheckComponent<TG::SpriteComponent>())
+	if (CheckComponent<TG::SpriteComponent>() )
 	{
-		GetComponent<TG::SpriteComponent>()->UpdateFrame(static_cast<int>(m_State) * m_RowColumSprite.second);
+		GetComponent<TG::SpriteComponent>()->UpdateFrame(static_cast<int>(m_State) * m_RowColumSprite.second + m_Round);
 	}
 	else
 	{
@@ -50,9 +31,12 @@ bool Game::Cube::UpdateProgressState(const ECharacterType& visiterType)
 	return increaseScore;
 }
 
-bool Game::Cube::IsFinalState() const
+bool Game::Cube::IsFinalState(int lvl) const
 {
-	return m_State == ECubeProgressState::endFase;
+	if (lvl == 2)
+		return m_State == ECubeProgressState::endFase;
+
+	return m_State == ECubeProgressState::intermediateFase;
 }
 
 bool Game::Cube::IsCollisionOnCube() const
@@ -87,4 +71,96 @@ void Game::Cube::SetAnimationAuto()const
 {
 	if (CheckComponent<TG::SpriteComponent>())
 		GetComponent<TG::SpriteComponent>()->SetAutomaiticMode(true);
+}
+
+void Game::Cube::ClearCube()
+{
+	m_vTypesOnCube.clear();
+	m_State = ECubeProgressState::startFase;
+}
+
+void Game::Cube::SetLvlRound(int level, int round)
+{
+	m_Level = level;
+	m_Round = round;
+	if (CheckComponent<TG::SpriteComponent>())
+	{
+		GetComponent<TG::SpriteComponent>()->UpdateFrame(static_cast<int>(m_State) * m_RowColumSprite.second + m_Round);
+	}
+}
+
+bool Game::Cube::ProgressOnLvl(const ECharacterType& visiterType, int level)
+{
+	bool increaseScore{ false };
+
+	if (level == 1)
+	{
+		switch (visiterType)
+		{
+		case ECharacterType::green:
+			if (m_State != ECubeProgressState::startFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
+			}
+			break;
+		case ECharacterType::red:
+			if (m_State != ECubeProgressState::intermediateFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
+				increaseScore = true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	if (level == 2)
+	{
+		switch (visiterType)
+		{
+		case ECharacterType::green:
+			if (m_State != ECubeProgressState::startFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
+			}
+			break;
+		case ECharacterType::red:
+			if (m_State != ECubeProgressState::endFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
+				increaseScore = true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	if (level == 3)
+	{
+		switch (visiterType)
+		{
+		case ECharacterType::green:
+			if (m_State != ECubeProgressState::startFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
+			}
+			break;
+		case ECharacterType::red:
+			if (m_State == ECubeProgressState::startFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) + 1);
+				increaseScore = true;
+			}
+			else if (m_State == ECubeProgressState::intermediateFase)
+			{
+				m_State = static_cast<ECubeProgressState>(static_cast<int>(m_State) - 1);
+				increaseScore = false;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return increaseScore;
 }

@@ -22,11 +22,13 @@ Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Textur
 		{
 			topCubeLocation += m_CubeSize;
 			vLines[cube] = std::make_unique< Cube>(topCubeLocation, ECubeProgressState::startFase, textureSPTR, std::make_pair<int, int>(3, 6));
+			vLines[cube]->SetLvlRound(0, 1);
 		}
 		m_vGrid[outer] = std::move(vLines);
 	}
 	auto comp = AddComponent<LvlRoundComponent>(this);
-	comp->OnFinishTransfer.AddObserver(this);
+	comp->OnAnim.AddObserver(this);
+	comp->OnNextPhase.AddObserver(this);
 }
 
 Game::Grid::~Grid()
@@ -48,20 +50,6 @@ void Game::Grid::Render() const
 	}
 }
 
-void Game::Grid::Update(float time)
-{
-	if (!m_IsLevelFinished)return;
-
-	//end off level animation
-	for (const auto& lines : m_vGrid)
-	{
-		for (const auto& cube : lines)
-		{
-			cube->Update(time);
-		}
-	}
-}
-
 glm::vec2 Game::Grid::GetCubeSize() const
 {
 	return m_CubeSize;
@@ -69,16 +57,31 @@ glm::vec2 Game::Grid::GetCubeSize() const
 
 bool Game::Grid::CheckLevelState()
 {
+	LvlRoundComponent* comp{ nullptr };
+	if(CheckComponent<LvlRoundComponent>())
+		comp = GetComponent<LvlRoundComponent>();
+
 	for (const auto& lines : m_vGrid)
 	{
 		for (const auto& cube : lines)
 		{
-			if (!cube.get()->IsFinalState())
+			if (!cube.get()->IsFinalState(comp->GetLvl()))
 				return false;
 		}
 	}
 
 	return true;
+}
+
+void Game::Grid::FinishAnim(float time)
+{
+	for (const auto& lines : m_vGrid)
+	{
+		for (const auto& cube : lines)
+		{
+			cube->Update(time);
+		}
+	}
 }
 
 void Game::Grid::SetGridSubject(Character* subjectToObserve)
@@ -137,17 +140,35 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	//if red or green->update cube
 	if (type == ECharacterType::purple)return;
 
-	if (m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState(type))
+	LvlRoundComponent* comp = nullptr;
+	if (CheckComponent<LvlRoundComponent>())
+		comp = GetComponent<LvlRoundComponent>();
+
+	//gain score points when progressing on the grid
+	if (m_vGrid[newPosition.first][newPosition.second]->UpdateProgressState(type, comp->GetLvl()))
 		object->OnScore.OnNotifyAll(ECharacterType::red);
-	if (CheckLevelState())
+
+	//check if all cubes are in final phase
+	if (CheckLevelState() && comp)
 	{
-		m_IsLevelFinished = true;
-		if (CheckComponent<LvlRoundComponent>())
-			GetComponent<LvlRoundComponent>()->NextRound();
+		comp->StartAnim();
 	}
 }
 
-void Game::Grid::Notify()
+void Game::Grid::Notify(int round, int level)
 {
-	m_IsLevelFinished = false;
+	for (const auto& lines : m_vGrid)
+	{
+		for (const auto& cube : lines)
+		{
+			cube->ClearCube();
+			cube->SetLvlRound(level, round);
+
+		}
+	}
+}
+
+void Game::Grid::Notify(float time)
+{
+	FinishAnim(time);
 }

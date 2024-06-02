@@ -22,9 +22,14 @@ namespace Game
 		virtual void Render()const override {};
 		
 		TG::Subject<int, int> OnNextPhase;
-		TG::Subject<> OnFinishTransfer;
+		TG::Subject<float> OnAnim;
 
 		void NextRound();
+		void StartAnim();
+
+		int GetRound()const { return m_CurrentRound; }
+		int GetLvl()const { return m_CurrentLvl; }
+		bool m_IsTransferring{ false };
 
 	private:
 		int m_CurrentLvl{ 1 };
