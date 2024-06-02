@@ -39,11 +39,9 @@ bool TG::InputManager::ProcessInput()
 	}
 
 	//CONTROLLER INPUT HANDELING
-	//------------------------------------------
-	//auto& controller = TG::Controller::GetInstance();
+	//------------------------------------------	
 	
-	
-	for (size_t index{}; index < 2; ++index)
+	for (size_t index{}; index < m_NumOfPlayers; ++index)
 	{
 		m_vControllers[index]->InputHandling();
 		HandleControllerInput(index);
@@ -78,8 +76,7 @@ void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActor
 	{
 		m_vControllers[controller] = std::make_unique<Controller>();
 		m_vControllers[controller]->SetControllerIndex(controller);
-		if (controller > m_NumOfPlayers  )
-			m_NumOfPlayers = controller;
+		++m_NumOfPlayers;
 	}
 	m_vvBindedControllerCommandActorsPtrs[controller].push_back(std::make_unique<Input>(Input{std::move(commandActorPtr), input, type}));
 

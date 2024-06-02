@@ -45,6 +45,6 @@ void Game::LvlRoundComponent::StartAnim()
 void Game::LvlRoundComponent::Reset()
 {
 	m_CurrentLvl = 1;
-	m_CurrentRound = 1;
+	m_CurrentRound = 0;
 }
 

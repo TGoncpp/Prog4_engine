@@ -45,7 +45,7 @@ namespace TG
 		std::vector < std::unique_ptr< Input >> m_vBindedCommandActorsPtrs;
 		std::vector < std::unique_ptr< Input >> m_vvBindedControllerCommandActorsPtrs[m_MaxNumOfPlayers];
 		std::vector<Input*> m_vCommandPtrQueue;
-		int m_NumOfPlayers{ 2 };
+		int m_NumOfPlayers{ 0 };
 		bool m_IsButtonPressed{ false };
 
 		std::unique_ptr<Controller> m_vControllers[2];

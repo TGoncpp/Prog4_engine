@@ -53,7 +53,11 @@ void Game::Grid::Render() const
 void Game::Grid::ApplyGameMode(int )
 {
 	ResetGridOnSetLvlRound(1, 0);
-	OnHudUpdate.OnNotifyAll(1, 1);
+	OnHudUpdate.OnNotifyAll(1, 0);
+	
+	if (CheckComponent<LvlRoundComponent>())
+		GetComponent<LvlRoundComponent>()->Reset();
+
 }
 
 glm::vec2 Game::Grid::GetCubeSize() const
@@ -92,15 +96,13 @@ void Game::Grid::FinishAnim(float time)
 
 void Game::Grid::ResetGridOnSetLvlRound(int lvl, int round)
 {
+	
 	for (const auto& lines : m_vGrid)
 	{
 		for (const auto& cube : lines)
 		{
 			cube->ClearCube();
 			cube->SetLvlRound(lvl, round);
-			if (CheckComponent<LvlRoundComponent>())
-				GetComponent<LvlRoundComponent>()->Reset();
-
 		}
 	}
 }
