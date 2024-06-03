@@ -30,6 +30,7 @@
 #include "IntermediateScreen.h"
 #include "controlScreen.h"
 #include "player2Component.h"
+#include "ServiceLocator.h"
 
 #include "time.h"
 #include <iostream>
@@ -147,17 +148,7 @@ void load()
 	input.InputBinding(std::move(moveLeft2), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::pressed, 0);
 
 	//Character 2
-	//Qbert
-	auto moveUpSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, 1.f });
-	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::pressed);
-	auto moveDownSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, -1.f });
-	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::pressed);
-	auto moveRightSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 1.f, 0.f });
-	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
-	auto moveLeftSnail = std::make_unique<TG::Move>(npc.get(), glm::vec2{ -1.f, 0.f });
-	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
-	
-	//inputMapping XBox controller
+	//Coily
 	auto moveUp3 = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, 1.f });
 	input.InputBinding(std::move(moveUp3), XINPUT_GAMEPAD_DPAD_UP, EInputType::pressed, 1);
 	auto moveDown3 = std::make_unique<TG::Move>(npc.get(), glm::vec2{ 0.f, -1.f });
@@ -167,16 +158,7 @@ void load()
 	auto moveLeft3 = std::make_unique<TG::Move>(npc.get(), glm::vec2{ -1.f, 0.f });
 	input.InputBinding(std::move(moveLeft3), XINPUT_GAMEPAD_DPAD_LEFT, EInputType::pressed, 1);
 
-	//Coily
-	 moveUpSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, 1.f });
-	input.InputBinding(std::move(moveUpSnail), SDL_SCANCODE_W, EInputType::pressed);
-	 moveDownSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, -1.f });
-	input.InputBinding(std::move(moveDownSnail), SDL_SCANCODE_S, EInputType::pressed);
-	 moveRightSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 1.f, 0.f });
-	input.InputBinding(std::move(moveRightSnail), SDL_SCANCODE_D, EInputType::pressed);
-	 moveLeftSnail = std::make_unique<TG::Move>(character2.get(), glm::vec2{ -1.f, 0.f });
-	input.InputBinding(std::move(moveLeftSnail), SDL_SCANCODE_A, EInputType::pressed);
-	
+	//Qbert
 	//inputMapping XBox controller
 	 moveUp3 = std::make_unique<TG::Move>(character2.get(), glm::vec2{ 0.f, 1.f });
 	input.InputBinding(std::move(moveUp3), XINPUT_GAMEPAD_DPAD_UP, EInputType::pressed, 1);
@@ -212,18 +194,35 @@ void load()
 	introTexture->AddComponent<TG::RenderComponent>(introTexture.get(), MenuIntroTexture);
 	introTexture->AddComponent<TG::TextComponent>(introTexture.get(), "Press ENTER ", largeFont, glm::vec3 {120.f, 400.f, 0.f});
 
+	//ENTER - START
 	auto enter = std::make_unique<TG::Enter>(introTexture.get());
 	input.InputBinding(std::move(enter), SDL_SCANCODE_RETURN, EInputType::pressed);
+	auto start = std::make_unique<TG::Enter>(introTexture.get());
+	input.InputBinding(std::move(start), XINPUT_GAMEPAD_START, EInputType::pressed, 0);
 
+	//QUIT
 	auto quit = std::make_unique<TG::Quit>(introTexture.get());
 	input.InputBinding(std::move(quit), SDL_SCANCODE_ESCAPE, EInputType::pressed);
-
+	quit = std::make_unique<TG::Quit>(introTexture.get());
+	input.InputBinding(std::move(quit), XINPUT_GAMEPAD_Y, EInputType::pressed, 0);
+	
+	//ARROW UP
 	auto MoveUp = std::make_unique<TG::MoveArrow>(introTexture.get(), true);
 	input.InputBinding(std::move(MoveUp), SDL_SCANCODE_UP, EInputType::pressed);
+	MoveUp = std::make_unique<TG::MoveArrow>(introTexture.get(), true);
+	input.InputBinding(std::move(MoveUp), XINPUT_GAMEPAD_DPAD_UP, EInputType::pressed, 0);
 
+	//ARROW DOWN
 	auto MoveDown = std::make_unique<TG::MoveArrow>(introTexture.get(), false);
 	input.InputBinding(std::move(MoveDown), SDL_SCANCODE_DOWN, EInputType::pressed);
+	MoveDown = std::make_unique<TG::MoveArrow>(introTexture.get(), false);
+	input.InputBinding(std::move(MoveDown), XINPUT_GAMEPAD_DPAD_DOWN, EInputType::pressed, 0);
 
+	//MUTE
+	auto mute = std::make_unique<TG::Mute>();
+	input.InputBinding(std::move(mute), SDL_SCANCODE_M, EInputType::pressed);
+
+	
 	IntroScene.Add(std::move(introTexture));
 
 	//----------------------------------------------------

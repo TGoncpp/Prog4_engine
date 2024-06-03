@@ -16,11 +16,11 @@ enum class EInputType
 
 struct Input
 {
-	std::unique_ptr<TG::CommandActor> commandActor;
+	std::unique_ptr<TG::Command> commandActor;
 	Uint32     inputEvent;
 	EInputType inputType;
 
-	Input(std::unique_ptr<TG::CommandActor>  commandActor, Uint32 inputEvent, EInputType inputType)
+	Input(std::unique_ptr<TG::Command>  commandActor, Uint32 inputEvent, EInputType inputType)
 		:commandActor{ std::move(commandActor) },
 		inputEvent{ inputEvent },
 		inputType { inputType }
@@ -37,7 +37,7 @@ namespace TG
 
 		bool ProcessInput();
 
-		void InputBinding(std::unique_ptr<CommandActor> &&commandActorPtr, Uint32 input, EInputType type, int controller = -1);
+		void InputBinding(std::unique_ptr<Command> &&commandActorPtr, Uint32 input, EInputType type, int controller = -1);
 
 		void InputHandling(EInputType type);
 	private:

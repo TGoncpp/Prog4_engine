@@ -2,12 +2,19 @@
 #include "GameObject.h"
 #include <iostream>
 #include "scenemanager.h"
+#include "serviceLocator.h"
 
 
 TG::CommandActor::CommandActor(GameObject* gameObject)
 	: Command(),
 		m_GameObjectRefrence{gameObject}
 {
+}
+
+void TG::Mute::Execute()
+{
+	m_IsMute = !m_IsMute;
+	Locator::getAudio().MuteAllSounds(m_IsMute);
 }
 
 void TG::Move::Execute()

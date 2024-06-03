@@ -17,8 +17,7 @@ namespace TG
 	public:
 		virtual ~Audio() = default;
 		virtual void playSound(const std::string& musicKey) = 0;
-		virtual void stopSound(const std::string& musicKey) = 0;
-		virtual void stopAllSounds() = 0;
+		virtual void MuteAllSounds(bool mute)  = 0;
 		virtual void AddMusic(const std::string& musicPath, const std::string& keyName) = 0;
 		virtual void AudioPlaylist() = 0;
 
@@ -33,8 +32,7 @@ namespace TG
 		virtual ~GameAudio();
 		GameAudio();
 		virtual void playSound(const std::string& musicKey) override;
-		virtual void stopSound(const std::string& musicKey) override;
-		virtual void stopAllSounds() override;
+		virtual void MuteAllSounds(bool mute) override;
 		virtual void AddMusic(const std::string& musicPath, const std::string& keyName) override;
 		virtual void AudioPlaylist()override;
 
@@ -42,6 +40,7 @@ namespace TG
 		std::map<std::string, Mix_Chunk*> m_mAudio;
 		std::queue<std::string>m_qPlaylist{};
 		std::jthread m_Audiothread;
+		int m_Volume{ 100 };
 		bool m_IsPlaying{ true };
 	};
 
@@ -51,7 +50,7 @@ namespace TG
 	public:
 		virtual void playSound(const std::string& ) {  }
 		virtual void stopSound(const std::string& ) {  }
-		virtual void stopAllSounds() {  }
+		virtual void MuteAllSounds(bool ) {  }
 		virtual void AddMusic(const std::string& , const std::string& ) override{}
 		virtual void AudioPlaylist()override {};
 
@@ -71,16 +70,10 @@ namespace TG
 			wrapped_.playSound(musicKey);
 		}
 
-		virtual void stopSound(const std::string& musicKey)
-		{
-			log("stop sound");
-			wrapped_.stopSound(musicKey);
-		}
-
-		virtual void stopAllSounds()
+		virtual void MuteAllSounds(bool mute)
 		{
 			log("stop all sounds");
-			wrapped_.stopAllSounds();
+			wrapped_.MuteAllSounds(mute);
 		}
 		virtual void AddMusic(const std::string& musicPath, const std::string& keyName) override
 		{

@@ -56,7 +56,7 @@ bool TG::InputManager::ProcessInput()
 
 
 //Binds all input in array to check during game if that binded input is used
-void TG::InputManager::InputBinding(std::unique_ptr<CommandActor>&& commandActorPtr, Uint32 input, EInputType type, int controller)
+void TG::InputManager::InputBinding(std::unique_ptr<Command>&& commandActorPtr, Uint32 input, EInputType type, int controller)
 {
 	//keyboard
 	if (controller == -1)

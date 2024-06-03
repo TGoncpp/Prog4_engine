@@ -1,6 +1,7 @@
 #include "Audio.h"
 #include <iostream>
-
+#include <SDL.h>
+#include <SDL_mixer.h>
 
 TG::GameAudio::~GameAudio()
 {
@@ -14,8 +15,11 @@ TG::GameAudio::~GameAudio()
 
 TG::GameAudio::GameAudio()
 {
-	Mix_Init(MIX_INIT_WAVPACK);
-	Mix_Volume(-1, 100);
+	//Mix_Init(MIX_INIT_WAVPACK);
+	//Mix_Volume(-1, 0);
+
+	SDL_Init(SDL_INIT_AUDIO);
+
 	int result = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048);
 	if (result < 0)
 	{
@@ -41,13 +45,9 @@ void TG::GameAudio::playSound(const std::string& music )
 	m_qPlaylist.push(music);
 }
 
-void TG::GameAudio::stopSound(const std::string& )
+void TG::GameAudio::MuteAllSounds(bool mute)
 {
-
-}
-
-void TG::GameAudio::stopAllSounds()
-{
+	m_Volume = mute? 0 : 100;
 }
 
 void TG::GameAudio::AddMusic(const std::string& musicPath, const std::string& keyName)
@@ -80,6 +80,8 @@ void TG::GameAudio::AudioPlaylist()
 		{
 			std::lock_guard lk(audioMutex);
 			Mix_PlayChannel(-1, m_mAudio[m_qPlaylist.front()], 0);
+			Mix_Volume(-1, m_Volume);
+
 			m_qPlaylist.pop();
 		}
 

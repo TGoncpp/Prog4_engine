@@ -27,6 +27,17 @@ namespace TG
 	};
 
 
+	class Mute : public Command
+	{
+	public:
+		Mute() = default;
+		virtual ~Mute()override = default;
+
+		virtual void Execute()override;
+	private:
+		bool m_IsMute{ false };
+	};
+
 	class Move final : public CommandActor
 	{
 	public:

@@ -32,9 +32,10 @@ namespace Game
 		TG::GameObject* m_SubjectOwnrPtr;
 		TG::TextComponent* m_TextCompUPtr;
 		int m_Score{};
-		int m_RedPoint{ 15 };
-		int m_GreenPoint{ 30 };
-		int m_PurplePoint{ 150 };
+		int m_RedPoint{ 25 };
+		int m_GreenPoint{ 300 };
+		int m_PurplePoint{ 500 };
+		int m_DiscLeftPoint{ 50 };
 		void UpdateScore(const ECharacterType& characterType);
 		std::string UpdateMessage();
 
