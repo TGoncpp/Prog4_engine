@@ -159,6 +159,7 @@ void Game::Hud::ResetGridValues(int round, int lvl)
 	//Target
 	auto rowColum = m_mTextureRenderRefrences["targetCube"]->GetTexture()->GetSpriteRowColum();
 	auto Comp = GetComponent<TG::SpriteComponent>();
-	Comp->UpdateFrame((round ) + (lvl - 1) * rowColum.second);
+	int level = (lvl < 3) ? lvl - 1 : 0;
+	Comp->UpdateFrame((round ) + level * rowColum.second);
 }
 	
