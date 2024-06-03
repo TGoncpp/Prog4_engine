@@ -20,7 +20,7 @@ namespace Game
 		virtual void Notify(std::pair<int, int>, Character*)override;
 		virtual void Notify()override;
 		virtual void OnSubjectDestroy();
-		virtual void ApplyGameMode(int) override;
+		virtual void ApplyGameMode(int, int) override;
 
 		void SetGridSubject(Grid* subject);
 

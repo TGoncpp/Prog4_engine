@@ -1,6 +1,7 @@
 #include "Grid.h"
 #include "Texture2D.h"
 #include "LevelRoundComponent.h"
+#include "scenemanager.h"
 
 
 Game::Grid::Grid(const glm::vec2& position, int size, std::shared_ptr<TG::Texture2D> textureSPTR)
@@ -50,12 +51,13 @@ void Game::Grid::Render() const
 	}
 }
 
-void Game::Grid::ApplyGameMode(int )
+void Game::Grid::ApplyGameMode(int , int lvl)
 {
-	ResetGridOnSetLvlRound(1, 0);
-	OnHudUpdate.OnNotifyAll(1, 0);
+
+	ResetGridOnSetLvlRound(lvl, 0);
+	OnHudUpdate.OnNotifyAll(lvl, 0);
 	
-	if (CheckComponent<LvlRoundComponent>())
+	if (lvl == 1 && CheckComponent<LvlRoundComponent>())
 		GetComponent<LvlRoundComponent>()->Reset();
 
 }
@@ -179,11 +181,14 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 }
 
 void Game::Grid::Notify(int round, int level)
+	//On lvl-round progress, called after cube flashing animation
 {
 	ResetGridOnSetLvlRound(level, round);
 	OnHudUpdate.OnNotifyAll(level, round);
 	OnDiscInteraction.OnNotifyAll(std::make_pair(0, 0), nullptr);
 	OnCharacterReset.OnNotifyAll();
+	if (round == 0)
+		TG::SceneManager::GetInstance().GetMenustate()->IncreaseLvl(level);
 }
 
 void Game::Grid::Notify(float time)

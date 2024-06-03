@@ -48,3 +48,11 @@ void Game::LvlRoundComponent::Reset()
 	m_CurrentRound = 0;
 }
 
+void Game::LvlRoundComponent::NextLvl()
+{
+	++m_CurrentLvl;
+	m_CurrentRound = 0;
+
+	OnNextPhase.OnNotifyAll(m_CurrentRound, m_CurrentLvl);
+}
+

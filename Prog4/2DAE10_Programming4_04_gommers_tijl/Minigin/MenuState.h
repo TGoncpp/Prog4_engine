@@ -59,7 +59,9 @@ namespace TG
 		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
 
-		Subject<const EMenuState&> OnStateSwitch{};
+		void IncreaseLvl(int lvl);
+
+		Subject<const EMenuState&, int> OnStateSwitch{};
 		EMenuState GetMenuType()const { return m_MenuType; }
 
 	protected:
@@ -68,7 +70,6 @@ namespace TG
 		EMenuState m_MenuType{ EMenuState::game };
 		void UpdateGameMode(float Ydirection);
 		EGameMode m_GameMode{ EGameMode::single };
-
 	};
 
 	class IntroState final : public MenuState

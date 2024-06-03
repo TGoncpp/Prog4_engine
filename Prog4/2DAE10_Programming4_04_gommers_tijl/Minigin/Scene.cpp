@@ -91,11 +91,11 @@ void TG::Scene::ActivateInput(bool IsActive, int gameMode)
 	}
 }
 
-void TG::Scene::ApplyGameMode(int activeGameMode)
+void TG::Scene::ApplyGameMode(int activeGameMode, int lvl)
 {
 	for (const auto& object : m_objects)
 	{
-		object->ApplyGameMode(activeGameMode);
+		object->ApplyGameMode(activeGameMode, lvl);
 	}
 }
 

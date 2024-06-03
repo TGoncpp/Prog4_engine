@@ -13,7 +13,8 @@ namespace Game
 		IntermedateScreen& operator=(const IntermedateScreen&) = delete;
 		IntermedateScreen& operator=(IntermedateScreen&&) = delete;
 
-		virtual void ApplyGameMode(int gameModeValue)override;
+		virtual void ApplyGameMode(int gameModeValue, int lvl)override;
+
 	private:
 		std::vector<std::shared_ptr<TG::Texture2D>> m_vTextureSPtr;
 		std::vector<std::string> m_vMessages{

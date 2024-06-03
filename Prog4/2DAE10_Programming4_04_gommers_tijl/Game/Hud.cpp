@@ -88,8 +88,12 @@ Game::Hud::~Hud()
 	m_SubscibedObject->OnHudUpdate.RemoveObserver(this);
 }
 
-void Game::Hud::ApplyGameMode(int gameMode)
+void Game::Hud::ApplyGameMode(int gameMode, int lvl)
 {
+	//keep current setting if level progressed
+	if (lvl > 1)
+		return;
+
 	//Set visibility off charcter 2 stats
 	if (gameMode == 2)
 	{
@@ -99,6 +103,7 @@ void Game::Hud::ApplyGameMode(int gameMode)
 
 		m_mTextRenderRefrences["Score"]->SetVisibility(true);
 		m_mTextRenderRefrences["Player 2"]->SetVisibility(true);
+
 
 		m_HealthPlayer2Ptr->ResetHealth();
 		m_ScorePlayer2Ptr->ResetScore();

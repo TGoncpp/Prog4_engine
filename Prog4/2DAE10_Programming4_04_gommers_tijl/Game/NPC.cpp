@@ -24,7 +24,7 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 
 }
 
-void Game::NPC::ApplyGameMode(int gameMode)
+void Game::NPC::ApplyGameMode(int gameMode, int)
 {
 	TG::EGameMode mode = static_cast<TG::EGameMode>(gameMode);
 
@@ -43,6 +43,6 @@ void Game::NPC::ApplyGameMode(int gameMode)
 		}
 	}
 	else
-		m_CharacterState = m_PossibleStates[EState::dead].get();
+		m_CharacterState = m_PossibleStates[EState::dissable].get();
 
 }

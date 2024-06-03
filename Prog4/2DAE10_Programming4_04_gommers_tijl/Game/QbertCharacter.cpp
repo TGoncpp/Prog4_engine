@@ -37,10 +37,9 @@ void Game::QbertCharacter::Notify()
 void Game::QbertCharacter::ActivateInput(bool isActive)
 {
 	OnActivateInput.OnNotifyAll(isActive);
-	//m_CharacterState = isActive ? m_PossibleStates[EState::idle].get() : m_PossibleStates[EState::dissable].get();
 }
 
-void Game::QbertCharacter::ApplyGameMode(int gameMode)
+void Game::QbertCharacter::ApplyGameMode(int gameMode, int)
 {
 	TG::EGameMode mode = static_cast<TG::EGameMode>(gameMode);
 
@@ -67,6 +66,8 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode)
 
 		else
 			SetPositionOnGridByIndex(0, 0, m_JumpOffset);
+
+		m_CharacterState = m_PossibleStates[EState::dead].get();
 	}
 
 }

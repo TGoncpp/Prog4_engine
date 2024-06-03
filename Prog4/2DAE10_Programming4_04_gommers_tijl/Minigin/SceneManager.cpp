@@ -44,10 +44,12 @@ void TG::SceneManager::HandleInput(const glm::vec2& signal)
 	m_CurrentMenu->InputHandeling(signal);
 }
 
-void TG::SceneManager::Notify(const EMenuState& newState)
+void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 {
 	if (!m_mPossibleMenus.contains(newState))
 		return;
+	if (lvl != -1)
+		m_Lvl = lvl;
 
 	switch (m_CurrentMenu->GetMenuType())
 	{
@@ -68,7 +70,7 @@ void TG::SceneManager::Notify(const EMenuState& newState)
 			return;
 		break;
 	case EMenuState::game:
-		if (newState != EMenuState::gameOver && newState != EMenuState::pause)
+		if (newState != EMenuState::gameOver && newState != EMenuState::pause && newState != EMenuState::intermediate)
 			return;
 		break;
 	case EMenuState::pause:

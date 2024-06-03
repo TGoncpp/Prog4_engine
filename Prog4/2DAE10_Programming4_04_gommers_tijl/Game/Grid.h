@@ -17,7 +17,7 @@ namespace Game
 
 		//Components
 		virtual void Render()const override;
-		virtual void ApplyGameMode(int gameMode)override;
+		virtual void ApplyGameMode(int gameMode, int lvl = 1)override;
 
 		//IObserver
 		virtual void Notify(Character* object, bool isMoving)override;

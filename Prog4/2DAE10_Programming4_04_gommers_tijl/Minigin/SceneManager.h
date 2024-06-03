@@ -10,7 +10,7 @@
 namespace TG
 {
 	class Scene;
-	class SceneManager final : public Singleton<SceneManager>, public IObserver<const EMenuState&>
+	class SceneManager final : public Singleton<SceneManager>, public IObserver<const EMenuState&, int>
 	{
 		friend Scene::Scene(const std::string& name);
 	public:
@@ -29,6 +29,8 @@ namespace TG
 		Scene* GetSceneOffState(const EMenuState& state) { return m_mScenes[state].get(); }
 		MenuState* GetMenuOffState(const EMenuState& state) { return m_mPossibleMenus[state].get(); }
 		EMenuState GetPreviousMenuState()const { return m_PrevioustMenu->GetMenuType(); }
+		int GetCurrentLvl()const { return m_Lvl; }
+
 		void CreateMenu();
 		
 		void UpdateGameMode(const EGameMode& newGameMode) { m_ActiveGameMode = newGameMode; }
@@ -37,7 +39,7 @@ namespace TG
 		friend class Singleton<SceneManager>;
 		SceneManager();
 		
-		virtual void Notify(const EMenuState& newState)override;
+		virtual void Notify(const EMenuState& newState, int lvl = -1)override;
 		virtual void OnSubjectDestroy()override {};
 
 		std::map< EMenuState, std::unique_ptr<Scene>> m_mScenes;
@@ -46,6 +48,7 @@ namespace TG
 		MenuState* m_CurrentMenu{nullptr};
 		MenuState* m_FutureMenu{nullptr};
 		EGameMode m_ActiveGameMode{ EGameMode::single };
+		int m_Lvl{ 1 };
 		bool m_IsMenuDirty{false};
 	};
 }

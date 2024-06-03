@@ -15,6 +15,11 @@ void TG::MenuState::UpdateGameMode(float Ydirection)
 		m_GameMode = EGameMode::vs;
 }
 
+void TG::MenuState::IncreaseLvl(int lvl)
+{
+	OnStateSwitch.OnNotifyAll(EMenuState::intermediate, lvl);
+}
+
 
 
 //-----------------------------------------
@@ -23,7 +28,7 @@ void TG::MenuState::UpdateGameMode(float Ydirection)
 void TG::GameState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::pause);
+		OnStateSwitch.OnNotifyAll(EMenuState::pause, -1);
 	
 }
 void TG::GameState::OnEnter()
@@ -35,7 +40,8 @@ void TG::GameState::OnEnter()
 	if (m_OwnerObject->GetPreviousMenuState() == EMenuState::pause)
 		return;
 
-	m_ActiveScene->ApplyGameMode(activeMode);
+	const int lvl = m_OwnerObject->GetCurrentLvl();
+	m_ActiveScene->ApplyGameMode(activeMode, lvl);
 }
 
 void TG::GameState::Update(float dt)
@@ -60,7 +66,7 @@ void TG::GameState::OnExit()
 void TG::IntroState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::selection);
+		OnStateSwitch.OnNotifyAll(EMenuState::selection,-1);
 }
 
 
@@ -75,9 +81,11 @@ void TG::SelectionState::InputHandeling(const glm::vec2& signal)
 		m_ActiveScene->GetGO(0)->HandleInput(signal);
 		UpdateGameMode(signal.y);
 	}
+
 	// Enter
+	//put lvl back to 1
 	else if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::controls);
+		OnStateSwitch.OnNotifyAll(EMenuState::controls, 1);
 }
 
 void TG::SelectionState::OnExit()
@@ -92,7 +100,7 @@ void TG::SelectionState::OnExit()
 void TG::ControlsState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::intermediate);
+		OnStateSwitch.OnNotifyAll(EMenuState::intermediate, -1);
 }
 
 void TG::ControlsState::OnEnter()
@@ -107,13 +115,14 @@ void TG::ControlsState::OnEnter()
 void TG::IntermediateState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::game);
+		OnStateSwitch.OnNotifyAll(EMenuState::game, -1);
 }
 
 void TG::IntermediateState::OnEnter()
 {
 	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
-	m_ActiveScene->ApplyGameMode(activeMode);
+	const int lvl = m_OwnerObject->GetCurrentLvl();
+	m_ActiveScene->ApplyGameMode(activeMode, lvl);
 }
 
 //-----------------------------------------
@@ -123,11 +132,11 @@ void TG::PauseState::InputHandeling(const glm::vec2& signal)
 {
 	//Pressed ENTER
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::game);
+		OnStateSwitch.OnNotifyAll(EMenuState::game, -1);
 
 	//Pressed QUIT
 	else if (signal.x == 1 && signal.y == 0)
 	{
-		OnStateSwitch.OnNotifyAll(EMenuState::selection);
+		OnStateSwitch.OnNotifyAll(EMenuState::selection, -1);
 	}
 }

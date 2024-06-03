@@ -21,7 +21,7 @@ namespace Game
 		Hud& operator=(const Hud&) = delete;
 		Hud& operator=(Hud&&)      = delete;
 
-		virtual void ApplyGameMode(int gameMode)override;
+		virtual void ApplyGameMode(int gameMode, int lvl)override;
 		virtual void Notify(int lvl, int round)override;
 		virtual void OnSubjectDestroy()override {};
 

@@ -7,7 +7,7 @@ Game::controlScreen::controlScreen(std::vector<std::shared_ptr<TG::Texture2D>> v
 	AddComponent<TG::RenderComponent>(this, vTextures[0]);
 }
 
-void Game::controlScreen::ApplyGameMode(int gameModeValue)
+void Game::controlScreen::ApplyGameMode(int gameModeValue, int)
 {
 	//set new images
 	auto comp = GetComponent<TG::RenderComponent>();

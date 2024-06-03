@@ -27,7 +27,7 @@ namespace TG
 
 		//used by scene for (de)activating game input 
 		virtual void ActivateInput(bool ) {};
-		virtual void ApplyGameMode(int ) {};
+		virtual void ApplyGameMode(int, int = 1 ) {};
 
 		//for (de)Activating input
 		Subject<bool> OnActivateInput;

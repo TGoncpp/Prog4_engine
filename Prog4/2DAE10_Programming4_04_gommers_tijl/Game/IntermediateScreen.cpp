@@ -16,11 +16,11 @@ Game::IntermedateScreen::IntermedateScreen(std::vector<std::shared_ptr<TG::Textu
 	SetLocalPosition(ImagePos);
 }
 
-void Game::IntermedateScreen::ApplyGameMode(int gameModeValue)
+void Game::IntermedateScreen::ApplyGameMode(int gameModeValue, int lvl)
 {
-	////set new images
-	//auto comp = GetComponent<TG::RenderComponent>();
-	//comp->SetTexture(m_vTextureSPtr[gameModeValue]);
+	//set new images
+	auto comp = GetComponent<TG::RenderComponent>();
+	comp->SetTexture(m_vTextureSPtr[lvl-1]);
 
 	//set new message
 	auto textComp = GetComponent<TG::TextComponent>();

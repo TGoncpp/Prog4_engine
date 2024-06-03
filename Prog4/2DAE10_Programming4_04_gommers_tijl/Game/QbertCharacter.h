@@ -24,7 +24,7 @@ namespace Game
 		virtual void OnSubjectDestroy()override {};
 
 		virtual void ActivateInput(bool isActive)override ;
-		virtual void ApplyGameMode(int gamemode)override;
+		virtual void ApplyGameMode(int gamemode, int lvl)override;
 
 		TG::RenderComponent* m_RenderCurseCompRefrence{ nullptr };
 		void SetCurseVisibility(bool isVisible);

@@ -70,7 +70,7 @@ void Game::Disc::OnSubjectDestroy()
 
 }
 
-void Game::Disc::ApplyGameMode(int)
+void Game::Disc::ApplyGameMode(int, int)
 {
 	ResetDisc();
 }

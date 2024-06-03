@@ -35,10 +35,11 @@ namespace Game
 	private:
 		int m_CurrentLvl{ 1 };
 		int m_CurrentRound{ 0 };
-		const int m_MaxRound{ 5 };
+		const int m_MaxRound{ 1 };
 		const int m_MaxLvls{ 3 };
 		float m_CurrentTransferTime{};
 		const float m_TransferTime{2.f};
 
+		void NextLvl();
 	};
 }

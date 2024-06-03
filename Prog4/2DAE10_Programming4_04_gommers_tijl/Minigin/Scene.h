@@ -17,7 +17,7 @@ namespace TG
 		void FixedUpdate(float dt);
 		void Render() const;
 		void ActivateInput(bool IsActive, int gameMode);
-		void ApplyGameMode(int activeGameMode);
+		void ApplyGameMode(int activeGameMode, int lvl = -1);
 
 		~Scene();
 		Scene(const Scene& other)            = delete;

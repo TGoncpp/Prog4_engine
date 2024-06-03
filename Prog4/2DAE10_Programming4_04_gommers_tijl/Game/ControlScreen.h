@@ -13,7 +13,7 @@ namespace Game
 		controlScreen& operator=(const controlScreen&) = delete;
 		controlScreen& operator=(controlScreen&&) = delete;
 
-		virtual void ApplyGameMode(int gameModeValue)override;
+		virtual void ApplyGameMode(int gameModeValue, int)override;
 	private:
 		std::vector<std::shared_ptr<TG::Texture2D>> m_vTextureSPtr;
 		
