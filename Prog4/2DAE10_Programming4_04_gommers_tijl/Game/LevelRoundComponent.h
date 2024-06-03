@@ -25,11 +25,13 @@ namespace Game
 		TG::Subject<float> OnAnim;
 
 		void NextRound();
+		void NextLvl();
 		void StartAnim();
 		void Reset();
 
 		int GetRound()const { return m_CurrentRound; }
 		int GetLvl()const { return m_CurrentLvl; }
+		int GetMaxLvl()const { return m_MaxLvls; }
 		bool m_IsTransferring{ false };
 
 	private:
@@ -40,6 +42,5 @@ namespace Game
 		float m_CurrentTransferTime{};
 		const float m_TransferTime{2.f};
 
-		void NextLvl();
 	};
 }

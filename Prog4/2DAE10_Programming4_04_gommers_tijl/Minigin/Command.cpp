@@ -58,5 +58,5 @@ void TG::MoveArrow::Execute()
 
 void TG::SkipLvl::Execute()
 {
-
+	SceneManager::GetInstance().GetInstance().HandleInput(glm::vec2{ 2.f, 2.f });
 }

@@ -53,13 +53,21 @@ void Game::Grid::Render() const
 
 void Game::Grid::ApplyGameMode(int , int lvl)
 {
-
+	if (!CheckComponent<LvlRoundComponent>())return;
+	
+	auto comp = GetComponent<LvlRoundComponent>();
+	if (lvl == 1)
+		comp->Reset();
+		
+	//if level is updated from scenemanager instead off from the lvlRoundComp. update component
+	else if (comp->GetLvl() != lvl)
+	{
+		comp->NextLvl();
+	}
+	
 	ResetGridOnSetLvlRound(lvl, 0);
 	OnHudUpdate.OnNotifyAll(lvl, 0);
 	
-	if (lvl == 1 && CheckComponent<LvlRoundComponent>())
-		GetComponent<LvlRoundComponent>()->Reset();
-
 }
 
 glm::vec2 Game::Grid::GetCubeSize() const

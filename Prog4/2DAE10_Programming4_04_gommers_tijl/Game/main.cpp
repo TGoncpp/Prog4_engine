@@ -90,6 +90,10 @@ void load()
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
 
+	//SKIP LVL INPUT
+	auto skip = std::make_unique<TG::SkipLvl>(grid.get());
+	input.InputBinding(std::move(skip), SDL_SCANCODE_F1, EInputType::pressed);
+
 	auto character = std::make_unique<Game::QbertCharacter>(topCubePosition, QbertTexture, cubeSize, CurseTexture);
 	grid->SetGridSubject(character.get());
 	character->SubscribeToGrid(grid.get());
@@ -222,10 +226,7 @@ void load()
 	auto mute = std::make_unique<TG::Mute>();
 	input.InputBinding(std::move(mute), SDL_SCANCODE_M, EInputType::pressed);
 	
-	//SKIP LVL
-	auto skip = std::make_unique<TG::SkipLvl>();
-	input.InputBinding(std::move(skip), SDL_SCANCODE_F1, EInputType::pressed);
-
+	
 	
 	IntroScene.Add(std::move(introTexture));
 

@@ -43,15 +43,6 @@ namespace TG
 		bool m_IsMute{ false };
 	};
 	
-	class SkipLvl : public Command
-	{
-	public:
-		SkipLvl() = default;
-		virtual ~SkipLvl()override = default;
-
-		virtual void Execute()override;
-	};
-
 	class Move final : public CommandActor
 	{
 	public:
@@ -64,6 +55,17 @@ namespace TG
 		glm::vec2 m_Direction{ glm::vec2{0.f, 0.f} };
 	};
 	
+	class SkipLvl final: public CommandActor
+	{
+	public:
+		SkipLvl(GameObject* Objectrefrence)
+		: CommandActor(Objectrefrence)
+			{}
+		virtual ~SkipLvl()override = default;
+
+		virtual void Execute()override;
+	};
+
 	class Enter final : public CommandActor
 	{
 	public:

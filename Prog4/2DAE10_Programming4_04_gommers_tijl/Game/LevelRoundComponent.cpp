@@ -34,6 +34,16 @@ void Game::LvlRoundComponent::NextRound()
 	OnNextPhase.OnNotifyAll(m_CurrentRound, m_CurrentLvl);
 }
 
+void Game::LvlRoundComponent::NextLvl()
+{
+	if (++m_CurrentLvl > m_MaxLvls)
+		m_CurrentLvl = m_MaxLvls;
+
+	m_CurrentRound = 0;
+
+	//no need to notify because playfield was already reset to this level when this was called
+}
+
 void Game::LvlRoundComponent::StartAnim()
 {
 	if (m_IsTransferring)return;
@@ -47,12 +57,3 @@ void Game::LvlRoundComponent::Reset()
 	m_CurrentLvl = 1;
 	m_CurrentRound = 0;
 }
-
-void Game::LvlRoundComponent::NextLvl()
-{
-	++m_CurrentLvl;
-	m_CurrentRound = 0;
-
-	OnNextPhase.OnNotifyAll(m_CurrentRound, m_CurrentLvl);
-}
-

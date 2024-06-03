@@ -27,8 +27,16 @@ void TG::MenuState::IncreaseLvl(int lvl)
 //-----------------------------------------
 void TG::GameState::InputHandeling(const glm::vec2& signal)
 {
+	//ON ENTER-START
 	if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::pause, -1);
+
+	//ON F1- SKIP LVL
+	if (signal.x == 2 && signal.y == 2)
+	{
+		int lvl = m_OwnerObject->GetCurrentLvl() + 1;
+		IncreaseLvl(lvl);
+	}
 	
 }
 void TG::GameState::OnEnter()

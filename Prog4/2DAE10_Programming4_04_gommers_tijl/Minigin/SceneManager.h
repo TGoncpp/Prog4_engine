@@ -48,6 +48,7 @@ namespace TG
 		MenuState* m_CurrentMenu{nullptr};
 		MenuState* m_FutureMenu{nullptr};
 		EGameMode m_ActiveGameMode{ EGameMode::single };
+		const int m_MaxLvl{ 3 };
 		int m_Lvl{ 1 };
 		bool m_IsMenuDirty{false};
 	};

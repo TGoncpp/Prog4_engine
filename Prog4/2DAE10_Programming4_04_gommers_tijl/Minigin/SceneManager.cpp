@@ -48,7 +48,7 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 {
 	if (!m_mPossibleMenus.contains(newState))
 		return;
-	if (lvl != -1)
+	if (lvl != -1 && lvl <= m_MaxLvl)
 		m_Lvl = lvl;
 
 	switch (m_CurrentMenu->GetMenuType())
