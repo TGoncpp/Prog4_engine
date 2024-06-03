@@ -20,7 +20,7 @@ Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<
 	m_PossibleStates.insert(std::make_pair(EState::lift, std::make_unique<Lift>(this)));
 	m_PossibleStates[EState::lift]->OnStateSwitch.AddObserver(this);
 	m_PossibleStates[EState::dead]->OnDead.AddObserver(this);
-	m_CharacterState = m_PossibleStates[EState::dissable].get();
+	m_CharacterState = m_PossibleStates[EState::idle].get();
 }
 
 void Game::QbertCharacter::Notify(bool isVisible)
@@ -36,7 +36,8 @@ void Game::QbertCharacter::Notify()
 
 void Game::QbertCharacter::ActivateInput(bool isActive)
 {
-	 m_CharacterState = isActive ? m_PossibleStates[EState::idle].get() : m_PossibleStates[EState::dissable].get();
+	OnActivateInput.OnNotifyAll(isActive);
+	//m_CharacterState = isActive ? m_PossibleStates[EState::idle].get() : m_PossibleStates[EState::dissable].get();
 }
 
 void Game::QbertCharacter::ApplyGameMode(int gameMode)

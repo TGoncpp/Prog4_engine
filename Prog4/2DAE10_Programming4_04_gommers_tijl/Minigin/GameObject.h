@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include "Transform.h"
+#include "subject.h"
 
 #include "BaseComponent.h"
 
@@ -28,6 +29,8 @@ namespace TG
 		virtual void ActivateInput(bool ) {};
 		virtual void ApplyGameMode(int ) {};
 
+		//for (de)Activating input
+		Subject<bool> OnActivateInput;
 
 		//----------------------------------------
 		//TRANSFORM FUNCTIONS

@@ -2,6 +2,7 @@
 #include "windows.h"
 #include "glm/vec2.hpp"
 #include "GameObject.h"
+#include "subject.h"
 
 
 namespace TG
@@ -15,15 +16,19 @@ namespace TG
 		virtual void Execute() = 0;
 	};
 
-	class CommandActor : public Command
+	class CommandActor : public Command, public IObserver<bool>
 	{
 	public:
 		CommandActor(GameObject* gameObject);
-		virtual ~CommandActor()override = default;
+		virtual ~CommandActor()override;
+		virtual void Notify(bool activate)override;
+		virtual void OnSubjectDestroy()override {};
 
 	protected:
-		GameObject* m_GameObjectRefrence = nullptr;
+		GameObject* m_GameObjectRefrence       = nullptr;
+		GameObject* m_StoredGameObjectRefrence = nullptr;
 
+		virtual void Subscribe(bool activate);
 	};
 
 
@@ -37,6 +42,15 @@ namespace TG
 	private:
 		bool m_IsMute{ false };
 	};
+	
+	class SkipLvl : public Command
+	{
+	public:
+		SkipLvl() = default;
+		virtual ~SkipLvl()override = default;
+
+		virtual void Execute()override;
+	};
 
 	class Move final : public CommandActor
 	{
@@ -45,7 +59,6 @@ namespace TG
 			: CommandActor(Objectrefrence),
 			m_Direction{direction}{}
 		
-		~Move() = default;
 		virtual void Execute()override;
 	protected:
 		glm::vec2 m_Direction{ glm::vec2{0.f, 0.f} };

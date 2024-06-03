@@ -78,6 +78,8 @@ void Scene::Render() const
 void TG::Scene::ActivateInput(bool IsActive, int gameMode)
 {
 	std::vector<int> vPlayers = findGOwithName("Qbert");
+
+	//if single player game
 	if (gameMode == 0)
 		m_objects[vPlayers[0]]->ActivateInput(IsActive);
 	else

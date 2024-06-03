@@ -121,9 +121,11 @@ void TG::IntermediateState::OnEnter()
 //-----------------------------------------
 void TG::PauseState::InputHandeling(const glm::vec2& signal)
 {
+	//Pressed ENTER
 	if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::game);
 
+	//Pressed QUIT
 	else if (signal.x == 1 && signal.y == 0)
 	{
 		OnStateSwitch.OnNotifyAll(EMenuState::selection);
