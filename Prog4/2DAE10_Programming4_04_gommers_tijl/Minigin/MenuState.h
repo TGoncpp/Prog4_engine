@@ -184,7 +184,8 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&) ;
-		void virtual OnEnter(const glm::vec2&) {};
+		void virtual OnEnter(const glm::vec2&) ;
+		void virtual Update(float);
 		void virtual OnExit(){} ;
 
 	};

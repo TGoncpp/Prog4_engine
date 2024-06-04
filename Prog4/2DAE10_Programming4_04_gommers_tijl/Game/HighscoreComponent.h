@@ -19,20 +19,22 @@ namespace Game
 		HighscoreComponent(const HighscoreComponent&)            = delete;
 		HighscoreComponent(HighscoreComponent&&)                 = delete;
 
-		virtual void Update(float) {};
+		virtual void Update(float);
 		virtual void FixedUpdate(float) {};
 		virtual void Render()const {};
 
 	private:
-		std::multimap<std::string, int> m_mHighscore;
+		std::multimap<int, std::string, std::greater<int>> m_mHighscore;
 		std::vector<TG::TextComponent*> m_vTextWritersPtr;
 		std::string m_TextFile{"highScore.txt"};
 		int m_NumOffScores{};
 		
 		void GetDataFromFile();
-		void CompareHighscore(int newScore, std::string& keyOfLowest);
-		void DisplayScore();
-		void CreateFile();
+		void CompareHighscore(int newScore, const std::string& name);
+		void DisplayScore()const;
+		void CreateFile()const;
+		std::string GetHighestKey()const;
+		bool m_ScoreIsSet{ false };
 		
 	};
 }

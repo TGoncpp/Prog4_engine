@@ -176,3 +176,12 @@ void TG::WinnerState::InputHandeling(const glm::vec2& signal)
 	if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::intro, 1);
 }
+
+void TG::WinnerState::OnEnter(const glm::vec2&)
+{
+}
+
+void TG::WinnerState::Update(float dt)
+{
+	m_ActiveScene->Update(dt);
+}
