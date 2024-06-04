@@ -12,8 +12,7 @@ Game::HighscoreComponent::HighscoreComponent(TG::GameObject* owner)
 	m_vTextWritersPtr = owner->GetAllComponent<TG::TextComponent>();
 	m_NumOffScores = static_cast<int>(m_vTextWritersPtr.size());
 	GetDataFromFile();
-	std::string key{ "Tijl" };
-	CompareHighscore(1000, key);
+	
 	CreateFile();
 }
 
@@ -21,7 +20,17 @@ void Game::HighscoreComponent::Update(float)
 {
 	if (m_ScoreIsSet)
 		return;
+	m_ScoreIsSet = true;
+	std::string key{ "TT" };
+	int score{ static_cast<TG::WinnerState*>(TG::SceneManager::GetInstance().GetMenuOffState(TG::EMenuState::winner))->GetScore() };
+	CompareHighscore(score, key);
 	DisplayScore();
+	CreateFile();
+}
+
+void Game::HighscoreComponent::ResetScoreFlag()
+{
+	m_ScoreIsSet = false;
 }
 
 void Game::HighscoreComponent::GetDataFromFile()
@@ -97,12 +106,3 @@ void Game::HighscoreComponent::CreateFile()const
 	output.close();
 }
 
-std::string Game::HighscoreComponent::GetHighestKey() const
-{
-	/*auto it = std::find_if(m_mHighscore.cbegin(), m_mHighscore.cend(), [](std::pair<std::string, int> el)
-		{
-
-		});
-	return highesttKey;*/
-	return "";
-}

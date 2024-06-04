@@ -188,6 +188,11 @@ namespace TG
 		void virtual Update(float);
 		void virtual OnExit(){} ;
 
+		void SetScore(int score);
+		int GetScore()const;
+	private:
+		int m_Score{};
+
 	};
 
 }

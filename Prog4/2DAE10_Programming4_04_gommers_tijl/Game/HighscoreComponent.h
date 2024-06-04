@@ -23,6 +23,8 @@ namespace Game
 		virtual void FixedUpdate(float) {};
 		virtual void Render()const {};
 
+		void ResetScoreFlag();
+
 	private:
 		std::multimap<int, std::string, std::greater<int>> m_mHighscore;
 		std::vector<TG::TextComponent*> m_vTextWritersPtr;
@@ -33,7 +35,6 @@ namespace Game
 		void CompareHighscore(int newScore, const std::string& name);
 		void DisplayScore()const;
 		void CreateFile()const;
-		std::string GetHighestKey()const;
 		bool m_ScoreIsSet{ false };
 		
 	};

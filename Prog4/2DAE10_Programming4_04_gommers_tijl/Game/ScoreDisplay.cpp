@@ -1,6 +1,9 @@
 #include "ScoreDisplay.h"
 #include "GameObject.h"
 #include "Npc.h"
+#include "HighScoreComponent.h"
+
+#include "sceneManager.h"
 
 Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay )
 	:BaseComponent(Owner),
@@ -52,6 +55,14 @@ void Game::ScoreComponent::ResetScore()
 
 void Game::ScoreComponent::UpdateScore(const ECharacterType& characterType)
 {
+	if (m_Score == 0)
+	{
+		//reset flag for highscoreComponent only when score was reset
+		auto ob = TG::SceneManager::GetInstance().GetSceneOffState(TG::EMenuState::winner)->GetGO(0);
+		if (ob->CheckComponent<HighscoreComponent>())
+			ob->GetComponent<HighscoreComponent>()->ResetScoreFlag();
+	}
+
 	switch (characterType)
 	{
 	case ECharacterType::green:
@@ -66,6 +77,7 @@ void Game::ScoreComponent::UpdateScore(const ECharacterType& characterType)
 		default:
 			break;
 	}
+	static_cast<TG::WinnerState*>(TG::SceneManager::GetInstance().GetMenuOffState(TG::EMenuState::winner))->SetScore(m_Score);
 }
 
 std::string Game::ScoreComponent::UpdateMessage()

@@ -185,3 +185,13 @@ void TG::WinnerState::Update(float dt)
 {
 	m_ActiveScene->Update(dt);
 }
+
+void TG::WinnerState::SetScore(int score)
+{
+	m_Score = score;
+}
+
+int TG::WinnerState::GetScore() const
+{
+	return m_Score;
+}
