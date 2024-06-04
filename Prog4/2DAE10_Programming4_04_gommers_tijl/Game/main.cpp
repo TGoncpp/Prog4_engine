@@ -18,7 +18,6 @@
 #include "ScoreDisplay.h"
 #include "MovementComponent.h"
 #include "HealthComponent.h"
-#include "LootComponent.h"
 #include <Xinput.h>
 #include "ServiceLocator.h"
 #include "Grid.h"
@@ -79,6 +78,8 @@ void load()
 	auto controlTexture2 = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls coop.png", true, screenScale);
 	//Game over
 	auto gameOverTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Game Over Title.png", true, worldScale);
+	//Winer
+	auto winnerTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Victory Title.png", true, worldScale);
 
 
 	//if NDEBUG
@@ -280,6 +281,17 @@ void load()
 	gameOverScreen->AddComponent<TG::RenderComponent>(gameOverScreen.get(), gameOverTexture);
 
 	gameOverScene.Add(std::move(gameOverScreen));
+	
+	//----------------------------------------------------
+	//WINNER
+	//-----------------------------------------------
+	auto& winnerScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::winner);
+
+	auto winnerScreen = std::make_unique<TG::GameObject>();
+	auto comp = winnerScreen->AddComponent<TG::RenderComponent>(winnerScreen.get(), winnerTexture );
+	comp->SetOffset(glm::vec3{ 100.f, 10.f, 0.f });
+
+	winnerScene.Add(std::move(winnerScreen));
 
 	//-------------------------------------------
 	//MenuStates

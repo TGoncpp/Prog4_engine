@@ -4,7 +4,7 @@
 class TG::Texture2D;
 namespace Game
 {
-	class MenuScreen : public TG::GameObject
+	class MenuScreen final : public TG::GameObject
 	{
 	public:
 		MenuScreen(const std::shared_ptr < TG::Texture2D>& selectionTexture, const std::shared_ptr<TG::Texture2D>& arrowTexture, const std::shared_ptr < TG::Font>& font);

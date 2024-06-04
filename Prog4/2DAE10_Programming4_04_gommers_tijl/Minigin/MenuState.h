@@ -18,7 +18,8 @@ namespace TG
 		intermediate,
 		game,
 		pause,
-		gameOver
+		gameOver,
+		winner
 	};
 	enum class EGameMode
 	{
@@ -170,9 +171,20 @@ namespace TG
 		}
 
 		void virtual InputHandeling(const glm::vec2&) ;
+
+	};
+	
+	class WinnerState final : public MenuState
+	{
+	public:
+		WinnerState(SceneManager* sceneManager, Scene* owner)
+			:MenuState(sceneManager, owner ) 
+		{
+			m_MenuType = EMenuState::winner;
+		}
+
+		void virtual InputHandeling(const glm::vec2&) ;
 		void virtual OnEnter(const glm::vec2&) {};
-		void virtual Update(float) {};
-		void virtual FixedUpdate(float){} ;
 		void virtual OnExit(){} ;
 
 	};

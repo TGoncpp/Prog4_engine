@@ -80,7 +80,7 @@ void TG::GameState::OnExit()
 void TG::IntroState::InputHandeling(const glm::vec2& signal)
 {
 	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::selection,-1);
+		OnStateSwitch.OnNotifyAll(EMenuState::selection,1);
 }
 
 
@@ -164,4 +164,15 @@ void TG::GameOverState::InputHandeling(const glm::vec2& signal)
 	//Pressed ENTER
 	if (signal.x == 0 && signal.y == 0)
 		OnStateSwitch.OnNotifyAll(EMenuState::intro, -1);
+}
+
+
+//-----------------------------------------
+//WINNER
+//-----------------------------------------
+void TG::WinnerState::InputHandeling(const glm::vec2& signal)
+{
+	//Pressed ENTER
+	if (signal.x == 0 && signal.y == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::intro, 1);
 }

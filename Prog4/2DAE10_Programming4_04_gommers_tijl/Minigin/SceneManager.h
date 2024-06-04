@@ -37,7 +37,7 @@ namespace TG
 		int GetActiveGameModeIndex()const { return static_cast<int>(m_ActiveGameMode); }
 	private:
 		friend class Singleton<SceneManager>;
-		SceneManager();
+		SceneManager() = default;
 		
 		virtual void Notify(const EMenuState& newState, int lvl = -1)override;
 		virtual void OnSubjectDestroy()override {};

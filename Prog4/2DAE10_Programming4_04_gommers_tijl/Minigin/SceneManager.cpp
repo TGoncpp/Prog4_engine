@@ -48,8 +48,17 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 {
 	if (!m_mPossibleMenus.contains(newState))
 		return;
-	if (lvl != -1 && lvl <= m_MaxLvl)
+
+	if (lvl != -1 )
 		m_Lvl = lvl;
+
+	if (m_Lvl > m_MaxLvl)
+	{
+		m_FutureMenu = m_mPossibleMenus[EMenuState::winner].get();
+		m_IsMenuDirty = true;
+		return;
+	}
+
 
 	switch (m_CurrentMenu->GetMenuType())
 	{
@@ -70,7 +79,7 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 			return;
 		break;
 	case EMenuState::game:
-		if (newState != EMenuState::gameOver && newState != EMenuState::pause && newState != EMenuState::intermediate)
+		if (newState != EMenuState::gameOver && newState != EMenuState::pause && newState != EMenuState::intermediate && newState != EMenuState::winner)
 			return;
 		break;
 	case EMenuState::pause:
@@ -78,6 +87,10 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 			return;
 		break;
 	case EMenuState::gameOver:
+		if (newState != EMenuState::intro )
+			return;
+		break;
+	case EMenuState::winner:
 		if (newState != EMenuState::intro )
 			return;
 		break;
@@ -106,12 +119,9 @@ void TG::SceneManager::CreateMenu()
 	m_mPossibleMenus[EMenuState::gameOver]->OnStateSwitch.AddObserver(this);
 	m_mPossibleMenus.insert(std::make_pair(EMenuState::pause, std::make_unique<PauseState>(this, m_mScenes[EMenuState::pause].get())));
 	m_mPossibleMenus[EMenuState::pause]->OnStateSwitch.AddObserver(this);
+	m_mPossibleMenus.insert(std::make_pair(EMenuState::winner, std::make_unique<WinnerState>(this, m_mScenes[EMenuState::winner].get())));
+	m_mPossibleMenus[EMenuState::winner]->OnStateSwitch.AddObserver(this);
 
 	m_CurrentMenu = m_mPossibleMenus[EMenuState::intro].get();
-}
-
-TG::SceneManager::SceneManager()
-{
-	
 }
 
