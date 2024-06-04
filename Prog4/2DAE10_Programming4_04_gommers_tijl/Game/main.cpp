@@ -14,7 +14,6 @@
 #include "Scene.h"
 
 #include "RenderComponent.h"
-#include "GameOverDisplay.h"
 #include "ScoreDisplay.h"
 #include "MovementComponent.h"
 #include "HealthComponent.h"
@@ -30,6 +29,7 @@
 #include "controlScreen.h"
 #include "player2Component.h"
 #include "ServiceLocator.h"
+#include "HighScoreComponent.h"
 
 #include "time.h"
 #include <iostream>
@@ -288,8 +288,18 @@ void load()
 	auto& winnerScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::winner);
 
 	auto winnerScreen = std::make_unique<TG::GameObject>();
+	const float startX{ 100.f };
+	const float startTextY{ 300.f };
+	const float startTextX{ 150.f };
 	auto comp = winnerScreen->AddComponent<TG::RenderComponent>(winnerScreen.get(), winnerTexture );
-	comp->SetOffset(glm::vec3{ 100.f, 10.f, 0.f });
+	comp->SetOffset(glm::vec3{ startX, 10.f, 0.f });
+	auto textComp = winnerScreen->AddComponent<TG::TextComponent>(winnerScreen.get(), "score: N/A", font, glm::vec3{ startTextX , startTextY, 0.f });
+	const float offsetY = textComp->GetTextSize().y;
+	const int numOffScores{ 5 };
+	for (int i{ 1 }; i < numOffScores; ++i)
+	{
+		winnerScreen->AddComponent<TG::TextComponent>(winnerScreen.get(), "score: N/A", font, glm::vec3{ startTextX , startTextY + i * offsetY, 0.f});
+	}
 
 	winnerScene.Add(std::move(winnerScreen));
 
