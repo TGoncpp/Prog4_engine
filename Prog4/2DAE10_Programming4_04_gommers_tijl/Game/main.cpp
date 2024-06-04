@@ -300,6 +300,7 @@ void load()
 	{
 		winnerScreen->AddComponent<TG::TextComponent>(winnerScreen.get(), "score: N/A", font, glm::vec3{ startTextX , startTextY + i * offsetY, 0.f});
 	}
+	winnerScreen->AddComponent<Game::HighscoreComponent>(winnerScreen.get());
 
 	winnerScene.Add(std::move(winnerScreen));
 

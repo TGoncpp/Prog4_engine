@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include "Transform.h"
 #include "subject.h"
 
@@ -73,6 +74,20 @@ namespace TG
 			assert(it != m_vComponentUPtrs.end() && "Component to get not found");
 
 			return static_cast<T*>((*it).get());
+		}		
+		template<typename T>
+		std::vector<T*> GetAllComponent() const
+		{
+			std::vector<T*>vResult;
+			static_assert(std::is_base_of<TG::BaseComponent, T>::value, "T must be a subclass of BaseComponent");
+			std::for_each(m_vComponentUPtrs.begin(), m_vComponentUPtrs.end(), [&vResult](const std::unique_ptr<TG::BaseComponent>& pComponent)
+			{
+				if (dynamic_cast<T*>(pComponent.get()) != nullptr)
+					vResult.push_back(static_cast<T*>(pComponent.get()));
+				 
+			});
+
+			return vResult;
 		}		
 		template <typename T>
 		bool CheckComponent()const
