@@ -184,6 +184,7 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 	//check if all cubes are in final phase
 	if (CheckLevelState() && comp)
 	{
+		OnCharacterReset.OnNotifyAll();
 		comp->StartAnim();
 	}
 }

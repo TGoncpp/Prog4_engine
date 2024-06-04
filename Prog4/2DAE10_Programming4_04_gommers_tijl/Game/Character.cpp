@@ -22,15 +22,25 @@ Game::Character::Character(const glm::vec2& gridPosition, std::shared_ptr<TG::Te
 	//Add States
 	m_PossibleStates.insert(std::make_pair(EState::idle, std::make_unique<Idle>(this)));
 	m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
+
 	m_PossibleStates.insert(std::make_pair(EState::walking, std::make_unique<WalkingQbertState>(this)));
 	m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
+
 	m_PossibleStates.insert(std::make_pair(EState::falling, std::make_unique<Falling>(this, 1.5f)));
 	m_PossibleStates[EState::falling]->OnStateSwitch.AddObserver(this);
+
 	m_PossibleStates.insert(std::make_pair(EState::dead, std::make_unique<Dead>(this, 1.f)));
 	m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
+
 	m_PossibleStates.insert(std::make_pair(EState::respawn, std::make_unique<ReSpawn>(this, posOnCube, 50.f)));
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
+
 	m_PossibleStates.insert(std::make_pair(EState::dissable, std::make_unique<Dissable>(this)));
+	m_PossibleStates[EState::dissable]->OnStateSwitch.AddObserver(this);
+
+	m_PossibleStates.insert(std::make_pair(EState::freeze, std::make_unique<Freeze>(this)));
+	m_PossibleStates[EState::freeze]->OnStateSwitch.AddObserver(this);
+
 	m_CharacterState = m_PossibleStates[EState::dissable].get();
 	
 }
@@ -40,6 +50,13 @@ void Game::Character::Notify(const EState& state)
 	if (m_PossibleStates.contains(state))
 	{
 		auto currentType = m_CharacterState->GetState();
+		if (state == EState::freeze)
+		{
+			m_CharacterState = m_PossibleStates[state].get();
+			m_CharacterState->OnEnter(m_Direction);
+			return;
+		}
+
 		switch (currentType)
 		{
 		case EState::idle:
@@ -64,6 +81,9 @@ void Game::Character::Notify(const EState& state)
 			break;
 		case EState::lift:
 			if (state != EState::respawn )
+				return;
+		case EState::freeze:
+			if (state != EState::dead )
 				return;
 			break;
 		}

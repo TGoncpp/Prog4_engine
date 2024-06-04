@@ -17,7 +17,8 @@ namespace Game
 		dead,
 		respawn,
 		lift,//only for red character,
-		dissable
+		dissable,
+		freeze
 	};
 
 	class IState
@@ -209,6 +210,19 @@ namespace Game
 			:State(owner)
 		{
 			m_Type = EState::dissable;
+		}
+
+	};
+
+	//FREEZE
+	//---------------------------------------
+	class Freeze final: public State
+	{
+	public:
+		Freeze(Character* owner)
+			:State(owner)
+		{
+			m_Type = EState::freeze;
 		}
 
 	};

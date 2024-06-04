@@ -30,8 +30,11 @@ void Game::QbertCharacter::Notify(bool isVisible)
 
 void Game::QbertCharacter::Notify()
 {
-	if (m_CharacterState->GetState() != EState::dissable)
-		m_CharacterState = m_PossibleStates[EState::dead].get();
+	auto state = m_CharacterState->GetState();
+	if (state == EState::dissable)
+		return;
+
+	m_CharacterState = (state == EState::freeze)? m_PossibleStates[EState::dead].get() : m_PossibleStates[EState::freeze].get();
 }
 
 void Game::QbertCharacter::ActivateInput(bool isActive)
