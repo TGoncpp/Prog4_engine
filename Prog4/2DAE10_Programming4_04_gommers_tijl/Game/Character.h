@@ -38,7 +38,7 @@ namespace Game
 
 		TG::Subject<Character*, bool> OnCubeInteraction;
 		TG::Subject<const ECharacterType&> OnScore;
-		TG::Subject<> OnDead;
+		TG::Subject<> OnShowCurse;
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
 		void JumpOfGrid(bool isFaling);

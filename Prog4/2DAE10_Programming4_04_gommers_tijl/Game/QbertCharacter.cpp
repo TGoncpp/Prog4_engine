@@ -19,7 +19,7 @@ Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<
 	//States
 	m_PossibleStates.insert(std::make_pair(EState::lift, std::make_unique<Lift>(this)));
 	m_PossibleStates[EState::lift]->OnStateSwitch.AddObserver(this);
-	m_PossibleStates[EState::dead]->OnDead.AddObserver(this);
+	m_PossibleStates[EState::dead]->OnShowCurse.AddObserver(this);
 	m_CharacterState = m_PossibleStates[EState::idle].get();
 }
 

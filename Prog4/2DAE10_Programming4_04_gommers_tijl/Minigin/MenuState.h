@@ -60,6 +60,7 @@ namespace TG
 		void virtual OnExit(){} ;
 
 		void IncreaseLvl(int lvl);
+		void GameOver();
 
 		Subject<const EMenuState&, int> OnStateSwitch{};
 		EMenuState GetMenuType()const { return m_MenuType; }
@@ -165,10 +166,10 @@ namespace TG
 		GameOverState(SceneManager* sceneManager, Scene* owner)
 			:MenuState(sceneManager, owner ) 
 		{
-			m_MenuType = EMenuState::game;
+			m_MenuType = EMenuState::gameOver;
 		}
 
-		void virtual InputHandeling(const glm::vec2&) {};
+		void virtual InputHandeling(const glm::vec2&) ;
 		void virtual OnEnter(const glm::vec2&) {};
 		void virtual Update(float) {};
 		void virtual FixedUpdate(float){} ;

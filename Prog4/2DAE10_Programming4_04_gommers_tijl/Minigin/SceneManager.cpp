@@ -77,6 +77,10 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 		if (newState != EMenuState::selection && newState != EMenuState::game)
 			return;
 		break;
+	case EMenuState::gameOver:
+		if (newState != EMenuState::intro )
+			return;
+		break;
 	default:
 		break;
 	}

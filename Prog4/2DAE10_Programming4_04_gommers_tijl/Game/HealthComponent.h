@@ -17,7 +17,6 @@ namespace Game
 
 		void ResetHealth();
 		int GetHealth()const { return m_Health; };
-		TG::Subject<> OnGameOver;
 
 		virtual void Update(float ) {};
 		virtual void FixedUpdate(float ) {};

@@ -77,6 +77,8 @@ void load()
 	auto controlTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls Single.png", true, screenScale);
 	auto controlTexture1 = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls vs.png", true, screenScale);
 	auto controlTexture2 = TG::ResourceManager::GetInstance().LoadTexture("Textures/controls coop.png", true, screenScale);
+	//Game over
+	auto gameOverTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Game Over Title.png", true, worldScale);
 
 
 	//if NDEBUG
@@ -86,6 +88,9 @@ void load()
 	
 	//TG::Locator::getAudio().playSound("Level");
 
+	//----------------------------------------------------
+	//GAME SCENE
+	//---------------------------------------------------
 	const glm::vec2 topCubePosition{ glm::vec2{ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 5.f } };
 	auto grid = std::make_unique<Game::Grid>(topCubePosition, gridSize , cubeTexture);
 	const glm::vec2 cubeSize{ grid->GetCubeSize() };
@@ -265,6 +270,16 @@ void load()
 	auto controlScreen = std::make_unique<Game::controlScreen>(std::vector{ controlTexture ,controlTexture1 ,controlTexture2 });
 
 	controlScene.Add(std::move(controlScreen));
+	
+	//----------------------------------------------------
+	//GAME OVER
+	//-----------------------------------------------
+	auto& gameOverScene = TG::SceneManager::GetInstance().CreateScene(TG::EMenuState::gameOver);
+
+	auto gameOverScreen = std::make_unique<TG::GameObject>();
+	gameOverScreen->AddComponent<TG::RenderComponent>(gameOverScreen.get(), gameOverTexture);
+
+	gameOverScene.Add(std::move(gameOverScreen));
 
 	//-------------------------------------------
 	//MenuStates

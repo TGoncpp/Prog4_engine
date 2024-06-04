@@ -32,7 +32,7 @@ namespace Game
 		void virtual FixedUpdate(float) = 0;
 		void virtual OnExit() = 0;
 		TG::Subject<const EState&> OnStateSwitch{};
-		TG::Subject<bool> OnDead;
+		TG::Subject<bool> OnShowCurse;
 
 	protected:
 

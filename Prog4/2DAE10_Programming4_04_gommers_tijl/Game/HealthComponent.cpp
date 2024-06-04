@@ -1,18 +1,20 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 #include "serviceLocator.h"
+#include "SceneManager.h"
+
 
 Game::HealthComponent::HealthComponent(TG::GameObject* owner, Character* Qbert, std::vector<TG::RenderComponent*> vHearths)
 	:TG::BaseComponent(owner),
 	m_vHearthRenderCompRef{vHearths},
 	m_Subject{Qbert}
 {
-	Qbert->OnDead.AddObserver(this);
+	Qbert->OnShowCurse.AddObserver(this);
 }
 
 Game::HealthComponent::~HealthComponent()
 {
-	m_Subject->OnDead.RemoveObserver(this);
+	m_Subject->OnShowCurse.RemoveObserver(this);
 }
 
 void Game::HealthComponent::ResetHealth()
@@ -33,7 +35,7 @@ void Game::HealthComponent::DecreaseHealth(int decrement)
 
 	if (m_Health <= 0)
 	{
-		OnGameOver.OnNotifyAll();
+		TG::SceneManager::GetInstance().GetMenustate()->GameOver();
 		return;
 	}
 	m_vHearthRenderCompRef[m_Health - 1]->SetVisibility(false);

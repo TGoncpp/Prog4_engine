@@ -20,6 +20,12 @@ void TG::MenuState::IncreaseLvl(int lvl)
 	OnStateSwitch.OnNotifyAll(EMenuState::intermediate, lvl);
 }
 
+void TG::MenuState::GameOver()
+{
+	// go to game over screen while setting lvl back to 1, this will reset all other values through ApplyGameMode 
+	OnStateSwitch.OnNotifyAll(EMenuState::gameOver, 1);
+}
+
 
 
 //-----------------------------------------
@@ -147,4 +153,15 @@ void TG::PauseState::InputHandeling(const glm::vec2& signal)
 	{
 		OnStateSwitch.OnNotifyAll(EMenuState::selection, -1);
 	}
+}
+
+
+//-----------------------------------------
+//GAME OVER
+//-----------------------------------------
+void TG::GameOverState::InputHandeling(const glm::vec2& signal)
+{
+	//Pressed ENTER
+	if (signal.x == 0 && signal.y == 0)
+		OnStateSwitch.OnNotifyAll(EMenuState::intro, -1);
 }

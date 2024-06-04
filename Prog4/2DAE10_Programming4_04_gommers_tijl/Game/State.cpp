@@ -194,8 +194,8 @@ void Game::Falling::Update(float time)
 void Game::Dead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
-	OnDead.OnNotifyAll(true);
-	m_OwnerObject->OnDead.OnNotifyAll();
+	OnShowCurse.OnNotifyAll(true);
+	m_OwnerObject->OnShowCurse.OnNotifyAll();
 	TG::Locator::getAudio().playSound("Swearing");
 }
 
@@ -211,7 +211,7 @@ void Game::Dead::Update(float time)
 
 void Game::Dead::OnExit()
 {
-	OnDead.OnNotifyAll(false);
+	OnShowCurse.OnNotifyAll(false);
 }
 
 
