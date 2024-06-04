@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "sceneManager.h"
+#include <iostream>
 
 
 Game::HighscoreComponent::HighscoreComponent(TG::GameObject* owner)
@@ -78,8 +79,10 @@ void Game::HighscoreComponent::CompareHighscore(int score, const std::string& na
 		return;
 
 	m_mHighscore.erase(it);
+	std::string nname;
+	std::cin >> nname;
 
-	m_mHighscore.insert(std::make_pair(score, name));
+	m_mHighscore.insert(std::make_pair(score, nname));
 }
 
 void Game::HighscoreComponent::DisplayScore()const

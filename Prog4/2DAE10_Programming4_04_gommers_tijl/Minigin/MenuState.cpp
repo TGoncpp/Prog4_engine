@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "serviceLocator.h"
 
 
 void TG::MenuState::UpdateGameMode(float Ydirection)
@@ -134,6 +135,8 @@ void TG::IntermediateState::InputHandeling(const glm::vec2& signal)
 
 void TG::IntermediateState::OnEnter()
 {
+	TG::Locator::getAudio().playSound("Level");
+
 	const int activeMode = m_OwnerObject->GetActiveGameModeIndex();
 	const int lvl = m_OwnerObject->GetCurrentLvl();
 	m_ActiveScene->ApplyGameMode(activeMode, lvl);
