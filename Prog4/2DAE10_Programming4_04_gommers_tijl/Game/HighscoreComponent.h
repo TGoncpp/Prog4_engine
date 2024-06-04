@@ -1,3 +1,6 @@
+//---------------------------------------------
+//Thanks to Mike Shah, one off my favourite youtuners
+
 #pragma once
 #include "BaseComponent.h"
 #include <map>
@@ -21,14 +24,15 @@ namespace Game
 		virtual void Render()const {};
 
 	private:
-		std::map<std::string, int> m_mHighscore;
+		std::multimap<std::string, int> m_mHighscore;
 		std::vector<TG::TextComponent*> m_vTextWritersPtr;
+		std::string m_TextFile{"highScore.txt"};
 		int m_NumOffScores{};
 		
 		void GetDataFromFile();
-		void CompareHighscore(int newScore);
-		void AdjustStorredScore();
+		void CompareHighscore(int newScore, std::string& keyOfLowest);
 		void DisplayScore();
+		void CreateFile();
 		
 	};
 }
