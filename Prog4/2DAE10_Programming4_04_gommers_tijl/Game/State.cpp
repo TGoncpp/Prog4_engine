@@ -266,3 +266,8 @@ void Game::Lift::OnEnter(const glm::vec2&)
 {
 	m_OwnerObject->JumpOfGrid(false);
 }
+
+void Game::Lift::OnExit()
+{
+	TG::Locator::getAudio().playSound("Disk Land");
+}

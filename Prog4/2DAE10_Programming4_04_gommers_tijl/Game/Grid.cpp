@@ -198,6 +198,7 @@ void Game::Grid::Notify(int round, int level)
 	OnCharacterReset.OnNotifyAll();
 	if (round == 0)
 		TG::SceneManager::GetInstance().GetMenustate()->IncreaseLvl(level);
+
 }
 
 void Game::Grid::Notify(float time)

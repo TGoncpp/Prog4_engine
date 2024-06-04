@@ -82,6 +82,7 @@ void Game::Character::Notify(const EState& state)
 		case EState::lift:
 			if (state != EState::respawn )
 				return;
+			break;
 		case EState::freeze:
 			if (state != EState::dead )
 				return;

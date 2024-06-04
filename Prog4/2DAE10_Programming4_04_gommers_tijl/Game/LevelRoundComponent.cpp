@@ -1,4 +1,5 @@
 #include "LevelRoundComponent.h"
+#include "serviceLocator.h"
 
 Game::LvlRoundComponent::LvlRoundComponent(TG::GameObject* owner)
 	:BaseComponent(owner)
@@ -22,6 +23,7 @@ void Game::LvlRoundComponent::Update(float time)
 
 void Game::LvlRoundComponent::NextRound()
 {
+
 	m_CurrentTransferTime = m_TransferTime;
 	++m_CurrentRound;
 
@@ -47,6 +49,8 @@ void Game::LvlRoundComponent::NextLvl()
 void Game::LvlRoundComponent::StartAnim()
 {
 	if (m_IsTransferring)return;
+
+	TG::Locator::getAudio().playSound("Complete");
 
 	m_CurrentTransferTime = m_TransferTime;
 	m_IsTransferring = true;
