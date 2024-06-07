@@ -12,8 +12,8 @@ namespace Game
 	class HighscoreComponent final : public TG::BaseComponent
 	{
 	public:
-		HighscoreComponent(TG::GameObject* owner);
-		virtual ~HighscoreComponent()override                    = default;
+		HighscoreComponent(TG::GameObject* owner, int numOfScores, int numOfLettersID);
+		virtual ~HighscoreComponent()override;
 		HighscoreComponent& operator=(const HighscoreComponent&) = delete;
 		HighscoreComponent& operator=(HighscoreComponent&&)      = delete;
 		HighscoreComponent(const HighscoreComponent&)            = delete;
@@ -24,18 +24,29 @@ namespace Game
 		virtual void Render()const {};
 
 		void ResetScoreFlag();
+		void SetLetter(const glm::vec2& signal);
 
 	private:
 		std::multimap<int, std::string, std::greater<int>> m_mHighscore;
 		std::vector<TG::TextComponent*> m_vTextWritersPtr;
+		std::vector<TG::TextComponent*> m_vTextIDWriterPtr;
+		TG::RenderComponent*  m_NewHighTexturePtr{nullptr};
 		std::string m_TextFile{"highScore.txt"};
 		int m_NumOffScores{};
+		int m_NumOffLettersID{};
+		int m_NewHighscor{};
+		int m_ActiveLetter{};
+		bool m_IsNewScoreEvaluated{ false };
+		bool m_GotNewHighscore{ false };
 		
 		void GetDataFromFile();
-		void CompareHighscore(int newScore, const std::string& name);
+		bool CompareHighscore(int newScore);
 		void DisplayScore()const;
 		void CreateFile()const;
 		bool m_ScoreIsSet{ false };
+		void SetScoreVisible(bool visseble);
+		void SetNewScoreVisible(bool visseble);
+		bool EnterNameIsFinished();
 		
 	};
 }

@@ -60,3 +60,11 @@ void TG::SkipLvl::Execute()
 {
 	SceneManager::GetInstance().GetInstance().HandleInput(glm::vec2{ 2.f, 2.f });
 }
+
+void TG::ChangeLetter::Execute()
+{
+	m_GameObjectRefrence = m_StoredGameObjectRefrence;
+	m_GameObjectRefrence->HandleInput(m_Signal);
+}
+
+

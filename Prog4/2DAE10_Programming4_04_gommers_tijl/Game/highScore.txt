@@ -1,5 +1,5 @@
 1050 alsoMe
 1000 tijl
-750 Test
-700 TT
-100 tom
+75 Test
+50 TG
+7 TT

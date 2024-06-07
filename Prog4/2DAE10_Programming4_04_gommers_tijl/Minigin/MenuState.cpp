@@ -173,11 +173,12 @@ void TG::GameOverState::InputHandeling(const glm::vec2& signal)
 //-----------------------------------------
 //WINNER
 //-----------------------------------------
-void TG::WinnerState::InputHandeling(const glm::vec2& signal)
+void TG::WinnerState::InputHandeling(const glm::vec2& )
 {
-	//Pressed ENTER
-	if (signal.x == 0 && signal.y == 0)
-		OnStateSwitch.OnNotifyAll(EMenuState::intro, 1);
+	
+	////Pressed ENTER
+	//if (signal.x == 0 && signal.y == 0)
+	//	OnStateSwitch.OnNotifyAll(EMenuState::intro, 1);
 }
 
 void TG::WinnerState::OnEnter(const glm::vec2&)

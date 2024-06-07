@@ -103,5 +103,20 @@ namespace TG
 	private:
 		bool m_MoveUp{ };
 	};
-
+	
+	class ChangeLetter final : public CommandActor
+	{
+	public:
+		ChangeLetter(GameObject* Objectrefrence, const glm::vec2& signal)
+			: CommandActor(Objectrefrence),
+			m_Signal{signal}
+			{}
+		
+		~ChangeLetter() = default;
+		virtual void Execute()override;
+	private:
+		glm::vec2 m_Signal{ };
+	};
+	
+	
 }

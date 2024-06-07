@@ -26,6 +26,7 @@ namespace TG
 		void SetText(const std::string& text);
 		void SetOffset(const glm::vec2& offset);
 		glm::vec2 GetTextSize()const;
+		std::string GetText()const { return m_text; }
 
 	private:
 		bool m_IsVisible{ true };

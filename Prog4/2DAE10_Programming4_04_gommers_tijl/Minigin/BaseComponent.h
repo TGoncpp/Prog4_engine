@@ -9,6 +9,7 @@ namespace TG
 	
 	class GameObject;
 	class TextComponent;
+	class RenderComponent;
 	class BaseComponent
 	{
 	public:
