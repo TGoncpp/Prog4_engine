@@ -28,6 +28,8 @@ namespace Game
 
 		TG::RenderComponent* m_RenderCurseCompRefrence{ nullptr };
 		void SetCurseVisibility(bool isVisible);
+
+		bool m_IsOnDisc{ false };
 	};
 
 }

@@ -47,6 +47,7 @@ void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 	{
 		character->SetParent(this, true);
 		character->HandleInput(glm::vec2{0.f,0.f});
+		character->SetOnDisc(true);
 		m_Visiter = character;
 		m_Depth = -1;
 	}
@@ -62,6 +63,7 @@ void Game::Disc::Notify()
 {
 	m_Visiter->SetParent(nullptr, true);
 	m_Visiter->GetCharacterState()->OnStateSwitch.OnNotifyAll(EState::respawn);
+	m_Visiter->SetOnDisc(false);
 	m_Visiter = nullptr;
 
 	if (CheckComponent<TG::RenderComponent>())

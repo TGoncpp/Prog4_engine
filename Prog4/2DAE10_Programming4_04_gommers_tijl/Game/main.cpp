@@ -56,6 +56,7 @@ void load()
 	auto QbertTexture2 = TG::ResourceManager::GetInstance().LoadTexture("Textures/Qbert P2 Spritesheet.png", true, worldScale, std::pair<int, int>(1,4));
 	auto snakeTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Coily Spritesheet.png", true, worldScale, std::pair<int, int>(1, 10));
 	auto samTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Slick Sam Spritesheet.png", true, worldScale, std::pair<int, int>(2, 2));
+	auto wrongTexture = TG::ResourceManager::GetInstance().LoadTexture("Textures/Ugg Wrongway Spritesheet.png", true, worldScale, std::pair<int, int>(2, 4));
 	auto DiscTexture  = TG::ResourceManager::GetInstance().LoadTexture("Textures/Disk Spritesheet.png", true, worldScale, std::pair<int, int>(1, 30));
 	auto background   = TG::ResourceManager::GetInstance().LoadTexture("Textures/background.tga", true, worldScale);
 	auto lvlTexture   = TG::ResourceManager::GetInstance().LoadTexture("Textures/Level 01 Title.png", true, worldScale);
@@ -123,12 +124,19 @@ void load()
 	//Slick
 	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green);
 	grid->SetGridSubject(npcGreen.get());
-	//npcGreen->UpdateGrid(false);
 	
 	//Sam
 	auto npcGreen2 = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green, true);
 	grid->SetGridSubject(npcGreen2.get());
-	//npcGreen->UpdateGrid(false);
+
+	//Slick
+	auto npcWrong = std::make_unique<Game::NPC>(topCubePosition, wrongTexture, cubeSize, Game::ECharacterType::wrong);
+	grid->SetGridSubject(npcWrong.get());
+	
+	//Sam
+	auto npcWrong2 = std::make_unique<Game::NPC>(topCubePosition, wrongTexture, cubeSize, Game::ECharacterType::wrong, true);
+	grid->SetGridSubject(npcWrong2.get());
+
 
 	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc->SetGridSubject(grid.get());
@@ -139,8 +147,8 @@ void load()
 	auto disc12 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc12->SetGridSubject(grid.get());
 
-	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get(), npcGreen2.get() };
-	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get(), npcGreen2.get() };
+	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get(), npcGreen2.get(), npcWrong.get(), npcWrong2.get() };
+	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get(), npcGreen2.get(), npcWrong.get(), npcWrong2.get() };
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
 	auto vDisc = std::vector<Game::Disc* >{disc.get(), disc1.get(), disc2.get(), disc12.get()};
 	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vDisc, vTex, font);
@@ -208,6 +216,8 @@ void load()
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
 	scene.Add(std::move(npcGreen2));
+	scene.Add(std::move(npcWrong));
+	scene.Add(std::move(npcWrong2));
 		
 	//----------------------------------------------------
 	//INTRO SCENE

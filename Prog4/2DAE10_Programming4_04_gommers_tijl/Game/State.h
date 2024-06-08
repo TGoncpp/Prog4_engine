@@ -120,6 +120,22 @@ namespace Game
 	};
 
 	
+	class WalkingWrongState final: public WalkingState
+	{
+	public:
+		WalkingWrongState(Character* owner)
+			:WalkingState(owner)
+		{
+			m_SpriteComp->SetTimePerFrame(0.1f);
+		}
+		void virtual OnEnter(const glm::vec2&)override;
+		void virtual Update(float)override ;
+		void virtual FixedUpdate(float)override ;
+		void virtual OnExit()override ;
+	
+	};
+
+	
 	//IDLE
 	//---------------------------------------
 	class Idle : public State
@@ -158,9 +174,25 @@ namespace Game
 	public:
 		CoilyIdle(Character* owner, float idleTime)
 			:GreenIdle(owner, idleTime){}
+
+		void virtual InputHandeling(const glm::vec2&)override ;
+		void virtual OnEnter(const glm::vec2&)override;
+		void virtual Update(float)override;
+	private:
+		bool m_IsEgg{ true };
+	
+	};
+	
+	class WrongIdle final: public GreenIdle
+	{
+	public:
+		WrongIdle(Character* owner, float idleTime, bool isLeft)
+			:GreenIdle(owner, idleTime),
+			m_IsLeft{ isLeft } {}
 	
 		void virtual OnEnter(const glm::vec2&)override;
-
+	private:
+		bool m_IsLeft{ false };
 	
 	};
 	
@@ -271,6 +303,23 @@ namespace Game
 		{
 			m_gridPos = gridStartPos ;
 		}
+		void virtual Update(float)override ;
+
+	private:
+		float m_RespawnDelay{};
+		float m_CurrentTime{};
+	};
+	
+	class WrongReSpawn final: public ReSpawn
+	{
+	public:
+		WrongReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight, float respawnDelay, std::pair<int, int> gridStartPos)
+			:ReSpawn(owner, startPosition, respawnHeight),
+			m_RespawnDelay{respawnDelay} 
+		{
+			m_gridPos = gridStartPos ;
+		}
+		void virtual OnEnter(const glm::vec2&)override;
 		void virtual Update(float)override ;
 
 	private:

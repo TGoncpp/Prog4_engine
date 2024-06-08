@@ -6,6 +6,7 @@
 #include <iostream>
 #include "EggComponent.h"
 #include "ChaseCharacter.h"
+#include "sceneManager.h"
 
 
 Game::State::State(Character* owner)
@@ -83,19 +84,34 @@ void Game::GreenIdle::Update(float time)
 
 //-----------------------------------------------------------
 
+void Game::CoilyIdle::InputHandeling(const glm::vec2& direction)
+{
+	if (!m_IsEgg && TG::SceneManager::GetInstance().GetActiveGameModeIndex() == 1)
+	{
+		m_Direction = direction;
+		m_OwnerObject->SetDirection(m_Direction);
+		OnStateSwitch.OnNotifyAll(EState::walking);
+	}
+}
+
 void Game::CoilyIdle::OnEnter(const glm::vec2&)
 {
 	int randNum = rand() % 10;
 	bool left = randNum % 2 == 0;
-	bool egg{ false };
 
 	if (m_OwnerObject->CheckComponent<EggComponent>())
-		egg = m_OwnerObject->GetComponent<EggComponent>()->IsEgg();
+		m_IsEgg = m_OwnerObject->GetComponent<EggComponent>()->IsEgg();
 
-	if (egg)
+	if (m_IsEgg)
 		m_Direction = left ? glm::vec2{ 1.f, 0.f } : glm::vec2{ 0.f, -1.f };
 	else
 	{
+		//if (TG::SceneManager::GetInstance().GetActiveGameModeIndex() == 1)
+		//{
+		//	m_CurrentIdletime = 0.f;
+		//	return;
+		//}
+
 		if (m_OwnerObject->CheckComponent<ChaseCharacterComponent>())
 			m_Direction = m_OwnerObject->GetComponent<ChaseCharacterComponent>()->GetDirectionToTarget();
 	}
@@ -104,7 +120,36 @@ void Game::CoilyIdle::OnEnter(const glm::vec2&)
 	m_CurrentIdletime = 0.f;
 }
 
+void Game::CoilyIdle::Update(float time)
+{
+	
+	if (!m_IsEgg && TG::SceneManager::GetInstance().GetActiveGameModeIndex() == 1 )
+	{
+		m_CurrentIdletime = 0.f;
+		return;
+	}
 
+	if (m_CurrentIdletime < m_Idletime)
+	{
+		m_CurrentIdletime += time;
+		return;
+	}
+	m_CurrentIdletime = 0.f;
+
+	m_OwnerObject->SetDirection(m_Direction);
+	OnStateSwitch.OnNotifyAll(EState::walking);
+}
+
+//------------------------------------------------------------
+
+void Game::WrongIdle::OnEnter(const glm::vec2&)
+{
+	//int randNum = rand() % 10;
+	//bool left = randNum % 2 == 0;
+	m_Direction = m_IsLeft ?glm::vec2{ 0.f, 1.f } : glm::vec2{ -1.f, 0.f } ;
+
+	m_CurrentIdletime = 0.f;
+}
 
 //-------------------------------------------
 //WALKING
@@ -258,7 +303,7 @@ void Game::WalkingGreenState::FixedUpdate(float time)
 	}
 }
 
-
+//-------------------------------------------------------------------
 void Game::WalkingCoilynState::OnEnter(const glm::vec2& direction)
 {
 	if (m_OwnerObject->CheckComponent<EggComponent>())
@@ -332,6 +377,52 @@ void Game::WalkingCoilynState::OnExit()
 	m_SpriteComp->DeUpdateFrame();
 }
 
+//-----------------------------------------------------------------------
+void Game::WalkingWrongState::OnEnter(const glm::vec2& direction)
+{
+
+	//update grid and character
+	m_SpriteComp->SetAutomaiticMode(true);
+	m_MoveComp->SetTargetLocationIndex(direction);
+	m_OwnerObject->UpdateGrid(true);
+	m_OwnerObject->UpdateGridPosition(direction);
+}
+
+void Game::WalkingWrongState::Update(float time)
+{
+	m_SpriteComp->Update(time);
+}
+
+void Game::WalkingWrongState::FixedUpdate(float time)
+{
+	m_MoveComp->FixedUpdate(time);
+
+	if (m_MoveComp->StoppedMoving())
+	{
+		m_OwnerObject->UpdateGrid(false);
+		if (m_OwnerObject->IsDead())
+		{
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::dead);
+			return;
+		}
+		if (m_OwnerObject->IsFalling())
+		{
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::falling);
+			return;
+		}
+
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
+	}
+}
+
+void Game::WalkingWrongState::OnExit()
+{
+	m_SpriteComp->SetAutomaiticMode(false);
+}
+
 //-------------------------------------------
 //FALLING
 //---------------------------------------------
@@ -387,6 +478,7 @@ void Game::Dead::OnExit()
 }
 
 
+//-------------------------------------------------
 void Game::GreenDead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
@@ -394,11 +486,13 @@ void Game::GreenDead::OnEnter(const glm::vec2&)
 	TG::Locator::getAudio().playSound("Hit");
 }
 
+//-------------------------------------------------
 void Game::PurpleDead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
 	if (m_OwnerObject->CheckComponent<EggComponent>())
 		m_OwnerObject->GetComponent<EggComponent>()->HatchEgg(false);
+	
 	if (m_OwnerObject->CheckComponent<TG::SpriteComponent>())
 		m_OwnerObject->GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
 }
@@ -446,6 +540,37 @@ void Game::NPCReSpawn::Update(float time)
 
 	const float fallSpeed{ 80.f };
 	m_CurrentPos.y += fallSpeed * time;
+	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+
+	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
+	{
+		m_OwnerObject->SetLocalPosition(m_StartPos);
+		m_CurrentTime = 0.f;
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
+	}
+}
+
+//----------------------------------------------------
+
+void Game::WrongReSpawn::OnEnter(const glm::vec2&)
+{
+	m_CurrentPos = m_StartPos + glm::vec2{ 0.f, m_SpawnHeight };
+	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+
+}
+
+void Game::WrongReSpawn::Update(float time)
+{
+	if (m_CurrentTime < m_RespawnDelay)
+	{
+		m_CurrentTime += time;
+		m_RespawnDelay = 1.f + rand() % 3;
+		return;
+	}
+
+	const float fallSpeed{ 80.f };
+	m_CurrentPos.y -= fallSpeed * time;
 	m_OwnerObject->SetLocalPosition(m_CurrentPos);
 
 	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))

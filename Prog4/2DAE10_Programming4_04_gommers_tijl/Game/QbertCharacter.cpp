@@ -70,7 +70,7 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode, int)
 		else
 			SetPositionOnGridByIndex(0, 0, m_JumpOffset);
 
-		m_CharacterState = m_PossibleStates[EState::dead].get();
+		m_CharacterState = m_PossibleStates[EState::idle].get();
 	}
 
 }

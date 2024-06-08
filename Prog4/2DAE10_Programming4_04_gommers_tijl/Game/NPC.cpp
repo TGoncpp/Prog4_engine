@@ -2,6 +2,7 @@
 #include "spriteComponent.h"
 #include "sceneManager.h"
 #include "player2Component.h"
+#include "eggComponent.h"
 
 Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, const ECharacterType& type, bool isType2)
 	:Character(position, texuteSPTR, jumpOffset)
@@ -35,6 +36,7 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 		spriteComp->UpdateFrame(frame);
 
 	}
+
 	else if (m_Type == ECharacterType::purple)
 	{
 		const float DieTime{ 0.5f };
@@ -53,14 +55,44 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 
 		gridStartPos = std::make_pair(0, 0);
 	}
+
 	glm::vec2 startPos = TG::Transform::CalculateGridPosition(gridStartPos.first, gridStartPos.second, jumpOffset, m_ZeroPosition);
 
 	const float spawnHeight{ 200.f };
-	const float spawnDelay{ 1.f  + rand()% 3 };
+	const float spawnDelay{ 2.5f  + rand()% 4 };
 	m_PossibleStates[EState::respawn] = std::make_unique<NPCReSpawn>(this, startPos, spawnHeight, spawnDelay, gridStartPos);
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
 	
-	
+	//---------------------------------------------------------------------------------
+	//Wrongway
+	if (m_Type == ECharacterType::wrong)
+
+	{
+
+		int frame = isType2 ? 4 : 0;
+		spriteComp->UpdateFrame(frame);
+
+		bool left = (rand() % 100) % 2 == 0;
+		gridStartPos = left ? std::make_pair(6, 0) : std::make_pair(0, 6);
+
+
+		const float DieTime{ 0.25f };
+		m_PossibleStates[EState::dead] = std::make_unique<PurpleDead>(this, DieTime);
+		m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
+
+		const float idleTime{ 1.f };
+		m_PossibleStates[EState::idle] = std::make_unique<WrongIdle>(this, idleTime, left);
+		m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
+
+		m_PossibleStates[EState::walking] = std::make_unique<WalkingWrongState>(this);
+		m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
+
+		startPos = TG::Transform::CalculateGridPosition(gridStartPos.first, gridStartPos.second, jumpOffset, m_ZeroPosition);
+		m_PossibleStates[EState::falling] = std::make_unique<Falling>(this, 0.2f);
+		m_PossibleStates[EState::falling]->OnStateSwitch.AddObserver(this);
+		m_PossibleStates[EState::respawn] = std::make_unique<WrongReSpawn>(this, startPos, spawnHeight, spawnDelay, gridStartPos);
+		m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
+	}
 
 }
 
@@ -70,16 +102,23 @@ void Game::NPC::ApplyGameMode(int gameMode, int )
 
 	if (CheckComponent<Player2Component>())
 	{
-		if (mode == TG::EGameMode::vs)
-		{
-			SetPositionOnGridByIndex(6, 0, m_JumpOffset);
-			m_CharacterState = m_PossibleStates[EState::idle].get();
-		}
-
-		else
+		if (mode != TG::EGameMode::vs )
 		{
 			SetPositionOnGridByIndex(12, 0, m_JumpOffset);
 			m_CharacterState = m_PossibleStates[EState::dead].get();
+			OnActivateInput.OnNotifyAll(false);
+
+		}
+		else
+		{
+			m_CharacterState = m_PossibleStates[EState::dead].get();
+			OnActivateInput.OnNotifyAll(true);
+		}
+		if (CheckComponent<EggComponent>())
+		{
+			GetComponent<EggComponent>()->HatchEgg(false);
+			if (CheckComponent<TG::SpriteComponent>())
+				GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
 		}
 	}
 	else

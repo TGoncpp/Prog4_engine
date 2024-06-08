@@ -12,7 +12,7 @@ namespace Game
 		green  = 0, 
 		red    = 1, 
 		purple = 2,
-		wrong  = 2
+		wrong  = 3
 
 	};
 	
@@ -52,6 +52,10 @@ namespace Game
 		bool IsFalling()const                      { return m_IsFalling; }
 		State* GetCharacterState()const            { return m_CharacterState; }
 
+		void SetOnDisc(bool isOnDisc) { m_IsOnDisc = isOnDisc; }
+		bool GetIsOnDisc() { return m_IsOnDisc; }
+
+
 	protected:
 
 		glm::vec2 m_Direction{};
@@ -65,6 +69,7 @@ namespace Game
 		std::pair<int, int> m_GridPostion;
 		bool m_IsDead{ false };
 		bool m_IsFalling{ false };
+		bool m_IsOnDisc{ false };
 
 		//IObserver
 		virtual void Notify(const EState&)override;
