@@ -21,6 +21,7 @@ namespace Game
 		void SetTargetLocationIndex(const glm::vec2& offset);
 		void SetTargetLocation(const glm::vec2& target);
 		void SetMoveOffset(const glm::vec2& offset);
+		void ResetForNewMode();
 
 		virtual void Render()const  override{};
 		virtual void Update(float )  override{  };

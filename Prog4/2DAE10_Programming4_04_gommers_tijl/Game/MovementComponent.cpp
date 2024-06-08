@@ -43,6 +43,12 @@ void Game::MovementComponent::SetMoveOffset(const glm::vec2& offset)
 	m_JumpOffset = offset;
 }
 
+void Game::MovementComponent::ResetForNewMode()
+{
+	m_IsMoving = false;
+	m_TargetPosition = {};
+}
+
 void Game::MovementComponent::FixedUpdate(float dt)
 {
 	if (!m_IsMoving) return;

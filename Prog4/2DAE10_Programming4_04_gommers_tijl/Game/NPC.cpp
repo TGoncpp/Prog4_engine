@@ -3,6 +3,7 @@
 #include "sceneManager.h"
 #include "player2Component.h"
 #include "eggComponent.h"
+#include "movementComponent.h"
 
 Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, const ECharacterType& type, bool isType2)
 	:Character(position, texuteSPTR, jumpOffset)
@@ -123,5 +124,9 @@ void Game::NPC::ApplyGameMode(int gameMode, int )
 	}
 	else
 		m_CharacterState = m_PossibleStates[EState::dead].get();
+
+	//Make sure MoveComponent is not halfway movement
+	if (CheckComponent<MovementComponent>())
+		GetComponent<MovementComponent>()->ResetForNewMode();
 
 }

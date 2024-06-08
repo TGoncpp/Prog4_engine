@@ -41,7 +41,7 @@ bool TG::InputManager::ProcessInput()
 	//CONTROLLER INPUT HANDELING
 	//------------------------------------------	
 	
-	for (size_t index{}; index < m_NumOfPlayers; ++index)
+	for (size_t index{}; index < static_cast<size_t>(m_NumOfPlayers); ++index)
 	{
 		m_vControllers[index]->InputHandling();
 		HandleControllerInput(index);

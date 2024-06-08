@@ -15,7 +15,7 @@ Game::HighscoreComponent::HighscoreComponent(TG::GameObject* owner, int numOfSco
 	m_NumOffLettersID{numOfLettersID}
 {
 	auto comps = owner->GetAllComponent<TG::TextComponent>();
-	for (int i{}; i < comps.size(); ++i)
+	for (int i{}; i < static_cast<int>(comps.size()); ++i)
 	{
 		if (i < m_NumOffScores)
 			m_vTextWritersPtr.emplace_back(comps[i]);
@@ -133,7 +133,7 @@ void Game::HighscoreComponent::GetDataFromFile()
 bool Game::HighscoreComponent::CompareHighscore(int score)
 {
 	//If open spots left
-	if (m_mHighscore.size() < m_NumOffScores)
+	if (m_mHighscore.size() < static_cast<size_t>(m_NumOffScores))
 	{
 		m_NewHighscor = score;
 		return true;

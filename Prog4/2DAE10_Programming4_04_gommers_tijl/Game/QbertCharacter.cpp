@@ -3,6 +3,7 @@
 #include "Player2Component.h"
 #include "Grid.h"
 #include "MenuState.h"
+#include "MovementComponent.h"
 
 
 Game::QbertCharacter::QbertCharacter(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, std::shared_ptr<TG::Texture2D> curseTex)
@@ -72,7 +73,9 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode, int)
 
 		m_CharacterState = m_PossibleStates[EState::idle].get();
 	}
-
+	//Make sure MoveComponent is not halfway movement
+	if (CheckComponent<MovementComponent>())
+		GetComponent<MovementComponent>()->ResetForNewMode();
 }
 
 void Game::QbertCharacter::SubscribeToGrid(Grid* grid)
