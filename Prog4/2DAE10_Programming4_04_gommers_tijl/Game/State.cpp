@@ -61,6 +61,13 @@ void Game::GreenIdle::OnEnter(const glm::vec2&)
 
 void Game::GreenIdle::Update(float time)
 {
+	if (m_OwnerObject->IsDead())
+	{
+		//m_OwnerObject->NewState(EState::dead);
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::dead);
+		return;
+	}
 	if (m_CurrentIdletime < m_Idletime)
 	{
 		m_CurrentIdletime += time;
@@ -71,6 +78,20 @@ void Game::GreenIdle::Update(float time)
 	m_OwnerObject->SetDirection(m_Direction);
 	OnStateSwitch.OnNotifyAll(EState::walking);
 }
+
+//-----------------------------------------------------------
+
+void Game::CoilyIdle::OnEnter(const glm::vec2&)
+{
+	int randNum = rand() % 10;
+	bool left = randNum % 2 == 0;
+
+
+	m_Direction = left ? glm::vec2{ 1.f, 0.f } : glm::vec2{ 0.f, -1.f };
+
+	m_CurrentIdletime = 0.f;
+}
+
 
 //-------------------------------------------
 //WALKING
@@ -178,6 +199,7 @@ void Game::WalkingQbertState::FixedUpdate(float time)
 
 void Game::WalkingGreenState::OnEnter(const glm::vec2& direction)
 {
+	//set sprite
 	int frame{ 0 };
 	if (direction.x == 1.f)
 	{
@@ -189,7 +211,7 @@ void Game::WalkingGreenState::OnEnter(const glm::vec2& direction)
 		frame = m_IsSam? 0 : 2;
 	}
 	
-
+	//update grid and character
 	m_SpriteComp->UpdateFrame(frame);
 	m_MoveComp->SetTargetLocationIndex(direction);
 	m_OwnerObject->UpdateGrid(true);
@@ -223,6 +245,65 @@ void Game::WalkingGreenState::FixedUpdate(float time)
 	}
 }
 
+
+void Game::WalkingCoilynState::OnEnter(const glm::vec2& direction)
+{
+	//set sprite
+	int frame{ 0 };
+	if (direction.x == 1)
+	{
+		frame = m_IsEgg? 0: 6;//7
+	}
+	else if (direction.x == -1)
+	{
+		frame = m_IsEgg ? 0 : 4;//5
+	}
+	else if (direction.y == -1)
+	{
+		frame = m_IsEgg ? 0 : 8;//9
+	}
+	else if (direction.y == 1)
+	{
+		frame = m_IsEgg ? 0 : 2;//3
+	}
+
+	//update grid and character
+	m_SpriteComp->UpdateFrame(frame);
+	m_MoveComp->SetTargetLocationIndex(direction);
+	m_OwnerObject->UpdateGrid(true);
+	m_OwnerObject->UpdateGridPosition(direction);
+}
+
+void Game::WalkingCoilynState::FixedUpdate(float time)
+{
+	m_MoveComp->FixedUpdate(time);
+	if (m_MoveComp->StoppedMoving())
+	{
+		const float acceptedHeightDiff{ 5.f };
+		if (m_IsEgg &&  abs(m_OwnerObject->GetLocalPosition().y - m_TransformHeight) < acceptedHeightDiff)
+			m_IsEgg = false;
+
+		m_OwnerObject->UpdateGrid(false);
+		if (m_OwnerObject->IsDead())
+		{
+			//m_OwnerObject->NewState(EState::dead);
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::dead);
+			return;
+		}
+		if (m_OwnerObject->IsFalling())
+		{
+			//_OwnerObject->NewState(EState::falling);
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::falling);
+			return;
+		}
+
+		//m_OwnerObject->NewState(EState::idle);
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
+	}
+}
 
 //-------------------------------------------
 //FALLING
@@ -289,6 +370,7 @@ void Game::GreenDead::OnEnter(const glm::vec2&)
 void Game::PurpleDead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
+	
 }
 
 //-------------------------------------------

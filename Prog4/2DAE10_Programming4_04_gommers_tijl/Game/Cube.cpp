@@ -56,7 +56,11 @@ void Game::Cube::RemoveVisiterOnCube(const ECharacterType& type)
 
 Game::ECharacterType Game::Cube::GetDominantTypeOnCube() const
 {
-	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::purple) != m_vTypesOnCube.cend())
+	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::purple ) != m_vTypesOnCube.cend())
+	{
+		return ECharacterType::purple;
+	}
+	if (std::find(m_vTypesOnCube.cbegin(), m_vTypesOnCube.cend(), ECharacterType::wrong) != m_vTypesOnCube.cend())
 	{
 		return ECharacterType::purple;
 	}

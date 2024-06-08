@@ -101,6 +101,22 @@ namespace Game
 		bool m_IsSam{ false };
 	
 	};
+	
+	class WalkingCoilynState final: public WalkingState
+	{
+	public:
+		WalkingCoilynState(Character* owner, float transformHeight)
+			:WalkingState(owner),
+			m_TransformHeight{transformHeight} {}
+		void virtual OnEnter(const glm::vec2&)override;
+		void virtual FixedUpdate(float)override ;
+
+	private:
+		//is bool for setting which off the 2 green characters is used
+		const float m_TransformHeight{};
+		bool m_IsEgg{ true };
+	
+	};
 
 	
 	//IDLE
@@ -120,20 +136,32 @@ namespace Game
 
 	};
 
-	class GreenIdle final: public Idle
+	class GreenIdle : public Idle
 	{
 	public:
 		GreenIdle(Character* owner, float idleTime)
 			:Idle(owner),
 			m_Idletime{idleTime} {}
+		//overwrite input
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override;
 		void virtual Update(float)override ;
-	private:
+	protected:
 		glm::vec2 m_Direction;
 		const float m_Idletime{ 1.f };
 		float m_CurrentIdletime{  };
 	};
+	
+	class CoilyIdle final: public GreenIdle
+	{
+	public:
+		CoilyIdle(Character* owner, float idleTime)
+			:GreenIdle(owner, idleTime) {}
+	
+		void virtual OnEnter(const glm::vec2&)override;
+	};
+	
+	
 
 	//LIFT
 	//---------------------------------------

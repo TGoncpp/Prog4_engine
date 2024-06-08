@@ -11,7 +11,8 @@ namespace Game
 	{
 		green  = 0, 
 		red    = 1, 
-		purple = 2
+		purple = 2,
+		wrong  = 2
 
 	};
 	
