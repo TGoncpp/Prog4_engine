@@ -23,6 +23,7 @@ namespace Game
 		virtual void ApplyGameMode(int, int) override;
 
 		void SetGridSubject(Grid* subject);
+		TG::Subject<> OnDiscLeftScore;
 
 	private:
 		Character* m_Visiter;

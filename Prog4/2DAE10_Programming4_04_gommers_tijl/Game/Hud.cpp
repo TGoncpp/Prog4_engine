@@ -1,10 +1,11 @@
 #include "Hud.h"
 #include "RenderComponent.h"
-#include "scoreDisplay.h"
+#include "ScoreComponent.h"
 #include "HealthComponent.h"
 #include "Grid.h"
+#include "Disc.h"
 
-Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2
+Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2, std::vector<Disc*> vDiscs
 	, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font)
 {
 	const float borderOffset{ 15.f };
@@ -26,7 +27,7 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 	
 	//Score Player1
 	SetTextComponent(glm::vec2{ borderOffset, 150.f }, "Score", font);
-	auto comp = AddComponent<ScoreComponent>(this, vCharacters, m_mTextRenderRefrences["Score"]);
+	auto comp = AddComponent<ScoreComponent>(this, vCharacters, m_mTextRenderRefrences["Score"], vDiscs);
 	m_ScorePlayer1Ptr = static_cast<ScoreComponent*>(comp);
 
 	//Player
@@ -34,7 +35,7 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 
 	//Score Player2
 	SetTextComponent(glm::vec2{ Player2X, 150.f }, "Score", font);
-	comp = AddComponent<ScoreComponent>(this, vCharactersPlayer2, m_mTextRenderRefrences["Score"]);
+	comp = AddComponent<ScoreComponent>(this, vCharactersPlayer2, m_mTextRenderRefrences["Score"], vDiscs);
 	m_ScorePlayer2Ptr = static_cast<ScoreComponent*>(comp);
 	
 	//Player
@@ -86,6 +87,7 @@ Game::Hud::Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCha
 Game::Hud::~Hud()
 {
 	m_SubscibedObject->OnHudUpdate.RemoveObserver(this);
+	
 }
 
 void Game::Hud::ApplyGameMode(int gameMode, int lvl)

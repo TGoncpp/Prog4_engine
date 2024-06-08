@@ -214,7 +214,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="QbertCharacter.cpp" />
-    <ClCompile Include="ScoreDisplay.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Winner.cpp" />
   </ItemGroup>
@@ -234,7 +234,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player2Component.h" />
     <ClInclude Include="QbertCharacter.h" />
-    <ClInclude Include="ScoreDisplay.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Winner.h" />
   </ItemGroup>

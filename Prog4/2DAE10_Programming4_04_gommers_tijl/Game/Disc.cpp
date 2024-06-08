@@ -33,8 +33,12 @@ Game::Disc::Disc(std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& gr
 
 void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 {
+	//character is set as nullptr to show that a round has just been finished
 	if (character == nullptr)
 	{
+		//if disc is not been used, add points
+		if (m_Depth != -1)
+			OnDiscLeftScore.OnNotifyAll();
 		ResetDisc();
 		return;
 	}
@@ -46,8 +50,10 @@ void Game::Disc::Notify(std::pair<int, int> location, Character* character)
 		m_Visiter = character;
 		m_Depth = -1;
 	}
+	//if this disc was not on the given location
 	else if (m_Visiter == nullptr)
 	{
+		
 		character->JumpOfGrid(true);
 	}
 }

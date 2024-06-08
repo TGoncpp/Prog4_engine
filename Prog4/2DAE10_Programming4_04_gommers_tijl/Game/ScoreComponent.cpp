@@ -1,15 +1,17 @@
-#include "ScoreDisplay.h"
+#include "ScoreComponent.h"
 #include "GameObject.h"
 #include "Npc.h"
 #include "HighScoreComponent.h"
+#include "Disc.h"
 
 #include "sceneManager.h"
 
-Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay )
+Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay, std::vector<Disc*> vDiscs)
 	:BaseComponent(Owner),
 	IObserver<const ECharacterType&>(),
 	m_ObservedCharacters{ observedCharacters },
-	m_SubjectOwnrPtr{Owner}
+	m_SubjectOwnrPtr{Owner},
+	m_vSubscibedDiscs{ vDiscs }
 {
 	//Get display refrence
 	m_TextCompUPtr = scoreDisplay;
@@ -21,6 +23,11 @@ Game::ScoreComponent::ScoreComponent(TG::GameObject* Owner, std::vector<Characte
 	{
 		subject->OnScore.AddObserver(this);
 	}
+	//subscribe to flying discs
+	for (auto& disc : vDiscs)
+	{
+		disc->OnDiscLeftScore.AddObserver(this);
+	}
 }
 
 Game::ScoreComponent::~ScoreComponent()
@@ -29,6 +36,16 @@ Game::ScoreComponent::~ScoreComponent()
 	{
 		subject->OnScore.RemoveObserver(this);
 	}
+	for (auto& disc : m_vSubscibedDiscs)
+	{
+		disc->OnDiscLeftScore.RemoveObserver(this);
+	}
+}
+
+void Game::ScoreComponent::Notify()
+{
+	m_Score += m_DiscLeftPoint;
+	static_cast<TG::WinnerState*>(TG::SceneManager::GetInstance().GetMenuOffState(TG::EMenuState::winner))->SetScore(m_Score);
 }
 
 //ObserverFunction

@@ -8,10 +8,11 @@
 
 namespace Game
 {
-	class ScoreComponent final : public TG::IObserver<const ECharacterType& >, public TG::BaseComponent
+	class Disc;
+	class ScoreComponent final : public TG::IObserver<const ECharacterType& >, TG::IObserver<>, public TG::BaseComponent
 	{
 	public:
-		ScoreComponent(TG::GameObject* owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay);
+		ScoreComponent(TG::GameObject* owner, std::vector<Character*> observedCharacters, TG::TextComponent* scoreDisplay, std::vector<Disc*> vDiscs);
 		virtual ~ScoreComponent() override;
 		ScoreComponent(const ScoreComponent&)              = delete;
 		ScoreComponent(ScoreComponent&&)                   = delete;
@@ -22,6 +23,7 @@ namespace Game
 		virtual void FixedUpdate(float ) override {  };
 		virtual void Render() const override {};
 
+		virtual void Notify() override;
 		virtual void Notify(const ECharacterType& characterType) override;
 		virtual void OnSubjectDestroy() override;
 
@@ -29,6 +31,7 @@ namespace Game
 
 	private:
 		std::vector<Character*> m_ObservedCharacters;
+		std::vector<Disc*> m_vSubscibedDiscs;
 		TG::GameObject* m_SubjectOwnrPtr;
 		TG::TextComponent* m_TextCompUPtr;
 		int m_Score{};

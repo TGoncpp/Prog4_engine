@@ -14,7 +14,6 @@
 #include "Scene.h"
 
 #include "RenderComponent.h"
-#include "ScoreDisplay.h"
 #include "MovementComponent.h"
 #include "HealthComponent.h"
 #include <Xinput.h>
@@ -133,7 +132,8 @@ void load()
 	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get()};
 	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get()};
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
-	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vTex, font);
+	auto vDisc = std::vector<Game::Disc* >{disc.get(), disc1.get(), disc2.get(), disc12.get()};
+	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vDisc, vTex, font);
 	hud->SubscribeToGrid(grid.get());
 
 	//----------------------------------------------------

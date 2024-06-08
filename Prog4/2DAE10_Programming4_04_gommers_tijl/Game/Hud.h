@@ -10,10 +10,11 @@ namespace Game
 	class ScoreComponent;
 	class HealthComponent;
 	class Grid;
+	class Disc;
 	class Hud final : public TG::GameObject, public TG::IObserver<int, int>
 	{
 	public:
-		Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2
+		Hud(std::vector<Character*> vCharacters, std::vector<Character*> vCharactersPlayer2, std::vector<Disc*> vDiscs
 			, std::vector<std::shared_ptr<TG::Texture2D>> vTextures, std::shared_ptr<TG::Font> font);
 		~Hud();
 		Hud(const Hud&)            = delete;
