@@ -48,9 +48,21 @@ void Game::Idle::Update(float)
 	}
 }
 
+//------------------------------------------------------
+
+void Game::GreenIdle::OnEnter(const glm::vec2&)
+{
+	int randNum = rand() % 10;
+	bool left = randNum % 2 == 0;
+	glm::vec2 direction = left ? glm::vec2{1.f, 0.f} : glm::vec2{0.f, -1.f};
+	//glm::vec2 direction = {1.f, 0.f};
+
+	m_OwnerObject->SetDirection(direction);
+	OnStateSwitch.OnNotifyAll(EState::walking);
+}
 
 //-------------------------------------------
-//wALKING
+//WALKING
 //---------------------------------------------
 
 Game::WalkingState::WalkingState(Character* owner)
@@ -79,6 +91,8 @@ Game::WalkingState::WalkingState(Character* owner)
 
 void Game::WalkingQbertState::InputHandeling(const glm::vec2& direction)
 {
+	//when movement is in direction off the grid
+	//check if on disc or nothing
 	if (direction.x == 0 && direction.y == 0)
 	{
 		OnExit();
@@ -121,12 +135,6 @@ void Game::WalkingQbertState::OnEnter(const glm::vec2& direction)
 	TG::Locator::getAudio().playSound("Jump");
 }
 
-void Game::WalkingQbertState::Update(float )
-{
-	
-	
-}
-
 void Game::WalkingQbertState::FixedUpdate(float time)
 {
 	m_MoveComp->FixedUpdate(time);
@@ -154,10 +162,55 @@ void Game::WalkingQbertState::FixedUpdate(float time)
 	}
 }
 
-void Game::WalkingQbertState::OnExit()
+
+//------------------------------------------------
+
+void Game::WalkingGreenState::OnEnter(const glm::vec2& direction)
 {
+	int frame{ 0 };
+	if (direction.x == 1.f)
+	{
+		frame = m_IsSam ? 1 : 3;
+	}
+	
+	else if (direction.y == -1.f)
+	{
+		frame = m_IsSam? 0 : 2;
+	}
+	
+
+	m_SpriteComp->UpdateFrame(frame);
+	m_MoveComp->SetTargetLocationIndex(direction);
+	m_OwnerObject->UpdateGrid(true);
+	m_OwnerObject->UpdateGridPosition(direction);
 }
 
+void Game::WalkingGreenState::FixedUpdate(float time)
+{
+	m_MoveComp->FixedUpdate(time);
+	if (m_MoveComp->StoppedMoving())
+	{
+		m_OwnerObject->UpdateGrid(false);
+		if (m_OwnerObject->IsDead())
+		{
+			//m_OwnerObject->NewState(EState::dead);
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::dead);
+			return;
+		}
+		if (m_OwnerObject->IsFalling())
+		{
+			//_OwnerObject->NewState(EState::falling);
+			OnExit();
+			OnStateSwitch.OnNotifyAll(EState::falling);
+			return;
+		}
+
+		//m_OwnerObject->NewState(EState::idle);
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
+	}
+}
 
 
 //-------------------------------------------
@@ -247,8 +300,8 @@ void Game::ReSpawn::Update(float time)
 	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
 	{
 		m_OwnerObject->SetLocalPosition(m_StartPos);
-		OnStateSwitch.OnNotifyAll(EState::idle);
 		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
 	}
 }
 

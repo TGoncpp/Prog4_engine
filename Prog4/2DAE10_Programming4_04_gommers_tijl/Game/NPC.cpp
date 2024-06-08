@@ -12,8 +12,14 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 
 	if (m_Type == ECharacterType::green)
 	{
-		m_PossibleStates[EState::dead] = std::make_unique<GreenDead>(this, 1.f);
+		m_PossibleStates[EState::dead] = std::make_unique<GreenDead>(this, 3.f);
 		m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
+	
+		m_PossibleStates[EState::idle] = std::make_unique<GreenIdle>(this);
+		m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
+	
+		m_PossibleStates[EState::walking] = std::make_unique<WalkingGreenState>(this, true);
+		m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
 	}
 	else if (m_Type == ECharacterType::purple)
 	{
@@ -24,7 +30,7 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 
 }
 
-void Game::NPC::ApplyGameMode(int gameMode, int)
+void Game::NPC::ApplyGameMode(int gameMode, int )
 {
 	TG::EGameMode mode = static_cast<TG::EGameMode>(gameMode);
 
@@ -43,6 +49,6 @@ void Game::NPC::ApplyGameMode(int gameMode, int)
 		}
 	}
 	else
-		m_CharacterState = m_PossibleStates[EState::dissable].get();
+		m_CharacterState = m_PossibleStates[EState::dead].get();
 
 }

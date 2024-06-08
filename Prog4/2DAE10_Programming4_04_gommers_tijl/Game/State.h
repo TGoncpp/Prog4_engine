@@ -83,11 +83,25 @@ namespace Game
 			:WalkingState(owner) {}
 		void virtual InputHandeling(const glm::vec2&)override ;
 		void virtual OnEnter(const glm::vec2&)override ;
-		void virtual Update(float)override;
 		void virtual FixedUpdate(float)override;
-		void virtual OnExit()override ;
 
 	};
+
+	class WalkingGreenState : public WalkingState
+	{
+	public:
+		WalkingGreenState(Character* owner, bool isSam)
+			:WalkingState(owner),
+			m_IsSam{isSam} {}
+		void virtual OnEnter(const glm::vec2&)override;
+		void virtual FixedUpdate(float)override ;
+
+	private:
+		//is bool for setting which off the 2 green characters is used
+		bool m_IsSam{ false };
+	
+	};
+
 	
 	//IDLE
 	//---------------------------------------
@@ -103,6 +117,17 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&)override{};
 		void virtual Update(float)override;
 		void virtual OnExit()override{};
+
+	};
+
+	class GreenIdle : public Idle
+	{
+	public:
+		GreenIdle(Character* owner)
+			:Idle(owner) {}
+		void virtual InputHandeling(const glm::vec2& )override {};
+		void virtual OnEnter(const glm::vec2&)override;
+		//take update from parent
 
 	};
 
@@ -194,8 +219,10 @@ namespace Game
 		void virtual OnEnter(const glm::vec2&)override ;
 		void virtual Update(float)override ;
 		void virtual OnExit()override ;
+
+		void setRespawnPos(const glm::vec2& respawnPos) { m_StartPos = respawnPos; }
 	private:
-		const glm::vec2 m_StartPos;
+		glm::vec2 m_StartPos;
 		glm::vec2 m_CurrentPos;
 		const float m_SpawnHeight{};
 	};

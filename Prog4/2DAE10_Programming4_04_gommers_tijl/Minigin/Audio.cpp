@@ -41,7 +41,7 @@ TG::GameAudio::GameAudio()
 
 void TG::GameAudio::playSound(const std::string& music )
 {
-	//std::lock_guard
+	std::lock_guard lk(audioMutex);
 	m_qPlaylist.push(music);
 }
 
