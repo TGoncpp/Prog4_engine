@@ -10,22 +10,35 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 		GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
 	m_Type = type;
 
+	std::pair<int, int>gridStartPos = std::make_pair(1, 0);
+	glm::vec2 startPos = TG::Transform::CalculateGridPosition(gridStartPos.first, gridStartPos.second, jumpOffset, m_ZeroPosition);
+	
 	if (m_Type == ECharacterType::green)
 	{
-		m_PossibleStates[EState::dead] = std::make_unique<GreenDead>(this, 3.f);
+
+		const float DieTime{ 0.4f };
+		m_PossibleStates[EState::dead] = std::make_unique<GreenDead>(this, DieTime);
 		m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 	
-		m_PossibleStates[EState::idle] = std::make_unique<GreenIdle>(this);
+		const float idleTime{ 1.f };
+		m_PossibleStates[EState::idle] = std::make_unique<GreenIdle>(this, idleTime);
 		m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
-	
+
 		m_PossibleStates[EState::walking] = std::make_unique<WalkingGreenState>(this, true);
 		m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
 	}
 	else if (m_Type == ECharacterType::purple)
 	{
-		m_PossibleStates[EState::dead] = std::make_unique<PurpleDead>(this, 1.f);
+		const float DieTime{ 1.f };
+		m_PossibleStates[EState::dead] = std::make_unique<PurpleDead>(this, DieTime);
 		m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 	}
+	
+	const float spawnHeight{ 200.f };
+	const float spawnDelay{ 2.f };
+	m_PossibleStates[EState::respawn] = std::make_unique<NPCReSpawn>(this, startPos, spawnHeight, spawnDelay, gridStartPos);
+	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
+	
 	
 
 }

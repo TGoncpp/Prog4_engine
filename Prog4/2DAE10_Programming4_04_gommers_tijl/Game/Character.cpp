@@ -171,11 +171,11 @@ void Game::Character::JumpOfGrid(bool isFaling)
 		m_IsFalling = isFaling;
 }
 
-void Game::Character::ResetLife()
+void Game::Character::ResetLife(std::pair<int,int> gridStartPos)
 {
 	m_IsDead      = false;
 	m_IsFalling   = false;
-	m_GridPostion = std::make_pair(0, 0);
+	m_GridPostion = gridStartPos;
 	UpdateGrid(false);
 }
 

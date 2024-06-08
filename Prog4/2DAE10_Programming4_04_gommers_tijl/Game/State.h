@@ -87,7 +87,7 @@ namespace Game
 
 	};
 
-	class WalkingGreenState : public WalkingState
+	class WalkingGreenState final: public WalkingState
 	{
 	public:
 		WalkingGreenState(Character* owner, bool isSam)
@@ -120,15 +120,19 @@ namespace Game
 
 	};
 
-	class GreenIdle : public Idle
+	class GreenIdle final: public Idle
 	{
 	public:
-		GreenIdle(Character* owner)
-			:Idle(owner) {}
+		GreenIdle(Character* owner, float idleTime)
+			:Idle(owner),
+			m_Idletime{idleTime} {}
 		void virtual InputHandeling(const glm::vec2& )override {};
 		void virtual OnEnter(const glm::vec2&)override;
-		//take update from parent
-
+		void virtual Update(float)override ;
+	private:
+		glm::vec2 m_Direction;
+		const float m_Idletime{ 1.f };
+		float m_CurrentIdletime{  };
 	};
 
 	//LIFT
@@ -205,7 +209,7 @@ namespace Game
 
 	//RESPAWN
 	//---------------------------------------
-	class ReSpawn final: public State
+	class ReSpawn : public State
 	{
 	public:
 		ReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight)
@@ -220,11 +224,27 @@ namespace Game
 		void virtual Update(float)override ;
 		void virtual OnExit()override ;
 
-		void setRespawnPos(const glm::vec2& respawnPos) { m_StartPos = respawnPos; }
-	private:
-		glm::vec2 m_StartPos;
+	protected:
+		const glm::vec2 m_StartPos;
 		glm::vec2 m_CurrentPos;
+		std::pair<int, int> m_gridPos{std::make_pair(0,0)};
 		const float m_SpawnHeight{};
+	};
+
+	class NPCReSpawn final: public ReSpawn
+	{
+	public:
+		NPCReSpawn(Character* owner, const glm::vec2& startPosition, float respawnHeight, float respawnDelay, std::pair<int, int> gridStartPos)
+			:ReSpawn(owner, startPosition, respawnHeight),
+			m_RespawnDelay{respawnDelay} 
+		{
+			m_gridPos = gridStartPos ;
+		}
+		void virtual Update(float)override ;
+
+	private:
+		const float m_RespawnDelay{};
+		float m_CurrentTime{};
 	};
 
 

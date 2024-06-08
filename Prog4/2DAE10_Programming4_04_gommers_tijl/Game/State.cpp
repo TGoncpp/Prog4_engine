@@ -54,10 +54,21 @@ void Game::GreenIdle::OnEnter(const glm::vec2&)
 {
 	int randNum = rand() % 10;
 	bool left = randNum % 2 == 0;
-	glm::vec2 direction = left ? glm::vec2{1.f, 0.f} : glm::vec2{0.f, -1.f};
-	//glm::vec2 direction = {1.f, 0.f};
+	m_Direction =  left ? glm::vec2{1.f, 0.f} : glm::vec2{0.f, -1.f};
+	
+	m_CurrentIdletime = 0.f;
+}
 
-	m_OwnerObject->SetDirection(direction);
+void Game::GreenIdle::Update(float time)
+{
+	if (m_CurrentIdletime < m_Idletime)
+	{
+		m_CurrentIdletime += time;
+		return;
+	}
+	m_CurrentIdletime = 0.f;
+
+	m_OwnerObject->SetDirection(m_Direction);
 	OnStateSwitch.OnNotifyAll(EState::walking);
 }
 
@@ -307,9 +318,31 @@ void Game::ReSpawn::Update(float time)
 
 void Game::ReSpawn::OnExit()
 {
-	m_OwnerObject->ResetLife();
+	m_OwnerObject->ResetLife(m_gridPos);
 }
 
+//-----------------------------------------------
+
+void Game::NPCReSpawn::Update(float time)
+{
+	if (m_CurrentTime < m_RespawnDelay)
+	{
+		m_CurrentTime += time;
+		return;
+	}
+
+	const float fallSpeed{ 80.f };
+	m_CurrentPos.y += fallSpeed * time;
+	m_OwnerObject->SetLocalPosition(m_CurrentPos);
+
+	if (TG::Transform::IsEqualVector(m_StartPos, m_CurrentPos, 1.f))
+	{
+		m_OwnerObject->SetLocalPosition(m_StartPos);
+		m_CurrentTime = 0.f;
+		OnExit();
+		OnStateSwitch.OnNotifyAll(EState::idle);
+	}
+}
 
 //-------------------------------------------
 //LIFT

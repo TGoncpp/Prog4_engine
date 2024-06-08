@@ -42,7 +42,7 @@ namespace Game
 		void SetPositionOnGridByIndex(int toLeft, int ToBelow, const glm::vec2& jumpOffset);
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
 		void JumpOfGrid(bool isFaling);
-		void ResetLife();
+		void ResetLife(std::pair<int, int> gridStartPos);
 
 		//Getters
 		std::pair<int, int> GetGridPosition()const { return m_GridPostion; }
