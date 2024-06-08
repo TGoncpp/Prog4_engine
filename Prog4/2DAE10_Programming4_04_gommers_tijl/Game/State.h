@@ -243,7 +243,7 @@ namespace Game
 		void virtual Update(float)override ;
 
 	private:
-		const float m_RespawnDelay{};
+		float m_RespawnDelay{};
 		float m_CurrentTime{};
 	};
 

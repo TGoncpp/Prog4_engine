@@ -3,14 +3,19 @@
 #include "sceneManager.h"
 #include "player2Component.h"
 
-Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, const ECharacterType& type)
+Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, const ECharacterType& type, bool isType2)
 	:Character(position, texuteSPTR, jumpOffset)
 {	
+	TG::SpriteComponent* spriteComp = nullptr;
 	if (CheckComponent<TG::SpriteComponent>())
-		GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
+	{
+		spriteComp = GetComponent<TG::SpriteComponent>();
+		spriteComp->UpdateFrame(1);
+		assert("no spritecomponent found in npc class");
+	}
 	m_Type = type;
 
-	std::pair<int, int>gridStartPos = std::make_pair(1, 0);
+	std::pair<int, int>gridStartPos = isType2? std::make_pair(1, 0) : std::make_pair(0, 1);
 	glm::vec2 startPos = TG::Transform::CalculateGridPosition(gridStartPos.first, gridStartPos.second, jumpOffset, m_ZeroPosition);
 	
 	if (m_Type == ECharacterType::green)
@@ -24,8 +29,12 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 		m_PossibleStates[EState::idle] = std::make_unique<GreenIdle>(this, idleTime);
 		m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
 
-		m_PossibleStates[EState::walking] = std::make_unique<WalkingGreenState>(this, true);
+		m_PossibleStates[EState::walking] = std::make_unique<WalkingGreenState>(this, isType2);
 		m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
+
+		int frame = isType2 ? 1 : 3;
+		spriteComp->UpdateFrame(frame);
+
 	}
 	else if (m_Type == ECharacterType::purple)
 	{
@@ -35,7 +44,7 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 	}
 	
 	const float spawnHeight{ 200.f };
-	const float spawnDelay{ 2.f };
+	const float spawnDelay{ 1.f  + rand()% 3 };
 	m_PossibleStates[EState::respawn] = std::make_unique<NPCReSpawn>(this, startPos, spawnHeight, spawnDelay, gridStartPos);
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
 	

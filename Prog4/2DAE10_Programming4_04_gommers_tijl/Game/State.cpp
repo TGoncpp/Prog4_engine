@@ -328,6 +328,7 @@ void Game::NPCReSpawn::Update(float time)
 	if (m_CurrentTime < m_RespawnDelay)
 	{
 		m_CurrentTime += time;
+		m_RespawnDelay = 1.f + rand() % 3;
 		return;
 	}
 

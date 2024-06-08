@@ -110,15 +110,21 @@ void load()
 	grid->SetGridSubject(character2.get());
 	character2->SubscribeToGrid(grid.get());
 
+	//coily
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc->AddComponent<Game::Player2Component>(npc.get());
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetGridSubject(npc.get());
 	
+	//Slick
 	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green);
-	npcGreen.get()->SetPositionOnGridByIndex(3, 1, cubeSize);
 	grid->SetGridSubject(npcGreen.get());
-	npcGreen->UpdateGrid(false);
+	//npcGreen->UpdateGrid(false);
+	
+	//Sam
+	auto npcGreen2 = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green, true);
+	grid->SetGridSubject(npcGreen2.get());
+	//npcGreen->UpdateGrid(false);
 
 	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc->SetGridSubject(grid.get());
@@ -129,8 +135,8 @@ void load()
 	auto disc12 = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);
 	disc12->SetGridSubject(grid.get());
 
-	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get()};
-	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get()};
+	auto vChar = std::vector<Game::Character*>{character.get(), npc.get(), npcGreen.get(), npcGreen2.get() };
+	auto vChar2 = std::vector<Game::Character*>{ character2.get(), npc.get(), npcGreen.get(), npcGreen2.get() };
 	auto vTex = std::vector<std::shared_ptr<TG::Texture2D>>{background, HealthTexture, cubeIndTexture};
 	auto vDisc = std::vector<Game::Disc* >{disc.get(), disc1.get(), disc2.get(), disc12.get()};
 	auto hud = std::make_unique<Game::Hud>(vChar, vChar2, vDisc, vTex, font);
@@ -197,6 +203,7 @@ void load()
 	scene.Add(std::move(character2));
 	scene.Add(std::move(npc));
 	scene.Add(std::move(npcGreen));
+	scene.Add(std::move(npcGreen2));
 		
 	//----------------------------------------------------
 	//INTRO SCENE
