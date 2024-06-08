@@ -63,7 +63,8 @@ void TG::SkipLvl::Execute()
 
 void TG::ChangeLetter::Execute()
 {
-	m_GameObjectRefrence = m_StoredGameObjectRefrence;
+	if (m_GameObjectRefrence == nullptr)
+		return;
 	m_GameObjectRefrence->HandleInput(m_Signal);
 }
 

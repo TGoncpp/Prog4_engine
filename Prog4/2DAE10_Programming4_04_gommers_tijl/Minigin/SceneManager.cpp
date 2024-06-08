@@ -56,6 +56,7 @@ void TG::SceneManager::Notify(const EMenuState& newState, int lvl)
 	{
 		m_FutureMenu = m_mPossibleMenus[EMenuState::winner].get();
 		m_IsMenuDirty = true;
+		m_Lvl = 1;
 		return;
 	}
 

@@ -34,7 +34,7 @@ Game::Winner::Winner(std::shared_ptr<TG::Texture2D> textureEndSPTR, std::shared_
 	}
 	AddComponent<Game::HighscoreComponent>(this, numOffScores, numOffIDLetters);
 
-	OnActivateInput.OnNotifyAll(true);
+	//OnActivateInput.OnNotifyAll(true);
 }
 
 void Game::Winner::HandleInput(const glm::vec2& signal)

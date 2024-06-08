@@ -1,5 +1,6 @@
 //---------------------------------------------
 //Thanks to Mike Shah, one off my favourite youtuners
+//Letter increment copied from copilot
 
 #pragma once
 #include "BaseComponent.h"
@@ -32,12 +33,12 @@ namespace Game
 		std::vector<TG::TextComponent*> m_vTextIDWriterPtr;
 		TG::RenderComponent*  m_NewHighTexturePtr{nullptr};
 		std::string m_TextFile{"highScore.txt"};
+		std::string m_NewHighscoreName;
 		int m_NumOffScores{};
 		int m_NumOffLettersID{};
 		int m_NewHighscor{};
 		int m_ActiveLetter{};
-		bool m_IsNewScoreEvaluated{ false };
-		bool m_GotNewHighscore{ false };
+		bool m_IsFinalScreenShowing{ false };
 		
 		void GetDataFromFile();
 		bool CompareHighscore(int newScore);
@@ -46,7 +47,6 @@ namespace Game
 		bool m_ScoreIsSet{ false };
 		void SetScoreVisible(bool visseble);
 		void SetNewScoreVisible(bool visseble);
-		bool EnterNameIsFinished();
 		
 	};
 }

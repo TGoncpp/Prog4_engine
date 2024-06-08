@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "sceneManager.h"
+#include "MenuState.h"
 #include <iostream>
 
 
@@ -26,7 +27,6 @@ Game::HighscoreComponent::HighscoreComponent(TG::GameObject* owner, int numOfSco
 	SetScoreVisible(false);
 
 	GetDataFromFile();
-	//CreateFile();
 
 }
 
@@ -37,29 +37,27 @@ Game::HighscoreComponent::~HighscoreComponent()
 
 void Game::HighscoreComponent::Update(float)
 {
-	if (m_IsNewScoreEvaluated)
-		return;
-	
 	if (!m_ScoreIsSet)
 	{
 		int score{ static_cast<TG::WinnerState*>(TG::SceneManager::GetInstance().GetMenuOffState(TG::EMenuState::winner))->GetScore() };
-		m_GotNewHighscore = CompareHighscore(score);
-		m_ScoreIsSet = true;
+		m_OwnerPTR->OnActivateInput.OnNotifyAll(true);
 		m_ActiveLetter = 0;
+
+		m_IsFinalScreenShowing = !CompareHighscore(score);
+		if (m_IsFinalScreenShowing)
+		{
+			DisplayScore();
+			SetScoreVisible(true);
+			SetNewScoreVisible(false);
+		}
+		else
+		{
+			SetScoreVisible(false);
+			SetNewScoreVisible(true);
+		}
+		m_ScoreIsSet = true;
 	}
 
-	if (m_GotNewHighscore)
-	{
-		m_IsNewScoreEvaluated = EnterNameIsFinished();
-	}
-
-	
-	if (m_IsNewScoreEvaluated)
-	{
-		DisplayScore();
-	}
-	
-	
 }
 
 void Game::HighscoreComponent::ResetScoreFlag()
@@ -69,20 +67,39 @@ void Game::HighscoreComponent::ResetScoreFlag()
 
 void Game::HighscoreComponent::SetLetter(const glm::vec2& signal)
 {
+	if (m_IsFinalScreenShowing && signal.y == 0.f && signal.x == 1.f)
+	{
+		//if final screen is showing, return to new menuscreen when pressed ENTER
+		TG::SceneManager::GetInstance().GetMenustate()->OnStateSwitch.OnNotifyAll(TG::EMenuState::intro, -1);
+		m_OwnerPTR->OnActivateInput.OnNotifyAll(false);
+		return;
+	}
+
 	if (signal.x == 0.f)
 	{
 		std::string letter = m_vTextIDWriterPtr[m_ActiveLetter]->GetText();
 		for (char& c : letter)
 		{
-			if (c == 'Z') c = 'A'; // Wrap around for 'z'
-			else c++; // Increment other characters
+			if (c == 'Z') 
+				c = 'A'; 
+			else
+				c =  c + static_cast<char>(signal.y); 
 		}
-		//letter = std::to_string(std::stoi(c[0]) + static_cast<int>(signal.y));
 		m_vTextIDWriterPtr[m_ActiveLetter]->SetText(letter);
 	}
 	else if (signal.y == 0.f && signal.x == 1.f)
 	{
+		m_NewHighscoreName += m_vTextIDWriterPtr[m_ActiveLetter]->GetText();
 		m_ActiveLetter++;
+		if (m_ActiveLetter >= m_NumOffLettersID)
+		{
+			m_ActiveLetter = 0;
+			m_mHighscore.insert(std::make_pair(m_NewHighscor, m_NewHighscoreName));
+			SetScoreVisible(true);
+			SetNewScoreVisible(false);
+			DisplayScore();
+			m_IsFinalScreenShowing = true;
+		}
 	}
 }
 
@@ -131,6 +148,7 @@ bool Game::HighscoreComponent::CompareHighscore(int score)
 		return false;
 
 	//Have a new score so new name need to be set
+	m_mHighscore.erase(it);
 	m_NewHighscor = score;
 	return true;
 	
@@ -175,15 +193,5 @@ void Game::HighscoreComponent::SetNewScoreVisible(bool visseble)
 	{
 		letter->SetVisibility(visseble);
 	}
-}
-
-bool Game::HighscoreComponent::EnterNameIsFinished()
-{
-	std::string name;
-	//check if every letter is set
-	return  (m_ActiveLetter >= m_NumOffLettersID);
-
-	//m_mHighscore.insert(std::make_pair(m_NewHighscor, name));
-	return true;
 }
 
