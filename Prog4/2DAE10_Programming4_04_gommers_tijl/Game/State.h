@@ -110,11 +110,12 @@ namespace Game
 			m_TransformHeight{transformHeight} {}
 		void virtual OnEnter(const glm::vec2&)override;
 		void virtual FixedUpdate(float)override ;
+		void virtual OnExit()override ;
 
 	private:
 		//is bool for setting which off the 2 green characters is used
 		const float m_TransformHeight{};
-		bool m_IsEgg{ true };
+		bool m_IsEgg{ false };
 	
 	};
 
@@ -156,9 +157,11 @@ namespace Game
 	{
 	public:
 		CoilyIdle(Character* owner, float idleTime)
-			:GreenIdle(owner, idleTime) {}
+			:GreenIdle(owner, idleTime){}
 	
 		void virtual OnEnter(const glm::vec2&)override;
+
+	
 	};
 	
 	

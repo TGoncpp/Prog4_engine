@@ -30,6 +30,8 @@
 #include "ServiceLocator.h"
 #include "HighScoreComponent.h"
 #include "Winner.h"
+#include "EggComponent.h"
+#include "ChaseCharacter.h"
 
 #include "time.h"
 #include <iostream>
@@ -113,6 +115,8 @@ void load()
 	//coily
 	auto npc = std::make_unique<Game::NPC>(topCubePosition, snakeTexture, cubeSize, Game::ECharacterType::purple);
 	npc->AddComponent<Game::Player2Component>(npc.get());
+	npc->AddComponent<Game::EggComponent>(npc.get());
+	npc->AddComponent<Game::ChaseCharacterComponent>(npc.get(), character.get());
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetGridSubject(npc.get());
 	

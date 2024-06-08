@@ -4,6 +4,8 @@
 #include "Transform.h"
 #include "serviceLocator.h"
 #include <iostream>
+#include "EggComponent.h"
+#include "ChaseCharacter.h"
 
 
 Game::State::State(Character* owner)
@@ -85,12 +87,23 @@ void Game::CoilyIdle::OnEnter(const glm::vec2&)
 {
 	int randNum = rand() % 10;
 	bool left = randNum % 2 == 0;
+	bool egg{ false };
 
+	if (m_OwnerObject->CheckComponent<EggComponent>())
+		egg = m_OwnerObject->GetComponent<EggComponent>()->IsEgg();
 
-	m_Direction = left ? glm::vec2{ 1.f, 0.f } : glm::vec2{ 0.f, -1.f };
+	if (egg)
+		m_Direction = left ? glm::vec2{ 1.f, 0.f } : glm::vec2{ 0.f, -1.f };
+	else
+	{
+		if (m_OwnerObject->CheckComponent<ChaseCharacterComponent>())
+			m_Direction = m_OwnerObject->GetComponent<ChaseCharacterComponent>()->GetDirectionToTarget();
+	}
+
 
 	m_CurrentIdletime = 0.f;
 }
+
 
 
 //-------------------------------------------
@@ -248,23 +261,27 @@ void Game::WalkingGreenState::FixedUpdate(float time)
 
 void Game::WalkingCoilynState::OnEnter(const glm::vec2& direction)
 {
+	if (m_OwnerObject->CheckComponent<EggComponent>())
+		m_IsEgg = m_OwnerObject->GetComponent<EggComponent>()->IsEgg();
+
+
 	//set sprite
 	int frame{ 0 };
 	if (direction.x == 1)
 	{
-		frame = m_IsEgg? 0: 6;//7
+		frame = m_IsEgg? 1: 7;//7
 	}
 	else if (direction.x == -1)
 	{
-		frame = m_IsEgg ? 0 : 4;//5
+		frame = m_IsEgg ? 1 : 5;//5
 	}
 	else if (direction.y == -1)
 	{
-		frame = m_IsEgg ? 0 : 8;//9
+		frame = m_IsEgg ? 1 : 9;//9
 	}
 	else if (direction.y == 1)
 	{
-		frame = m_IsEgg ? 0 : 2;//3
+		frame = m_IsEgg ? 1 : 3;//3
 	}
 
 	//update grid and character
@@ -277,11 +294,16 @@ void Game::WalkingCoilynState::OnEnter(const glm::vec2& direction)
 void Game::WalkingCoilynState::FixedUpdate(float time)
 {
 	m_MoveComp->FixedUpdate(time);
+
 	if (m_MoveComp->StoppedMoving())
 	{
 		const float acceptedHeightDiff{ 5.f };
-		if (m_IsEgg &&  abs(m_OwnerObject->GetLocalPosition().y - m_TransformHeight) < acceptedHeightDiff)
-			m_IsEgg = false;
+		if (m_IsEgg && abs(m_OwnerObject->GetLocalPosition().y - m_TransformHeight) < acceptedHeightDiff)
+		{
+			if (m_OwnerObject->CheckComponent<EggComponent>())
+				m_OwnerObject->GetComponent<EggComponent>()->HatchEgg(true);
+
+		}
 
 		m_OwnerObject->UpdateGrid(false);
 		if (m_OwnerObject->IsDead())
@@ -303,6 +325,11 @@ void Game::WalkingCoilynState::FixedUpdate(float time)
 		OnExit();
 		OnStateSwitch.OnNotifyAll(EState::idle);
 	}
+}
+
+void Game::WalkingCoilynState::OnExit()
+{
+	m_SpriteComp->DeUpdateFrame();
 }
 
 //-------------------------------------------
@@ -370,7 +397,10 @@ void Game::GreenDead::OnEnter(const glm::vec2&)
 void Game::PurpleDead::OnEnter(const glm::vec2&)
 {
 	m_CurrentDieTime = m_TimeToDie;
-	
+	if (m_OwnerObject->CheckComponent<EggComponent>())
+		m_OwnerObject->GetComponent<EggComponent>()->HatchEgg(false);
+	if (m_OwnerObject->CheckComponent<TG::SpriteComponent>())
+		m_OwnerObject->GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
 }
 
 //-------------------------------------------

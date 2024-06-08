@@ -167,7 +167,10 @@ void Game::Grid::Notify(Character* object, bool isMoving)
 			subjects->CollisionCheck(m_vGrid[newPosition.first][newPosition.second]->GetDominantTypeOnCube(), newPosition);
 		}
 		if (object->IsDead())
+		{
+			m_vGrid[newPosition.first][newPosition.second]->RemoveVisiterOnCube(type);
 			return;
+		}
 	}
 
 	//if red or green->update cube

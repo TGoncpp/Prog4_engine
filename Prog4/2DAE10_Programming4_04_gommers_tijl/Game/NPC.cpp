@@ -42,14 +42,14 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 		m_PossibleStates[EState::dead]->OnStateSwitch.AddObserver(this);
 
 		const float idleTime{ 1.f };
-		m_PossibleStates[EState::idle] = std::make_unique<GreenIdle>(this, idleTime);
+		m_PossibleStates[EState::idle] = std::make_unique<CoilyIdle>(this, idleTime);
 		m_PossibleStates[EState::idle]->OnStateSwitch.AddObserver(this);
 
 		float heigthOfLowestCube{ TG::Transform::CalculateGridPosition(6 ,0, jumpOffset, m_ZeroPosition).y };
 		m_PossibleStates[EState::walking] = std::make_unique<WalkingCoilynState>(this, heigthOfLowestCube);
 		m_PossibleStates[EState::walking]->OnStateSwitch.AddObserver(this);
 
-		spriteComp->UpdateFrame(0);
+		spriteComp->UpdateFrame(1);
 
 		gridStartPos = std::make_pair(0, 0);
 	}

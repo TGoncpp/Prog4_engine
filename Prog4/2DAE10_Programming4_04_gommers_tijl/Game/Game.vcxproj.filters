@@ -69,6 +69,9 @@
     <ClCompile Include="Winner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChaseCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h">
@@ -123,6 +126,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Winner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EggComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

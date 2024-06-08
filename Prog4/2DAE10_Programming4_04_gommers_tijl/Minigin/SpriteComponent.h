@@ -22,6 +22,7 @@ namespace TG
 
 		void SetTimePerFrame(float speed);
 		void UpdateFrame();
+		void DeUpdateFrame();
 		void UpdateFrame(int currentFrame);
 		void SetAutomaiticMode(bool isAutomatic);
 		void SetTexture(RenderComponent* renderComp);
