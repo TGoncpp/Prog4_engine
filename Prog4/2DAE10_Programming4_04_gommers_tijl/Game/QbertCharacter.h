@@ -4,7 +4,7 @@
 namespace Game
 {
 	class Grid;
-	class QbertCharacter final: public Character, public TG::IObserver<bool>, public TG::IObserver<>
+	class QbertCharacter final: public Character, public TG::IObserver<bool>
 	{
 	public:
 		QbertCharacter(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteSPTR, const glm::vec2& jumpOffset, std::shared_ptr<TG::Texture2D> curseTex);
@@ -15,12 +15,11 @@ namespace Game
 		QbertCharacter(const QbertCharacter&)            = delete;
 		QbertCharacter(QbertCharacter&&)                 = delete;
 
-		void SubscribeToGrid(Grid* grid);
 
 	private:
 		//IObserver
 		virtual void Notify(bool)override;
-		virtual void Notify()override;
+		//virtual void Notify()override;
 		virtual void OnSubjectDestroy()override {};
 
 		virtual void ActivateInput(bool isActive)override ;

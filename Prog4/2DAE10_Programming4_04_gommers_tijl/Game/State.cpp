@@ -505,6 +505,12 @@ void Game::ReSpawn::OnEnter(const glm::vec2&)
 	m_CurrentPos = m_StartPos - glm::vec2{ 0.f, m_SpawnHeight };
 	m_OwnerObject->SetLocalPosition(m_CurrentPos);
 
+	if (m_OwnerObject->CheckComponent<EggComponent>())
+		m_OwnerObject->GetComponent<EggComponent>()->HatchEgg(false);
+
+	if (m_OwnerObject->CheckComponent<TG::SpriteComponent>())
+		m_OwnerObject->GetComponent<TG::SpriteComponent>()->UpdateFrame(1);
+
 	TG::Locator::getAudio().playSound("Fall");
 }
 

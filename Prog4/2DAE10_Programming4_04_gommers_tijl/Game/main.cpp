@@ -120,22 +120,30 @@ void load()
 	npc->AddComponent<Game::ChaseCharacterComponent>(npc.get(), character.get());
 	npc.get()->SetPositionOnGridByIndex(2, 2, cubeSize);
 	grid->SetGridSubject(npc.get());
+	npc->SubscribeToGrid(grid.get());
+
 	
 	//Slick
 	auto npcGreen = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green);
 	grid->SetGridSubject(npcGreen.get());
+	npcGreen->SubscribeToGrid(grid.get());
+
 	
 	//Sam
 	auto npcGreen2 = std::make_unique<Game::NPC>(topCubePosition, samTexture, cubeSize, Game::ECharacterType::green, true);
 	grid->SetGridSubject(npcGreen2.get());
+	npcGreen2->SubscribeToGrid(grid.get());
+
 
 	//Slick
 	auto npcWrong = std::make_unique<Game::NPC>(topCubePosition, wrongTexture, cubeSize, Game::ECharacterType::wrong);
 	grid->SetGridSubject(npcWrong.get());
+	npcWrong->SubscribeToGrid(grid.get());
 	
 	//Sam
 	auto npcWrong2 = std::make_unique<Game::NPC>(topCubePosition, wrongTexture, cubeSize, Game::ECharacterType::wrong, true);
 	grid->SetGridSubject(npcWrong2.get());
+	npcWrong2->SubscribeToGrid(grid.get());
 
 
 	auto disc = std::make_unique<Game::Disc>(DiscTexture, topCubePosition, cubeSize);

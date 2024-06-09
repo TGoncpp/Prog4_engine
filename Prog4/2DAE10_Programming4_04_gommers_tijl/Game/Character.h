@@ -6,6 +6,7 @@
 
 namespace Game
 {
+	class Grid;
 	class IState;
 	enum class ECharacterType
 	{
@@ -16,7 +17,7 @@ namespace Game
 
 	};
 	
-	class Character : public TG::GameObject, public TG::IObserver<const EState&>
+	class Character : public TG::GameObject, public TG::IObserver<const EState&>, public TG::IObserver<>
 	{
 	public:
 		Character(const glm::vec2& position, std::shared_ptr<TG::Texture2D> textureSPTR, const glm::vec2& jumpOffset);
@@ -32,10 +33,14 @@ namespace Game
 		virtual void Update(float time)override;
 		virtual void FixedUpdate(float)override ;
 
+		virtual void Notify()override;
+
 		void UpdateGrid(bool isMoving);
 		//void NewState(const EState& newState);
 		void SetDirection(const glm::vec2& newDirection);
 		void UpdateGridPosition(const glm::vec2& direction);
+		void SubscribeToGrid(Grid* grid);
+
 
 		TG::Subject<Character*, bool> OnCubeInteraction;
 		TG::Subject<const ECharacterType&> OnScore;
@@ -44,6 +49,7 @@ namespace Game
 		void CollisionCheck(const ECharacterType& dominantType, std::pair<int, int> GridPostion);
 		void JumpOfGrid(bool isFaling);
 		void ResetLife(std::pair<int, int> gridStartPos);
+
 
 		//Getters
 		std::pair<int, int> GetGridPosition()const { return m_GridPostion; }

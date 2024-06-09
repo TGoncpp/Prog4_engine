@@ -3,6 +3,7 @@
 #include "SpriteComponent.h"
 #include "RenderComponent.h"
 #include "Texture2D.h"
+#include "Grid.h"
 
 #include<iostream>
 
@@ -98,6 +99,18 @@ void Game::Character::Notify(const EState& state)
 	}
 }
 
+
+void Game::Character::Notify()
+{
+	auto state = m_CharacterState->GetState();
+	if (state == EState::dissable)
+		return;
+
+	m_CharacterState = (state == EState::freeze) ? m_PossibleStates[EState::dead].get() : m_PossibleStates[EState::freeze].get();
+
+}
+
+
 void Game::Character::OnSubjectDestroy()
 {
 	//m_PossibleStates[EState::dead]->OnStateSwitch.RemoveObserver(this);
@@ -179,3 +192,7 @@ void Game::Character::ResetLife(std::pair<int,int> gridStartPos)
 	UpdateGrid(false);
 }
 
+void Game::Character::SubscribeToGrid(Grid* grid)
+{
+	grid->OnCharacterReset.AddObserver(this);
+}

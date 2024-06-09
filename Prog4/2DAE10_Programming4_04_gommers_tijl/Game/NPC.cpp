@@ -60,7 +60,7 @@ Game::NPC::NPC(const glm::vec2& position, std::shared_ptr<TG::Texture2D> texuteS
 	glm::vec2 startPos = TG::Transform::CalculateGridPosition(gridStartPos.first, gridStartPos.second, jumpOffset, m_ZeroPosition);
 
 	const float spawnHeight{ 200.f };
-	const float spawnDelay{ 2.5f  + rand()% 4 };
+	const float spawnDelay{ 4.5f  + rand()% 4 };
 	m_PossibleStates[EState::respawn] = std::make_unique<NPCReSpawn>(this, startPos, spawnHeight, spawnDelay, gridStartPos);
 	m_PossibleStates[EState::respawn]->OnStateSwitch.AddObserver(this);
 	

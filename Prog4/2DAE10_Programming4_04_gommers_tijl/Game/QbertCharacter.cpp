@@ -29,14 +29,14 @@ void Game::QbertCharacter::Notify(bool isVisible)
 	SetCurseVisibility(isVisible);
 }
 
-void Game::QbertCharacter::Notify()
-{
-	auto state = m_CharacterState->GetState();
-	if (state == EState::dissable)
-		return;
-
-	m_CharacterState = (state == EState::freeze)? m_PossibleStates[EState::dead].get() : m_PossibleStates[EState::freeze].get();
-}
+//void Game::QbertCharacter::Notify()
+//{
+//	auto state = m_CharacterState->GetState();
+//	if (state == EState::dissable)
+//		return;
+//
+//	m_CharacterState = (state == EState::freeze)? m_PossibleStates[EState::dead].get() : m_PossibleStates[EState::freeze].get();
+//}
 
 void Game::QbertCharacter::ActivateInput(bool isActive)
 {
@@ -76,11 +76,6 @@ void Game::QbertCharacter::ApplyGameMode(int gameMode, int)
 	//Make sure MoveComponent is not halfway movement
 	if (CheckComponent<MovementComponent>())
 		GetComponent<MovementComponent>()->ResetForNewMode();
-}
-
-void Game::QbertCharacter::SubscribeToGrid(Grid* grid)
-{
-	grid->OnCharacterReset.AddObserver(this);
 }
 
 void Game::QbertCharacter::SetCurseVisibility(bool isVisible)
